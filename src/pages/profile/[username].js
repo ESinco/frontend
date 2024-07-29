@@ -1,9 +1,9 @@
-import Profile from "@/components/Profile";
 import { useRouter } from "next/router";
+import "../../app/globals.css";
 
-export default function UserProfile() {
+export default function UserProfilePage() {
   const router = useRouter();
   const { username } = router.query;
 
-  return <Profile username={username} />;
+  return <div>User profile with name: {username}</div>;
 }

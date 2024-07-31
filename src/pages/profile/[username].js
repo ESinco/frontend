@@ -13,7 +13,9 @@ export default function UserProfilePage() {
     <div>
       {/* DIV INFORMACOES INICIAIS */}
       <div className="flex justify-center flex-col items-start mx-7 my-2">
-        <p>Venâncio Augusto de Magalhães Neiva</p>
+        <p className="mx-auto text-xl my-2">
+          Venâncio Augusto de Magalhães Neiva
+        </p>
         <div className="flex flex-row items-center gap-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"

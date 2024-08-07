@@ -1,11 +1,11 @@
 import { useRouter } from "next/router";
-import "../../app/globals.css";
+
 import ExperienciasCard from "@/components/ExperienciasCard";
 import HabilidadesCard from "@/components/HabilidadesCard";
 
 export default function UserProfilePage() {
   const router = useRouter();
-  const { username } = router.query;
+  const { userId } = router.query;
 
   // GET USER from DATABASE with username = username...
 

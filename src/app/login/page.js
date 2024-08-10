@@ -30,9 +30,8 @@ export default function Login() {
                             <button className="btn btn-primary">Login</button>
                         </div>
                         <label className="flex justify-center w-full p-4">
-                            <a href="#" className=" label-text-alt link link-hover text-primary-content">Não possui conta ? Cadastre-se</a>
+                            <a href="/signup/aluno" className=" label-text-alt link link-hover text-primary-content">Não possui conta ? Cadastre-se</a>
                         </label>
-
                     </form>
                 </div>
             </div>

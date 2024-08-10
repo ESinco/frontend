@@ -1,3 +1,5 @@
+import SignupValidationPassword from '@/components/SignupValidationPassword';
+
 export default function Signup() {
     return (
         <main className='h-screen w-screen'>
@@ -13,29 +15,23 @@ export default function Signup() {
                     <form className="card-body">
                         <div className="form-control">
                             <label className="label">
+                                <span className="label-text text-primary-content">Nome Completo</span>
+                            </label>
+                            <input type="nome" placeholder="" className="input input-bordered border-primary-content bg-[#1D232A]" required />
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
                                 <span className="label-text text-primary-content">Email</span>
                             </label>
                             <input type="email" placeholder="" className="input input-bordered border-primary-content bg-[#1D232A]" required />
                         </div>
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text text-primary-content">Senha</span>
-                            </label>
-                            <input type="password" placeholder="" className="input input-bordered border-primary-content bg-[#1D232A]" required />
-                        </div>
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text text-primary-content">Confirme sua senha</span>
-                            </label>
-                            <input type="password" placeholder="" className="input input-bordered border-primary-content bg-[#1D232A]" required />
-                        </div>
+                        <SignupValidationPassword />
                         <div className="form-control mt-6">
                             <button className="btn btn-primary">Login</button>
                         </div>
                         <label className="flex justify-center w-full p-3">
-                            <span className="label-text-alt link link-hover text-primary-content">Já possui conta ? Entre</span>
+                            <a href="/login" className="label-text-alt link link-hover text-primary-content">Já possui conta ? Entre</a>
                         </label>
-
                     </form>
                 </div>
             </div>

@@ -1,8 +1,8 @@
 "use client"
 import { useState } from 'react';
 
-//SignupConfirmPassword
-export default function SignupValidationPassword({ onSubmit }) {
+
+export default function SignupValidationPassword() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');

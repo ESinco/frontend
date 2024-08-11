@@ -27,7 +27,7 @@ export default function Signup() {
                         </div>
                         <SignupValidationPassword />
                         <div className="form-control mt-6">
-                            <button className="btn btn-primary">Login</button>
+                            <button className="btn btn-primary">Cadastre-se</button>
                         </div>
                         <label className="flex justify-center w-full p-3">
                             <a href="/login" className="label-text-alt link link-hover text-primary-content">Já possui conta ? Entre</a>

@@ -22,8 +22,10 @@ export default function Projetos() {
             </div>
             <div className="flex justify-center items-center mt-10">
                 <div className="card bg-base-content w-80 shadow-xl">
+                        <h2 className="card-title text-primary-content justify-center mt-1">Mariposas
+                        <div className="badge absolute top-0 right-0 badge-accent badge-outline mt-1">NOVO</div>
+                        </h2>
                     <div className="card-body">
-                        <h2 className="card-title text-primary-content">Card title!</h2>
                         <p>If a dog chews shoes whose shoes does he choose?</p>
                         <div className="card-actions justify-end">
                             <button className="btn btn-primary">Candidatar</button>

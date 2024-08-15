@@ -1,12 +1,7 @@
-import "./globals.css";
-import Table from "@/components/Table";
-import QueryClientProviderWrapper from "@/components/QueryClientProviderWrapper";
+import { redirect } from "next/navigation";
 
 export default function Home() {
 
-    return (
-        <QueryClientProviderWrapper>
-            <Table />
-        </QueryClientProviderWrapper>
-    );
+    redirect("/login");
+
 }

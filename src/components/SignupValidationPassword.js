@@ -2,7 +2,7 @@
 import { useState } from 'react';
 
 
-export default function SignupValidationPassword({ setPassword, password }) {
+export default function SignupValidationPassword( {password, setPassword}) {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
 
@@ -46,8 +46,12 @@ export default function SignupValidationPassword({ setPassword, password }) {
                 <label className="label">
                     <span className="label-text">Confirme sua senha</span>
                 </label>
-                <input type="password" placeholder="" className="input input-bordered" value={confirmPassword} onChange={handleConfirmPasswordChange} required />
-                {error && <span className="text-red-500" style={{ fontSize: '12px' }}>{error}</span>}
+                <input
+                    type="password"
+                    className="input input-bordered"
+                    value={confirmPassword} onChange={handleConfirmPasswordChange}
+                    required />
+                {error && <span className="text-error" style={{ fontSize: '12px' }}>{error}</span>}
             </div>
         </div>
     );

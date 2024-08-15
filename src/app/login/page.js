@@ -1,4 +1,13 @@
+"use client"
+
+import Link from "next/link";
+import {useState } from "react";
+
 export default function Login() {
+
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+
     return (
         <div className="flex items-center justify-center h-full">
             <div className="flex-col flex items-center justify-center">
@@ -14,7 +23,12 @@ export default function Login() {
                             <label className="label">
                                 <span className="label-text">Email</span>
                             </label>
-                            <input type="email" placeholder="" className="input input-bordered" required />
+                            <input
+                                type="email"
+                                className="input input-bordered"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required />
                         </div>
                         <div className="form-control">
                             <label className="label">
@@ -22,18 +36,25 @@ export default function Login() {
                             </label>
                             <input
                                 type="password"
-                                placeholder=""
                                 className="input input-bordered"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                                 required />
                             <label className="flex p-1">
-                                <a href="#" className="label-text-alt link link-hover">Esqueceu sua senha?</a>
+                                <Link
+                                    href="#"
+                                    className="label-text-alt link link-hover"
+                                >Esqueceu sua senha?</Link >
                             </label>
                         </div>
                         <div className="form-control mt-6">
                             <button className="btn btn-primary">Login</button>
                         </div>
                         <label className="flex justify-center w-full p-4">
-                            <a href="/signup/aluno" className=" label-text-alt link link-hover">Não possui conta ? Cadastre-se</a>
+                            <Link
+                                href="/signup/aluno"
+                                className=" label-text-alt link link-hover"
+                            >Não possui conta ? Cadastre-se</Link>
                         </label>
                     </form>
                 </div>

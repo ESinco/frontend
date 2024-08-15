@@ -1,6 +1,6 @@
 import QueryClientProviderWrapper from "@/components/QueryClientProviderWrapper";
 
-export function Providers ({children}) {
+export default function Providers({ children }) {
   return (
     <QueryClientProviderWrapper>
       {children}

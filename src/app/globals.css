@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  --tw-bg-opacity: 1;
-  background-color: var(--fallback-b2, oklch(var(--b2) / var(--tw-bg-opacity)));
+.custom_shadow {
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }

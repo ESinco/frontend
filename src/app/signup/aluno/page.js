@@ -5,12 +5,10 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 export default function Signup() {
-
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [matricula, setMatricula] = useState("")
     const [password, setPassword] = useState("")
-
 
     return (
         <div className="flex items-center justify-center h-full">

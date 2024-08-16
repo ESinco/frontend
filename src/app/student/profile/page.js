@@ -1,18 +1,13 @@
-import { useRouter } from "next/router";
-
-import ExperienciasCard from "@/components/ExperienciasCard";
-import HabilidadesCard from "@/components/HabilidadesCard";
+import ExperiencesCard from "@/components/ExperiencesCard";
+import SkillsCard from "@/components/SkillsCard";
 
 export default function UserProfilePage() {
-  const router = useRouter();
-  const { userId } = router.query;
-
   // GET USER from DATABASE with username = username...
 
   return (
-    <div>
+    <div className="flex justify-center flex-col items-center p-6 bg-base-200">
       {/* DIV INFORMACOES INICIAIS */}
-      <div className="flex justify-center flex-col items-start mx-7 my-2">
+      <div className="flex justify-center flex-col w-full items-start mb-6">
         <p className="mx-auto text-xl my-2">
           Venâncio Augusto de Magalhães Neiva
         </p>
@@ -29,6 +24,7 @@ export default function UserProfilePage() {
           </svg>
           <p>https://www.linkedin.com/in/venancio-neiva/</p>
         </div>
+
         <div className="flex flex-row gap-2 items-center">
           <svg
             width="40px"
@@ -46,6 +42,7 @@ export default function UserProfilePage() {
           </svg>
           <p>venancio.neiva@ccc.ufcg.edu.br</p>
         </div>
+
         <div className="flex flex-row gap-2 items-center">
           <svg
             width="40px"
@@ -65,13 +62,15 @@ export default function UserProfilePage() {
           <p>(83) 9 9623-1204</p>
         </div>
       </div>
-      {/* EXPERIENCIAS COMPONENT */}
-      <ExperienciasCard></ExperienciasCard>
-      {/* HABILIDADES CARD - THINK ABOUT A WAY TO MAKE BADGE 'CLASSES' EACH ONE'LL HAVE A SYMBOL AND A COLOR */}
+      <div className="gap-5 flex flex-col">
+        {/* EXPERIENCIAS COMPONENT */}
+        <ExperiencesCard></ExperiencesCard>
+        {/* HABILIDADES CARD - THINK ABOUT A WAY TO MAKE BADGE 'CLASSES' EACH ONE'LL HAVE A SYMBOL AND A COLOR */}
 
-      <HabilidadesCard></HabilidadesCard>
-      {/* INTERESSES CARD - THINK ABOUT A WAY TO MAKE BADGE 'CLASSES' EACH ONE'LL HAVE A SYMBOL AND A COLOR */}
-      <HabilidadesCard></HabilidadesCard>
+        <SkillsCard></SkillsCard>
+        {/* INTERESSES CARD - THINK ABOUT A WAY TO MAKE BADGE 'CLASSES' EACH ONE'LL HAVE A SYMBOL AND A COLOR */}
+        <SkillsCard></SkillsCard>
+      </div>
     </div>
   );
 }

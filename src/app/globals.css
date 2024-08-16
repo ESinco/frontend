@@ -2,11 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  --tw-bg-opacity: 1;
-  background-color: var(--fallback-b2, oklch(var(--b2) / var(--tw-bg-opacity)));
-}
-
 /* Inside your custom CSS file */
 .bottom-shadow {
   @apply shadow-none;

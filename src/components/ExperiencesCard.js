@@ -1,4 +1,4 @@
-import SingleExperiencia from "./SingleExperiencia";
+import SingleExperience from "./SingleExperience";
 
 export default function ExperienciasCard() {
   return (
@@ -9,21 +9,21 @@ export default function ExperienciasCard() {
           +
         </button>
       </div>
-      <div className="card w-full mb-3 gap-3 p-6 pt-0">
-        <SingleExperiencia
+      <div className="card w-full gap-3 p-3 pt-0">
+        <SingleExperience
           title={"Splab"}
           descricao={
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation "
           }
           badges={["NEW", "Fashion"]}
-        ></SingleExperiencia>
-        <SingleExperiencia
+        ></SingleExperience>
+        <SingleExperience
           title={"Splab"}
           descricao={
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation "
           }
           badges={["NEW", "Fashion"]}
-        ></SingleExperiencia>
+        ></SingleExperience>
       </div>
     </div>
   );

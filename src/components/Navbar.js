@@ -30,7 +30,7 @@ export default function Navbar() {
           <img
             alt="profile img"
             className="rounded-full"
-            src="https://s3-alpha-sig.figma.com/img/3118/3b3f/aabb13f7765caefd73f1235a7924ba24?Expires=1723420800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=YKmpCqbNAMsyOfmVH785-UoK2XnnMqL2UUTYq83fmpE819jOecxSufDwVTCti6zgfABEoUS9rzZyLTvvwEE3mCbUjEQO3mFur-0Hqqwtio7Xc87CTO8R1gEbWqvDEafPctWsLnrjjxCTb5iS4F4pcydxvkcdJPUc4jDFdpl020PSa7W906ncSKWmw7Qsy4WN0MeFPbbupeBuvnBAaaqvHIo3GhwCEBo0exTlXoNwF2WFp17fouR4gjE1v1PgYAJ2wG2xQkwoblqPawXLh8a1kp8NbM5DzDh0LSKkQ5FvPojMsf8gqN~Q7VU5dK1E5vpinxDXeAy5Y14sVB8j-uxdCw__"
+            src="https://s3-alpha-sig.figma.com/img/3118/3b3f/aabb13f7765caefd73f1235a7924ba24?Expires=1724630400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Ipdk2OB6L1Nb3XSe9eA9r4kA8qyQ0LAe~VJQlCybQ7wRrfRqbTr1~aNaDTP79sASi~N5tc9JaAXq0OygQQ34MJ9XfhKcIPD8hxDsTH03MNJVG0mOxmKqBXhsW4lssZ7V5zTEOrNtmNO~byAEw4ZWpGDHd2YutVoK~K6oxOS5dZ~WoqrvXOKX3~aff1MjIYixL5cW4gmt~hwMvsa-hxOQGXRPvj5VlWHmid9fOU~F4mh~deh4eVMxqG5hDLS9ngk136XS8JqMdsf~FGfWiIF1uxV39tEXBh2ufvWYmVr1kwB8KcAEh91HiIyZXyA2VKhrm7SJyBGx6OSwXhtSAW~q~w__"
           />
         </button>
       </div>

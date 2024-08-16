@@ -5,10 +5,10 @@ export default function UserProfilePage() {
   // GET USER from DATABASE with username = username...
 
   return (
-    <div className="flex justify-center flex-col items-center p-6 bg-base-200">
+    <div className="flex justify-center flex-col items-center p-3 max-w-[1000px]">
       {/* DIV INFORMACOES INICIAIS */}
       <div className="flex justify-center flex-col w-full items-start mb-6">
-        <p className="mx-auto text-xl my-2">
+        <p className="mx-auto text-xl my-6">
           Venâncio Augusto de Magalhães Neiva
         </p>
         <div className="flex flex-row items-center gap-2">
@@ -62,7 +62,7 @@ export default function UserProfilePage() {
           <p>(83) 9 9623-1204</p>
         </div>
       </div>
-      <div className="gap-5 flex flex-col">
+      <div className="gap-5 flex flex-col w-full">
         {/* EXPERIENCIAS COMPONENT */}
         <ExperiencesCard></ExperiencesCard>
         {/* HABILIDADES CARD - THINK ABOUT A WAY TO MAKE BADGE 'CLASSES' EACH ONE'LL HAVE A SYMBOL AND A COLOR */}

@@ -2,9 +2,11 @@ import Navbar from "@/components/Navbar";
 
 export default function Layout({ children }) {
   return (
-    <div>
+    <>
+      <main className="flex justify-center w-full items-center mt-[64px]">
+        {children}
+      </main>
       <Navbar />
-      <main className="h-screen">{children}</main>
-    </div>
+    </>
   );
 }

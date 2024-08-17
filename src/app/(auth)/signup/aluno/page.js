@@ -1,5 +1,4 @@
 "use client"
-
 import SignupValidationPassword from '@/components/SignupValidationPassword';
 import Link from 'next/link';
 import { useState } from 'react';

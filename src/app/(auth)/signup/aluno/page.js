@@ -2,18 +2,35 @@
 import SignupValidationPassword from '@/components/SignupValidationPassword';
 import Link from 'next/link';
 import { useState } from 'react';
+import { useMutation } from "@tanstack/react-query";
+import { registerUser } from '@/lib/api/services/user';
+import LoadingSpinner from '@/components/LoadingSpinner';
+import { useRouter } from 'next/navigation';
 
 export default function Signup() {
-    const [name, setName] = useState("")
-    const [email, setEmail] = useState("")
-    const [matricula, setMatricula] = useState("")
-    const [password, setPassword] = useState("")
+    const router = useRouter();
+    const [error, setError] = useState('A senha deve ter pelo menos 4 caracteres');
+    const mutation = useMutation({
+        mutationFn: registerUser,
+        onSuccess: () => { router.push("/login") }
+    });
+    const [ signupData, setSignupData ] = useState({
+        name: "",
+        email: "",
+        matricula: "",
+        password: ""
+    });
 
     return (
         <div className="flex-col flex items-center justify-center p-3 min-h-full">
             <h1 className="text-5xl font-bold p-6">ProjetIn</h1>
             <div className="card w-full max-w-sm shrink-0 custom_shadow">
-                <form className="card-body">
+                <form
+                    className="card-body"
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        mutation.mutate(signupData);
+                    }}>
                     <div className="form-control">
                         <label className="label">
                             <span className="label-text">Nome Completo</span>
@@ -21,8 +38,8 @@ export default function Signup() {
                         <input
                             type="nome"
                             className="input input-bordered"
-                            value={name}
-                            onChange={e => setName(e.target.value)}
+                            value={signupData.name}
+                            onChange={e => setSignupData(prev => ({...prev, name: e.target.value}))}
                             required />
                     </div>
                     <div className="form-control">
@@ -32,8 +49,8 @@ export default function Signup() {
                         <input
                             type="email"
                             className="input input-bordered"
-                            value={email}
-                            onChange={e => setEmail(e.target.value)}
+                            value={signupData.email}
+                            onChange={e => setSignupData(prev => ({...prev, email: e.target.value}))}
                             required />
                     </div>
                     <div className="form-control">
@@ -43,14 +60,24 @@ export default function Signup() {
                         <input
                             type="matricula"
                             className="input input-bordered"
-                            value={matricula}
-                            onChange={e => setMatricula(e.target.value)}
+                            value={signupData.matricula}
+                            onChange={e => setSignupData(prev => ({...prev, matricula: e.target.value}))}
                             required />
                     </div>
-                    <SignupValidationPassword password={password} setPassword={setPassword} />
-                    <div className="form-control mt-6">
-                        <button className="btn btn-primary">Cadastre-se</button>
-                    </div>
+                    <SignupValidationPassword
+                        password={signupData.password}
+                        setPassword={(password) => {
+                            setSignupData(prev => ({...prev, password}))
+                        }}
+                        error={error}
+                        setError={setError}
+                    />
+                    <button
+                        type="submit"
+                        className="btn btn-primary mt-6"
+                        disabled={!!error.length}>
+                            {mutation.isLoading ? <LoadingSpinner /> : "Cadastre-se"}
+                        </button>
                     <label className="flex justify-center w-full p-3">
                         <Link
                             href="/login"

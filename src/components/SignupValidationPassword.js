@@ -17,6 +17,7 @@ export default function SignupValidationPassword( {password, setPassword}) {
     };
 
     const handlePasswordChange = (e) => {
+        console.log(e.target.value)
         const newPassword = e.target.value;
         setPassword(newPassword);
         validatePasswords(newPassword, confirmPassword);
@@ -47,7 +48,6 @@ export default function SignupValidationPassword( {password, setPassword}) {
                 </label>
                 <input
                     type="password"
-
                     className="input input-bordered"
                     value={confirmPassword} onChange={handleConfirmPasswordChange}
                     required />

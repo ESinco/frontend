@@ -1,5 +1,6 @@
 "use client";
 import HistoryTable from "@/components/HistoryTable";
+import "./styles.css";
 
 export default function HistoryPage({ history }) {
   return (

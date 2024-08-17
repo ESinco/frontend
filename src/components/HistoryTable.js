@@ -55,11 +55,11 @@ const discs = [
 ];
 
 export default function HistoryTable() {
-  const [history, setHistory] = useState([]);
+  const [history, setHistory] = useState(discs);
 
   if (history.length === 0) {
     return (
-      <div className="my-10 flex flex-row gap-3 items-center justify-center w-9/12">
+      <div className="my-10 flex flex-row gap-3 items-center justify-center w-full">
         <button className="btn btn-square btn-outline">
           <svg
             xmlns="http://www.w3.org/2000/svg"

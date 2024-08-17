@@ -1,9 +1,12 @@
 import QueryClientProviderWrapper from "@/components/QueryClientProviderWrapper";
+import { SessionContextProvider } from "@/contexts/sessionContext";
 
 export default function Providers({ children }) {
   return (
     <QueryClientProviderWrapper>
-      {children}
+        <SessionContextProvider>
+            {children}
+        </SessionContextProvider>
     </QueryClientProviderWrapper>
   )
 }

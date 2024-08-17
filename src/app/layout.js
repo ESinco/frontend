@@ -5,7 +5,7 @@ import Providers from "@/components/provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "ESinco",
+  title: "ProjetIn",
   description: "Projeto de Software UFCG",
 };
 

@@ -1,9 +1,8 @@
 "use client"
 import { createContext } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { getStorageData, setStorageData } from '@/lib/adapters/localStorage';
+import { getStorageData } from '@/lib/adapters/localStorage';
 
-const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME;
 const SessionContext = createContext({})
 
 export function SessionContextProvider({ children }) {

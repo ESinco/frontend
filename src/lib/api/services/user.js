@@ -1,5 +1,5 @@
 import api from "@/lib/api";
-import { notifyError, notifyUser } from "@/lib/adapters/notifier";
+import { notifyUser } from "@/lib/adapters/notifier";
 
 export async function registerStudent(data) {
     const response = await api.post("/aluno/cadastrar/", {

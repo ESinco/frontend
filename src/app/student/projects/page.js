@@ -10,7 +10,7 @@ export default function projectList() {
     return (
 
         <div>
-            <h1 className="text-center justify-center mt-20"> Projetos </h1>
+            <h1 className="text-center justify-center"> Projetos </h1>
             <div className="flex justify-center mt-5">
 
                 <div className="relative">

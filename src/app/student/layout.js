@@ -3,10 +3,10 @@ import Navbar from "@/components/Navbar";
 export default function Layout({ children }) {
   return (
     <>
-      <main className="flex justify-center w-full items-center mt-[64px]">
+      <Navbar />
+      <main className="flex justify-center w-full items-center mt-[60px]">
         {children}
       </main>
-      <Navbar />
     </>
   );
 }

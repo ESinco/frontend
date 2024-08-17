@@ -2,7 +2,12 @@
 import { useState } from 'react';
 
 
-export default function SignupValidationPassword( {password, setPassword, error, setError}) {
+export default function SignupValidationPassword({
+    password,
+    setPassword,
+    error,
+    setError
+}) {
     const [confirmPassword, setConfirmPassword] = useState('');
 
     const validatePasswords = (newPassword, newConfirmPassword) => {

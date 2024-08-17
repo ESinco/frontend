@@ -3,12 +3,12 @@ import Link from "next/link";
 import { useState } from "react";
 
 export default function Login() {
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+    const [ email, setEmail ] = useState("")
+    const [ password, setPassword ] = useState("")
 
     return (
         <div className="flex-col flex items-center justify-center p-3 min-h-full">
-            <h1 className="text-5xl font-bold mb-6">ProjetIn</h1>
+            <h1 className="text-5xl font-bold mb-6">{process.env.NEXT_PUBLIC_APP_PRETTY_NAME}</h1>
             <div className="card w-full max-w-sm shrink-0 custom_shadow">
                 <form className="card-body">
                     <div className="form-control">

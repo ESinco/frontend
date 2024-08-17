@@ -3,7 +3,7 @@ import SignupValidationPassword from '@/components/SignupValidationPassword';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useMutation } from "@tanstack/react-query";
-import { registerUser } from '@/lib/api/services/user';
+import { registerStudent } from '@/lib/api/services/user';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { useRouter } from 'next/navigation';
 
@@ -11,7 +11,7 @@ export default function Signup() {
     const router = useRouter();
     const [error, setError] = useState('A senha deve ter pelo menos 4 caracteres');
     const mutation = useMutation({
-        mutationFn: registerUser,
+        mutationFn: registerStudent,
         onSuccess: () => { router.push("/login") }
     });
     const [ signupData, setSignupData ] = useState({
@@ -23,7 +23,7 @@ export default function Signup() {
 
     return (
         <div className="flex-col flex items-center justify-center p-3 min-h-full">
-            <h1 className="text-5xl font-bold p-6">ProjetIn</h1>
+            <h1 className="text-5xl font-bold p-6">{process.env.NEXT_PUBLIC_APP_PRETTY_NAME}</h1>
             <div className="card w-full max-w-sm shrink-0 custom_shadow">
                 <form
                     className="card-body"

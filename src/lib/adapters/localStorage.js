@@ -9,3 +9,6 @@ export async function setStorageData(data, key=APP_NAME) {
     localStorage.setItem(key, JSON.stringify(data));
 }
 
+export async function clearStorageData(key=APP_NAME) {
+    localStorage.removeItem(key)
+}

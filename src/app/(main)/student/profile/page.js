@@ -1,6 +1,17 @@
 import ExperiencesCard from "@/components/ExperiencesCard";
 import SkillsCard from "@/components/SkillsCard";
 
+const aluno = {
+  matricula: "200000001",
+  nome: "Marcos da Silva",
+  email: "marcos.silva1@example.com",
+  curriculo: null,
+  github: null,
+  linkedin: null,
+  cra: null,
+  senha: "senha123",
+};
+
 export default function UserProfilePage() {
   // GET USER from DATABASE with username = username...
 

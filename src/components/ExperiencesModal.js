@@ -7,7 +7,7 @@ export default function ModalSkills() {
       >
         +
       </button>
-      <dialog id="exp_modal" className="modal">
+      <dialog id="exp_modal" className="modal mt-20 items-start">
         <div className="modal-box p-5 flex flex-col items-center justify-between">
           <h3 className=" text-lg text-center">Adicionar Links Úteis</h3>
 

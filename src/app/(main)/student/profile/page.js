@@ -3,6 +3,11 @@
 import ExperiencesCard from "@/components/ExperiencesCard";
 import SkillsCard from "@/components/SkillsCard";
 import ProfileModal from "@/components/ProfileModal";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import LoadingSpinner from "@/components/LoadingSpinner";
+
 const session = {
   matricula: "200000001",
   nome: "Marcos da Silva",
@@ -17,14 +22,34 @@ const session = {
 const profIcons = [];
 
 export default function UserProfilePage() {
+  const pathname = usePathname();
+
+  const [currentPath, setCurrentPath] = useState("");
+
+  useEffect(() => {
+    setCurrentPath(pathname);
+  }, [pathname]);
+
+  if (currentPath == "") {
+    <LoadingSpinner />;
+  }
+
   return (
     <div className="bg-base-200 flex justify-center flex-col items-center p-3 max-w-[1000px]">
       {/* DIV INFORMACOES INICIAIS */}
       <div className="flex justify-center flex-col w-full items-start mb-6">
         <div className=" flex flex-row items-center w-full">
           <p className="mx-auto text-xl my-6">{session.nome}</p>
-          <ProfileModal></ProfileModal>
+          <div className="flex flex-col items-center gap-3">
+            <ProfileModal></ProfileModal>
+          </div>
         </div>
+        <Link
+          href={`${currentPath}/history`}
+          className="btn btn-primary btn-xs ml-auto"
+        >
+          Histórico
+        </Link>
         <div className="flex flex-row items-center gap-2">
           <svg
             width="40px"
@@ -90,6 +115,40 @@ export default function UserProfilePage() {
             />
           </svg>
           <p>(83) 9 9623-1204</p>
+        </div>
+
+        <div className={`py-3 flex flex-row justify-between w-full`}>
+          <button className="btn btn-warning btn-xs w-20 rounded-full">
+            Avaliar
+          </button>
+          <div className="flex items-center">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <svg
+                key={star}
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className={`w-5 h-5 ${
+                  3 >= star
+                    ? "text-yellow-400"
+                    : 3 >= star - 0.5
+                    ? "text-yellow-400 half-star"
+                    : "text-gray-300"
+                }`}
+              >
+                <path
+                  d={
+                    3 >= star - 0.5 && 3 < star
+                      ? "M12 .587l3.668 7.571 8.332 1.151-6.064 5.941 1.517 8.227L12 18.897V.587z" // Meio estrela
+                      : "M12 .587l3.668 7.571 8.332 1.151-6.064 5.941 1.517 8.227L12 18.897l-7.453 4.58L6.064 15.25 0 9.309l8.332-1.151L12 .587z" // Estrela completa
+                  }
+                />{" "}
+              </svg>
+            ))}
+          </div>
+          <p className="btn hover:cursor-default btn-outline btn-xs rounded-full w-20 btn-warning">
+            300 Votos
+          </p>
         </div>
       </div>
       <div className="gap-5 flex flex-col w-full">

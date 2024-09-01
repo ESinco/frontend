@@ -10,7 +10,6 @@ export function SessionContextProvider({ children }) {
         queryKey: [ "sessions" ],
         queryFn: getStorageData
     })
-    console.log(session.data)
     return (
         <SessionContext.Provider value={{
             ...session

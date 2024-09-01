@@ -4,8 +4,8 @@ import "./styles.css";
 
 export default function HistoryPage({ history }) {
   return (
-    <div className="flex justify-center items-center gap-3 flex-col mt-4">
-      <h1>Histórico</h1>
+    <div className="flex justify-center items-center gap-3 flex-col mt-10 w-full p-3 pb-6">
+      <h1 className="mb-10 text-2xl">Histórico</h1>
       <HistoryTable />
       <input
         type="file"

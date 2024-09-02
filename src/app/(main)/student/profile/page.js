@@ -45,7 +45,7 @@ export default function UserProfilePage() {
           </div>
         </div>
         <Link
-          href={`${currentPath}/history`}
+          href="/student/history"
           className="btn btn-primary btn-xs ml-auto"
         >
           Histórico

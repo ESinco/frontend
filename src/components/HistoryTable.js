@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HistoryTableRow from "./HistoryTableRow";
 import NoDataFound from "./NoDataFound";
 
@@ -55,29 +55,26 @@ const discs = [
   },
 ];
 
-export default function HistoryTable() {
-  const [history, setHistory] = useState(discs);
-
-  if (history.length === 0) return <NoDataFound />
+export default function HistoryTable(data) {
   return (
     <table className="table custom_shadow max-w-[1000px]">
-        <thead>
-            <tr>
-            <th className="text-white font-normal">Cód</th>
-            <th className="text-white font-normal">Nome</th>
-            <th className="text-white font-normal">Nota</th>
-            </tr>
-        </thead>
-        <tbody>
-            {discs.map((disc) => (
-                <HistoryTableRow
-                    key={disc.id}
-                    id={disc.id}
-                    name={disc.name}
-                    score={disc.score}
-                />
-            ))}
-        </tbody>
+      <thead>
+        <tr>
+          <th className="text-white font-normal">Cód</th>
+          <th className="text-white font-normal">Nome</th>
+          <th className="text-white font-normal">Nota</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.historyData.disciplinas.map((elem, index) => (
+          <HistoryTableRow
+            key={elem.codigo}
+            id={elem.codigo}
+            name={elem.nome}
+            score={elem.media}
+          />
+        ))}
+      </tbody>
     </table>
   );
 }

@@ -2,7 +2,6 @@ import { useState, useContext } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { createProject } from "@/lib/api/services/project";
 import LoadingSpinner from "../LoadingSpinner";
-import { useContext } from "react/cjs/react.production.min";
 import SessionContext from "@/contexts/sessionContext";
 
 function open() {
@@ -44,7 +43,10 @@ function Modal() {
                             className="w-full flex flex-col align-center justify-center gap-3"
                             onSubmit={e => {
                                 e.preventDefault();
-                                mutation.mutate(data);
+                                mutation.mutate({
+                                    ...data,
+                                    responsible: session.id
+                                });
                             }}
                         >
                             <label className="form-control">

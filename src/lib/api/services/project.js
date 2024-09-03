@@ -8,8 +8,8 @@ export async function createProject(projectData) {
         descricao: projectData.description,
         dono: projectData.lab,
         data_de_criacao: Date.now(),
-        vagas: 5,
-        responsavel: 3 // id_professor
+        vagas: projectData.slots, // quant de vagas
+        responsavel: projectData.responsible // id_professor
     });
     notifyUser({
         type: "success",

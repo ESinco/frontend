@@ -2,9 +2,13 @@
 import { useState } from 'react';
 
 
-export default function SignupValidationPassword( {password, setPassword}) {
+export default function SignupValidationPassword({
+    password,
+    setPassword,
+    error,
+    setError
+}) {
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [error, setError] = useState('');
 
     const validatePasswords = (newPassword, newConfirmPassword) => {
         if (newPassword.length < 4) {
@@ -17,7 +21,6 @@ export default function SignupValidationPassword( {password, setPassword}) {
     };
 
     const handlePasswordChange = (e) => {
-        console.log(e.target.value)
         const newPassword = e.target.value;
         setPassword(newPassword);
         validatePasswords(newPassword, confirmPassword);

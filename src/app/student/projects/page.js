@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getAllProjects } from '@/lib/api/services/user';
 import LoadingSpinner from "@/components/LoadingSpinner";
+import Navbar from "@/components/NavBar";
 
 export default function ProjectList() {
     const [nomeProjetoBuscado, setnomeProjetoBuscado] = useState("");
@@ -27,6 +28,7 @@ export default function ProjectList() {
 
     return (
         <div>
+            <Navbar/>
             <h1 className="text-center justify-center">Projetos</h1>
             <div className="flex justify-center mt-5">
                 <div className="relative">
@@ -50,7 +52,7 @@ export default function ProjectList() {
                         key={project.id_projeto}
                         nome={project.nome}
                         descricao={project.descricao}
-                        laboratorio={project.dono}
+                        laboratorio={project.laboratorio}
                         responsavel={project.responsavel}
                     />
                 ))

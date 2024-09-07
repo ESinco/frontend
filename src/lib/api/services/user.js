@@ -28,10 +28,6 @@ export async function registerProfessor(data) {
 }
 
 export async function getAllProjects() {
-    const response = await api.get("projeto/all/");
-    notifyUser({
-        type: "success",
-        message: "Projetos carregados com sucesso!"
-    })
+    const response = await api.get("projeto/");
     return response.data;
 }

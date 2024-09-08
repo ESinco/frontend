@@ -31,3 +31,8 @@ export async function getAllProjects() {
     const response = await api.get("projeto/");
     return response.data;
 }
+
+export async function getProject(id_projeto) {
+    const response = await api.get(`projeto/${id_projeto}`);
+    return response.data;
+}

@@ -1,4 +1,4 @@
-export default function ProjectCard({nome, descricao, laboratorio, responsavel}) {
+export default function ProjectCard({ nome, descricao, laboratorio, responsavel }) {
 
     //ver as badges depois!!!!!!
     return (

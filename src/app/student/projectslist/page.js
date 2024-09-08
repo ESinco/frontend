@@ -9,7 +9,6 @@ import Navbar from "@/components/NavBar";
 
 export default function ProjectList() {
     const [nomeProjetoBuscado, setnomeProjetoBuscado] = useState("");
-
     const { data: projects, error, isLoading } = useQuery({
         queryKey: ['projects'],
         queryFn: getAllProjects,
@@ -54,6 +53,7 @@ export default function ProjectList() {
                         descricao={project.descricao}
                         laboratorio={project.laboratorio}
                         responsavel={project.responsavel}
+                        id={project.id_projeto}
                     />
                 ))
             ) : (

@@ -8,6 +8,7 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import Navbar from "@/components/NavBar";
 
 export default function ProjectList() {
+    
     const [nomeProjetoBuscado, setnomeProjetoBuscado] = useState("");
     const { data: projects, error, isLoading } = useQuery({
         queryKey: ['projects'],

@@ -1,4 +1,12 @@
-export default function ProjectCard({ nome, descricao, laboratorio, responsavel }) {
+import { useRouter } from 'next/navigation';
+
+export default function ProjectCard({ nome, descricao, laboratorio, responsavel, id }) {
+
+    const router = useRouter();
+
+    const handleCandidatarClick = () => {
+        router.push(`/student/projectVisualization/${id}`);
+    };
 
     //ver as badges depois!!!!!!
     return (
@@ -9,10 +17,14 @@ export default function ProjectCard({ nome, descricao, laboratorio, responsavel 
                     <p className="descricao text-[12px]">{laboratorio}</p>
                     <p className="Laboratorio text-[12px]">{responsavel}</p>
                     <p>{descricao}</p>
-                    <div className="card-actions justify-end items-center">
-                        <div className="badge badge-primary">primary</div>
-                        <div className="badge badge-neutral">neutral</div>
-                        <button className="btn btn-primary">Candidatar</button>
+                    <div className="card-actions flex justify-between items-center">
+                        <div className="flex space-x-2">
+                            <div className="badge badge-primary">primary</div>
+                            <div className="badge badge-neutral">neutral</div>
+                        </div>
+                        <button className="btn btn-primary" 
+                            onClick={handleCandidatarClick} >Candidatar
+                        </button>
                     </div>
                 </div>
             </div>

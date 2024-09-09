@@ -12,7 +12,7 @@ const candidates = [
 
 export default function ProjectPage() {
   return (
-    <div className="w-full flex justify-center bg-base-200">
+    <div className="w-full flex justify-center bg-base-200 min-h-screen">
       <div className="pt-5 w-11/12 flex flex-col gap-10">
         <h2 className="text-lg text-center ">Titulo do Projeto</h2>
         <div className="flex flex-row justify-between ">

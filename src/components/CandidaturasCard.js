@@ -9,19 +9,35 @@ const candidates = [
 
 const CandidaturasCard = () => {
   const [selectedCandidates, setSelectedCandidates] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleSelect = (id) => {
-    console.log("change");
     setSelectedCandidates((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );
   };
 
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value.toLowerCase());
+  };
+
+  const filteredCandidates = searchTerm
+    ? candidates.filter((candidate) =>
+        candidate.name.toLowerCase().includes(searchTerm)
+      )
+    : candidates;
+
   return (
     <div className="p-6 bg-base-100 rounded-3xl custom_shadow">
       <h2 className="text-lg text-white mb-4">Candidaturas Pendentes</h2>
       <label className="input flex items-center gap-2 mb-4 rounded-badge input-bordered">
-        <input type="text" className="grow" placeholder="Search" />
+        <input
+          type="text"
+          className="grow"
+          placeholder="Search"
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 16 16"
@@ -43,26 +59,30 @@ const CandidaturasCard = () => {
           Aprovar Selecionados
         </button>
       </div>
-      {candidates.map((candidate) => (
-        <div
-          key={candidate.id}
-          className="flex justify-between items-center  shadow-stone-900 drop-shadow-md shadow-md p-4 rounded-lg mb-2"
-        >
-          <div className="flex items-center space-x-4">
-            <input
-              type="checkbox"
-              className="checkbox checkbox-accent"
-              checked={selectedCandidates.includes(candidate.id)}
-              onChange={() => handleSelect(candidate.id)}
-            />
-            <span className="text-white">{candidate.name}</span>
+      {filteredCandidates.length > 0 ? (
+        filteredCandidates.map((candidate) => (
+          <div
+            key={candidate.id}
+            className="flex justify-between items-center bg-gray-800 p-4 rounded-lg mb-2"
+          >
+            <div className="flex items-center space-x-4">
+              <input
+                type="checkbox"
+                className="checkbox checkbox-accent"
+                checked={selectedCandidates.includes(candidate.id)}
+                onChange={() => handleSelect(candidate.id)}
+              />
+              <span className="text-white">{candidate.name}</span>
+            </div>
+            <div className="flex space-x-2">
+              <button className="btn btn-secondary btn-sm">Rejeitar</button>
+              <button className="btn btn-primary btn-sm">Aprovar</button>
+            </div>
           </div>
-          <div className="flex space-x-2">
-            <button className="btn btn-secondary btn-sm">Rejeitar</button>
-            <button className="btn btn-primary btn-sm">Aprovar</button>
-          </div>
-        </div>
-      ))}
+        ))
+      ) : (
+        <p className="text-white">Nenhum candidato encontrado.</p>
+      )}
     </div>
   );
 };

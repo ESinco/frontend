@@ -8,7 +8,7 @@ const SessionContext = createContext({})
 export function SessionContextProvider({ children }) {
     const session = useQuery({
         queryKey: [ "sessions" ],
-        queryFn: getStorageData
+        queryFn: () => getStorageData()
     })
     return (
         <SessionContext.Provider value={{

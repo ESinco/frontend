@@ -1,5 +1,5 @@
 "use client"
-import { logStudent } from "@/lib/api/services/user";
+import { logUser } from "@/lib/api/services/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useState } from "react";
@@ -14,7 +14,7 @@ export default function Login() {
 
     const mutation = useMutation({
         mutationFn: async (data) => {
-            const userData = await logStudent(data);
+            const userData = await logUser(data);
             await setStorageData(userData);
         },
         onSuccess: () => {

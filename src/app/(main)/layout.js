@@ -11,7 +11,7 @@ export default function MainAppLayout({ children }) {
   // To prevent main app access by unlogged users
   useEffect(() => {
     if (session.isLoading) return;
-    if (session.isError || !session.data) redirect("/login");
+    // if (session.isError || !session.data  ) redirect("/login");
   }, [session.isLoading]);
 
   if (session.isLoading) return <LoadingSpinner />;

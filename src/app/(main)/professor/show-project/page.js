@@ -2,6 +2,7 @@
 
 import CandidaturasCard from "@/components/CandidaturasCard";
 import SkillsCard from "@/components/SkillsCard";
+import Link from "next/link";
 import { useState } from "react";
 
 const candidates = [
@@ -32,7 +33,12 @@ export default function ProjectPage() {
           Florença
         </p>
         <SkillsCard title={"Habilidades"} />
-        <CandidaturasCard />
+        <Link
+          href="/professor/show-project/candidates"
+          className="btn btn-secondary w-5/12 ml-auto"
+        >
+          Ver candidatos
+        </Link>
       </div>
     </div>
   );

@@ -4,10 +4,11 @@ import ExperiencesCard from "@/components/ExperiencesCard";
 import SkillsCard from "@/components/SkillsCard";
 import ProfileModal from "@/components/ProfileModal";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import StudentRating from "@/components/StudentRating";
+import SessionContext from "@/contexts/sessionContext";
 
 const session = {
   matricula: "200000001",
@@ -24,12 +25,14 @@ const profIcons = [];
 
 export default function UserProfilePage() {
   const pathname = usePathname();
+  const session = useContext(SessionContext);
 
   const [currentPath, setCurrentPath] = useState("");
 
   useEffect(() => {
     setCurrentPath(pathname);
-  }, [pathname]);
+    console.log(session.data);
+  }, [pathname, session]);
 
   if (currentPath == "") {
     <LoadingSpinner />;
@@ -40,7 +43,7 @@ export default function UserProfilePage() {
       {/* DIV INFORMACOES INICIAIS */}
       <div className="flex justify-center flex-col w-full items-start mb-6">
         <div className=" flex flex-row items-center w-full">
-          <p className="mx-auto text-xl my-6">{session.nome}</p>
+          <p className="mx-auto text-xl my-6">{session.data.nome}</p>
           <div className="flex flex-col items-center gap-3">
             <ProfileModal></ProfileModal>
           </div>
@@ -78,7 +81,7 @@ export default function UserProfilePage() {
               fill="#0F0F0F"
             />
           </svg>
-          <p>{session.linkedin ? session.linkedin : "linkedin"}</p>
+          <p>{session.data.linkedin ? session.data.linkedin : "linkedin"}</p>
         </div>
 
         <div className="flex flex-row gap-2 items-center">
@@ -96,7 +99,7 @@ export default function UserProfilePage() {
               fill="#080341"
             />
           </svg>
-          <p>{session.email}</p>
+          <p>{session.data.email}</p>
         </div>
 
         <div className="flex flex-row gap-2 items-center">

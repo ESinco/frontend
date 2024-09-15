@@ -26,3 +26,8 @@ export async function registerProfessor(data) {
     })
     return response.data;
 }
+
+export async function logStudent(data) {
+    const response = await api.post("/aluno/login/", data);
+    return response.data;
+}

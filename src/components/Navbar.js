@@ -2,7 +2,10 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <div className="navbar flex justify-between fixed top-0 navbar_shadow bg-base-200">
+    <div
+      className="fixed top-0 navbar flex justify-between navbar_shadow"
+      data-theme="dark"
+    >
       <div className="">
         <button className="btn btn-square btn-ghost">
           <svg

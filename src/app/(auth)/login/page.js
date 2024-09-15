@@ -18,7 +18,7 @@ export default function Login() {
             const userData = await logUser(data);
             await setStorageData({
                 ...userData,
-                id: userData.matricula,
+                id: userData.matricula ?? userData.id,
                 token: userData.access
             });
             return userData;

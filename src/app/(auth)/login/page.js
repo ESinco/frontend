@@ -14,12 +14,16 @@ export default function Login() {
 
     const mutation = useMutation({
         mutationFn: async (data) => {
+            // Loga o usuario e salva os dados do login no local storage
             const userData = await logUser(data);
             await setStorageData(userData);
+            return userData;
         },
-        onSuccess: () => {
+        onSuccess: (data) => {
+            // Invalida todas as sessões, (já que um novo login foi feito)
             queryClient.invalidateQueries("sessions");
-            router.push("/student/profile")
+            if(data.isTeacher) router.push("/professor/profile");
+            else router.push("/student/profile");
         }
     })
 

@@ -26,3 +26,8 @@ export async function registerProfessor(data) {
     })
     return response.data;
 }
+
+export async function logUser(data) {
+    const response = await api.post("/api/login/", data);
+    return response.data;
+}

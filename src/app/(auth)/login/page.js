@@ -16,7 +16,11 @@ export default function Login() {
         mutationFn: async (data) => {
             // Loga o usuario e salva os dados do login no local storage
             const userData = await logUser(data);
-            await setStorageData(userData);
+            await setStorageData({
+                ...userData,
+                id: userData.matricula,
+                token: userData.access
+            });
             return userData;
         },
         onSuccess: (data) => {

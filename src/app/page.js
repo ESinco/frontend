@@ -4,6 +4,6 @@ import CreateProject from "@/components/modals/CreateProject";
 
 export default function Home() { 
     return (
-        <CreateProject.Modal />
+        <CreateProject.Modal currentData={{}}/>
     )
 }

@@ -8,17 +8,20 @@ function open() {
     return document.getElementById('create_project_modal').showModal();
 }
 
-function Modal() {
+function Modal({ currentData }) {
     const { session } = useContext(SessionContext)
     const [ data, setData ] = useState({
-        name: "",
-        lab: "",
-        slots: 0, //quantidade de vagas abertas
-        description: "",
-        desiredSkills: []
+        name: currentData.name ?? "",
+        owner: currentData.owner ?? "",
+        slots: currentData.slots ?? 0, //quantidade de vagas abertas
+        description: currentData.description ?? "",
     })
     const mutation = useMutation({
-        mutationFn: createProject,
+        mutationFn: (data) => createProject({
+            ...data,
+            responsavel: session.data.id,
+            token: session.data.token
+        }),
     })
 
     function updateData(key, value) {
@@ -37,7 +40,7 @@ function Modal() {
                         {   /* if there is a button in form, it will close the modal */}
                             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                         </form>
-                        <h3 className="font-bold text-xl text-white">Editar projeto</h3>
+                        <h3 className="font-bold text-xl text-white">{currentData.name ? "Editar projeto" : "Criar Projeto"}</h3>
 
                         <form
                             className="w-full flex flex-col align-center justify-center gap-3"

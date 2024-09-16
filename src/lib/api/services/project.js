@@ -8,7 +8,7 @@ export async function createProject(projectData) {
             ...projectData,
             nome: projectData.name,
             descricao: projectData.description,
-            dono: projectData.lab,
+            laboratorio: projectData.lab,
             vagas: projectData.slots, // quant de vagas
         },
         {
@@ -29,7 +29,7 @@ export async function editProject(projectData) {
             ...projectData,
             nome: projectData.name,
             descricao: projectData.description,
-            dono: projectData.lab,
+            laboratorio: projectData.lab,
             vagas: projectData.slots, // quant de vagas
         },
         {

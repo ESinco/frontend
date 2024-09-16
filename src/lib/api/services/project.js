@@ -21,3 +21,8 @@ export async function createProject(projectData) {
     })
     return response.data;
 }
+
+export async function getProfessorProjects(professorId) {
+    const response = await api.get(`/projeto/?responsavel=${professorId}`);
+    return response.data;
+}

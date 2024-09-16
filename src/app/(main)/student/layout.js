@@ -7,9 +7,9 @@ import { useContext, useEffect } from "react"
 export default function ProfessorAppLayout({ children }) {
     const session = useContext(SessionContext);
 
-    // Se usuario atualmente logado nao for professor, redirecione para perfil de aluno
+    // Se usuario atualmente logado for professor, redirecione para perfil de aluno
     useEffect(() => {
-        if(session.data && !session.data.isTeacher) redirect("/student/profile");
+        if(session.data && session.data.isTeacher) redirect("/professor/projects");
     }, [session.isLoading])
 
     return (

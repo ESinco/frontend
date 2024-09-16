@@ -1,10 +1,10 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createProject } from "@/lib/api/services/project";
+import { editProject } from "@/lib/api/services/project";
 import LoadingSpinner from "../LoadingSpinner";
 import SessionContext from "@/contexts/sessionContext";
 
-const MODAL_ID = 'create_project_modal';
+const MODAL_ID = 'edit_project_modal';
 
 function open() {
     return document.getElementById(MODAL_ID).showModal();
@@ -14,17 +14,18 @@ function close() {
     return document.getElementById(MODAL_ID).close();
 }
 
-function Modal() {
+function Modal({ editData }) {
     const session = useContext(SessionContext);
     const queryClient = useQueryClient();
     const [ data, setData ] = useState({
-        name: "",
-        lab: "",
-        slots: 0, //quantidade de vagas abertas
-        description: "",
+        id: editData.id ?? "",
+        name: editData.name ?? "",
+        lab: editData.lab ?? "",
+        slots: editData.slots ?? "", //quantidade de vagas abertas
+        description: editData.description ?? "",
     })
     const mutation = useMutation({
-        mutationFn: (data) => createProject({
+        mutationFn: (data) => editProject({
             ...data,
             responsavel: session.data.id,
             token: session.data.token
@@ -34,6 +35,10 @@ function Modal() {
             close();
         },
     })
+
+    useEffect(() => {
+        setData({ ...editData })
+    }, [editData.id])
 
     function updateData(key, value) {
         setData(prev => ({
@@ -49,7 +54,7 @@ function Modal() {
                 {   /* if there is a button in form, it will close the modal */}
                     <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                 </form>
-                <h3 className="font-bold text-xl text-white">Criar Projeto</h3>
+                <h3 className="font-bold text-xl text-white">{`Editar Projeto #${editData.id}`}</h3>
 
                 <form
                     className="w-full flex flex-col align-center justify-center gap-3"
@@ -121,9 +126,9 @@ function Modal() {
     )
 }
 
-const CreateProject = {
+const EditProject = {
     open,
     Modal
 }
 
-export default CreateProject;
+export default EditProject;

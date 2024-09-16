@@ -1,5 +1,5 @@
 "use client"
-import { logStudent } from "@/lib/api/services/user";
+import { logUser } from "@/lib/api/services/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useState } from "react";
@@ -14,12 +14,20 @@ export default function Login() {
 
     const mutation = useMutation({
         mutationFn: async (data) => {
-            const userData = await logStudent(data);
-            await setStorageData(userData);
+            // Loga o usuario e salva os dados do login no local storage
+            const userData = await logUser(data);
+            await setStorageData({
+                ...userData,
+                id: userData.matricula ?? userData.id,
+                token: userData.access
+            });
+            return userData;
         },
-        onSuccess: () => {
+        onSuccess: (data) => {
+            // Invalida todas as sessões, (já que um novo login foi feito)
             queryClient.invalidateQueries("sessions");
-            router.push("/student/profile")
+            if(data.isTeacher) router.push("/professor/profile");
+            else router.push("/student/profile");
         }
     })
 

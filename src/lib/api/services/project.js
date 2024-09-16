@@ -24,5 +24,14 @@ export async function createProject(projectData) {
 
 export async function getProfessorProjects(professorId) {
     const response = await api.get(`/projeto/?responsavel=${professorId}`);
-    return response.data;
+    console.log(response.data)
+    return response.data.map(project => ({
+        id: project.id_projeto,
+        name: project.nome,
+        description: project.description,
+        owner: project.dono,
+        slots: project.vagas,
+        professor: project.responsavel,
+        date: project.data_de_criacao,
+    }))
 }

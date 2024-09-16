@@ -1,15 +1,22 @@
 import { useState, useContext } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createProject } from "@/lib/api/services/project";
 import LoadingSpinner from "../LoadingSpinner";
 import SessionContext from "@/contexts/sessionContext";
 
+const MODAL_ID = 'create_project_modal';
+
 function open() {
-    return document.getElementById('create_project_modal').showModal();
+    return document.getElementById(MODAL_ID).showModal();
+}
+
+function close() {
+    return document.getElementById(MODAL_ID).close();
 }
 
 function Modal({ currentData }) {
-    const { session } = useContext(SessionContext)
+    const session = useContext(SessionContext);
+    const queryClient = useQueryClient();
     const [ data, setData ] = useState({
         name: currentData.name ?? "",
         owner: currentData.owner ?? "",
@@ -22,6 +29,10 @@ function Modal({ currentData }) {
             responsavel: session.data.id,
             token: session.data.token
         }),
+        onSuccess: () => {
+            queryClient.invalidateQueries("professor_projects");
+            close();
+        },
     })
 
     function updateData(key, value) {
@@ -34,7 +45,7 @@ function Modal({ currentData }) {
     return (
             <>
                 <button className="btn" onClick={open}>open modal</button>
-                <dialog id="create_project_modal" className="modal">
+                <dialog id={MODAL_ID} className="modal">
                     <div className="modal-box">
                         <form method="dialog">
                         {   /* if there is a button in form, it will close the modal */}
@@ -46,9 +57,10 @@ function Modal({ currentData }) {
                             className="w-full flex flex-col align-center justify-center gap-3"
                             onSubmit={e => {
                                 e.preventDefault();
+                                console.log(session)
                                 mutation.mutate({
                                     ...data,
-                                    responsible: session.id
+                                    responsible: session.data.id
                                 });
                             }}
                         >

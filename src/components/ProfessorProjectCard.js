@@ -1,10 +1,22 @@
 
-export default function ProfessorProjectCard() {
+
+export default function ProfessorProjectCard({
+    id,
+    name,
+    description,
+    owner, // Lab em que será desenvolvido
+    date,
+    slots,
+    professor, // Professor responsavel
+}) {
     return (
-        <div className="card bg-base-100 w-96 shadow-xl">
+        <div className="card bg-base-100 w-full shadow-xl">
             <div className="card-body">
-                <h2 className="card-title">Card title!</h2>
-                <p>If a dog chews shoes whose shoes does he choose?</p>
+                <section>
+                    <h2 className="card-title">{name}</h2>
+                    <p>{description}</p>
+                </section>
+
                 <div className="card-actions justify-end">
                     <button className="btn btn-primary">Buy Now</button>
                 </div>

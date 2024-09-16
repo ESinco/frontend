@@ -12,6 +12,7 @@ export default function MainAppLayout({ children }) {
   useEffect(() => {
     if (session.isLoading) return;
     if (session.isError || !session.data) redirect("/login");
+    if (session.data.isTeacher) redirect("/professor/profile");
   }, [session.isLoading]);
 
   if (session.isLoading) return <LoadingSpinner />;

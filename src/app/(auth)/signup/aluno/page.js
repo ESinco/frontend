@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 
 export default function Signup() {
     const router = useRouter();
-    const [error, setError] = useState('A senha deve ter pelo menos 4 caracteres');
+    const [ error, setError ] = useState('A senha deve ter pelo menos 4 caracteres');
     const mutation = useMutation({
         mutationFn: registerStudent,
         onSuccess: () => { router.push("/login") }

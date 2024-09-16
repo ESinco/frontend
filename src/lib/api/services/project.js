@@ -22,6 +22,27 @@ export async function createProject(projectData) {
     return response.data;
 }
 
+export async function editProject(projectData) {
+    const response = await api.post(
+        "/projeto/editar/", 
+        {
+            ...projectData,
+            nome: projectData.name,
+            descricao: projectData.description,
+            dono: projectData.lab,
+            vagas: projectData.slots, // quant de vagas
+        },
+        {
+            headers: { Authorization: `Bearer ${projectData.token}` }
+        }
+    );
+    notifyUser({
+        type: "success",
+        message: `Projeto "${projectData.name}" foi criado com sucesso`
+    })
+    return response.data;
+}
+
 export async function getProfessorProjects(professorId) {
     const response = await api.get(`/projeto/?responsavel=${professorId}`);
     console.log(response.data)

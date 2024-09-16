@@ -2,10 +2,11 @@ export default function ProfessorProjectCard({
     id,
     name,
     description,
-    owner, // Lab em que será desenvolvido
+    lab, // Lab em que será desenvolvido
     date,
     slots,
     professor, // Professor responsavel
+    requestEdit,
 }) {
     return (
         <div className="relative card bg-base-100 w-full shadow-xl">
@@ -21,7 +22,17 @@ export default function ProfessorProjectCard({
                     <div className="absolute bottom-8 left-5">
                         <div className="badge badge-primary badge-lg">500 Candidato(s)</div>
                     </div>
-                    <button className="btn btn-primary w-[110px]">Editar</button>
+                    <button 
+                        className="btn btn-primary"
+                        onClick={() => requestEdit({
+                            id,
+                            name,
+                            description,
+                            lab, // Lab em que será desenvolvido
+                            date,
+                            slots,
+                            professor,
+                        })}>Editar</button>
                 </div>
             </div>
         </div>

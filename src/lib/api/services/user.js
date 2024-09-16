@@ -32,6 +32,11 @@ export async function getAllProjects() {
     return response.data;
 }
 
+export async function getProfessorName(id) {
+    const response = await api.get(`/professor/${id}/`);
+    return response.data.nome;
+}
+
 export async function getProject(id_projeto) {
     const response = await api.get(`projeto/${id_projeto}`);
     return response.data;

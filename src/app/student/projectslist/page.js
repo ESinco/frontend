@@ -2,28 +2,51 @@
 
 import ProjectCard from "@/components/ProjectCard";
 import { useState } from 'react';
+import { useEffect } from "react";
 import { useQuery } from '@tanstack/react-query';
 import { getAllProjects } from '@/lib/api/services/user';
+import { getProfessorName } from "@/lib/api/services/user";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import Navbar from "@/components/NavBar";
 
 export default function ProjectList() {
-    
+
     const [nomeProjetoBuscado, setnomeProjetoBuscado] = useState("");
     const { data: projects, error, isLoading } = useQuery({
         queryKey: ['projects'],
         queryFn: getAllProjects,
     });
 
+    function truncateText(text, maxLength) {
+        if (text.length <= maxLength) {
+            return text;
+        }
+        return text.substring(0, maxLength) + '...';
+    }
+
+    const [professores, setProfessores] = useState({});
+
+    useEffect(() => {
+        if (projects) {
+            const fetchProfessorNames = async () => {
+                const professorNames = {};
+                for (const project of projects) {
+                    const nomeProfessor = await getProfessorName(project.responsavel);
+                    professorNames[project.responsavel] = nomeProfessor;
+                }
+                setProfessores(professorNames);
+            };
+            fetchProfessorNames();
+        }
+    }, [projects]);
+
     if (isLoading) return <LoadingSpinner />;
     if (error) return <div>Error loading projects: {error.message}</div>;
 
-    // Filtra os projetos com base na busca
     const projetosFiltrados = projects.filter((project) =>
         project.nome.toLowerCase().includes(nomeProjetoBuscado.toLowerCase())
     );
 
-    // Se há busca, exibe apenas os filtrados, caso contrário, exibe todos os projetos
     const projetosExibidos = nomeProjetoBuscado ? projetosFiltrados : projects;
 
     return (
@@ -44,17 +67,16 @@ export default function ProjectList() {
                     </svg>
                 </div>
             </div>
-
             {projetosExibidos.length > 0 ? (
-            // Renderiza todos os projetos ou apenas os filtrados
+                // Renderiza todos os projetos ou apenas os filtrados
                 projetosExibidos.map((project) => (
-                    <ProjectCard
-                        key={project.id_projeto}
-                        nome={project.nome}
-                        descricao={project.descricao}
-                        laboratorio={project.laboratorio}
-                        responsavel={project.responsavel}
-                        id={project.id_projeto}
+                    <ProjectCard 
+                    key={project.id_projeto}
+                    nome={project.nome}
+                    descricao={truncateText(project.descricao, 150)}
+                    laboratorio={project.laboratorio}
+                    responsavel={professores[project.responsavel]}
+                    id={project.id_projeto}
                     />
                 ))
             ) : (

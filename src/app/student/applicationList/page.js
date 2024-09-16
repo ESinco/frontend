@@ -23,7 +23,6 @@ export default function applicationList() {
             </div>
 
             {projects.length > 0 ? (
-            //Renderiza todos os projetos ou apenas os filtrados
                 projects.map((project) => (
                     <ApplicationCard
                         key={project.id_projeto}

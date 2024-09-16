@@ -43,7 +43,7 @@ export default function UserProfilePage() {
       {/* DIV INFORMACOES INICIAIS */}
       <div className="flex justify-center flex-col w-full items-start mb-6">
         <div className=" flex flex-row items-center w-full">
-          {/* <p className="mx-auto text-xl my-6">{session?.data.nome}</p> */}
+          <p className="mx-auto text-xl my-6">{session?.data.nome}</p>
           <div className="flex flex-col items-center gap-3">
             <ProfileModal></ProfileModal>
           </div>
@@ -81,7 +81,7 @@ export default function UserProfilePage() {
               fill="#0F0F0F"
             />
           </svg>
-          {/* <p>{session.data.linkedin ? session.data.linkedin : "linkedin"}</p> */}
+          <p>{session.data.linkedin ? session.data.linkedin : "linkedin"}</p>
         </div>
 
         <div className="flex flex-row gap-2 items-center">
@@ -99,7 +99,7 @@ export default function UserProfilePage() {
               fill="#080341"
             />
           </svg>
-          {/* <p>{session.data.email}</p> */}
+          <p>{session.data.email}</p>
         </div>
 
         <div className="flex flex-row gap-2 items-center">
@@ -121,7 +121,7 @@ export default function UserProfilePage() {
           <p>(83) 9 9623-1204</p>
         </div>
 
-        <StudentRating />
+        {session.data.isTeacher ? <StudentRating /> : null}
       </div>
       <div className="gap-5 flex flex-col w-full">
         {/* EXPERIENCIAS COMPONENT */}

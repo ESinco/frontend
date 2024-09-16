@@ -2,59 +2,6 @@ import { useEffect, useState } from "react";
 import HistoryTableRow from "./HistoryTableRow";
 import NoDataFound from "./NoDataFound";
 
-const discs = [
-  {
-    id: "123456s",
-    name: "Teoria Dos Grafos",
-    score: "8,5",
-  },
-  {
-    id: "1234567a",
-    name: "Teoria Dos Grafos",
-    score: "8,5",
-  },
-  {
-    id: "123456c",
-    name: "Teoria Dos Grafos",
-    score: "8,5",
-  },
-  {
-    id: "1234567f",
-    name: "Teoria Dos Grafos",
-    score: "8,5",
-  },
-  {
-    id: "123456yy",
-    name: "Teoria Dos Grafos",
-    score: "8,5",
-  },
-  {
-    id: "1234567het",
-    name: "Teoria Dos Grafos",
-    score: "8,5",
-  },
-  {
-    id: "123456hetettheh6t",
-    name: "Teoria Dos Grafos",
-    score: "8,5",
-  },
-  {
-    id: "1234567sytker8k",
-    name: "Teoria Dos Grafos",
-    score: "8,5",
-  },
-  {
-    id: "123456abtqw",
-    name: "Teoria Dos Grafos",
-    score: "8,5",
-  },
-  {
-    id: "1234567ww",
-    name: "Teoria Dos Grafos",
-    score: "8,5",
-  },
-];
-
 export default function HistoryTable(data) {
   return (
     <table className="table custom_shadow max-w-[1000px]">

@@ -24,14 +24,26 @@ const session = {
 const profIcons = [];
 
 export default function UserProfilePage() {
+  const [currentPath, setCurrentPath] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const pathname = usePathname();
   const session = useContext(SessionContext);
 
-  const [currentPath, setCurrentPath] = useState("");
+  // Function to open the modal
+  const openModal = () => {
+    setIsModalOpen(true);
+    document.getElementById("pfp_modal").showModal();
+  };
+
+  // Function to close the modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+    document.getElementById("pfp_modal").close();
+  };
 
   useEffect(() => {
     setCurrentPath(pathname);
-    console.log(session.data);
   }, [pathname, session]);
 
   if (currentPath == "") {
@@ -45,7 +57,12 @@ export default function UserProfilePage() {
         <div className=" flex flex-row items-center w-full">
           <p className="mx-auto text-xl my-6">{session?.data.nome}</p>
           <div className="flex flex-col items-center gap-3">
-            <ProfileModal></ProfileModal>
+            <ProfileModal
+              onClick={openModal}
+              onClose={closeModal}
+              isOpen={isModalOpen}
+              session={session}
+            ></ProfileModal>
           </div>
         </div>
         <Link

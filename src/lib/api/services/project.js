@@ -28,8 +28,8 @@ export async function getProfessorProjects(professorId) {
     return response.data.map(project => ({
         id: project.id_projeto,
         name: project.nome,
-        description: project.description,
-        owner: project.dono,
+        description: project.descricao,
+        lab: project.laboratorio,
         slots: project.vagas,
         professor: project.responsavel,
         date: project.data_de_criacao,

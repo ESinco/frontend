@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function ProfessorProjectCard({
     id,
     name,
@@ -9,7 +11,7 @@ export default function ProfessorProjectCard({
     requestEdit,
 }) {
     return (
-        <div className="relative card bg-base-100 w-full shadow-xl">
+        <div className="relative card bg-base-100 w-full shadow-xl transform hover:scale-105 transition duration-300 ease-in-out">
             <div className="badge badge-accent badge-outline badge-lg absolute top-5 right-5">Status</div>
             <div className="relative card-body p-5 lg:p-7">
                 <section className="flex justify-center items center">
@@ -24,15 +26,23 @@ export default function ProfessorProjectCard({
                     </div>
                     <button 
                         className="btn btn-primary"
-                        onClick={() => requestEdit({
-                            id,
-                            name,
-                            description,
-                            lab, // Lab em que será desenvolvido
-                            date,
-                            slots,
-                            professor,
-                        })}>Editar</button>
+                        onClick={e => {
+                            e.stopPropagation();
+                            requestEdit({
+                                id,
+                                name,
+                                description,
+                                lab, // Lab em que será desenvolvido
+                                date,
+                                slots,
+                                professor,
+                            })
+                        }}
+                    >Editar</button>
+                    <Link 
+                        className="btn btn-primary"
+                        href={`/professor/details/project/${id}`}
+                    >Abrir</Link>
                 </div>
             </div>
         </div>

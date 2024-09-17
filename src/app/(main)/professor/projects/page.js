@@ -27,7 +27,10 @@ export default function Projects() {
                 <h1>Meus Projetos</h1>
                 <button
                     className="btn btn-primary btn-xs"
-                    onClick={() => { CreateProject.open() }}
+                    onClick={e => {
+                        e.stopPropagation()
+                        CreateProject.open()
+                    }}
                 >Adicionar +</button>
             </section>
             <section className="flex flex-col justify-start items-center gap-5 w-full max_width p-3">

@@ -21,7 +21,11 @@ export default function ProfileModal({ isOpen, onClose, session }) {
 
   // POST NO USER COM ESSAS INFORMACOES
   const mutation = useMutation({
-    mutationFn: editStudent,
+    mutationFn: (data) =>
+      editStudent({
+        ...data,
+        token: session.data.token,
+      }),
     onSuccess: () => {
       console.log(session);
     },
@@ -73,7 +77,7 @@ export default function ProfileModal({ isOpen, onClose, session }) {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                mutation.mutate(editStudentData, session);
+                mutation.mutate(editStudentData);
               }}
               method="dialog"
               className="flex flex-col gap-3  pt-4 w-full"

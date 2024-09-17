@@ -16,11 +16,12 @@ export async function registerStudent(data) {
   return response.data;
 }
 
-export async function editStudent(data, session) {
+export async function editStudent(data) {
   const response = await api
     .put(
       "/aluno/editar_perfil/",
       {
+        ...data,
         nome: data.nome, // Nome permanece o mesmo
         curriculo: data.curriculo,
         email: data.email, // Email pode mudar ou não
@@ -32,7 +33,7 @@ export async function editStudent(data, session) {
       },
       {
         headers: {
-          Authorization: `Bearer ${session.data.token}`,
+          Authorization: `Bearer ${data.token}`,
         },
       }
     )

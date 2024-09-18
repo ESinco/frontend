@@ -16,6 +16,12 @@ export async function registerStudent(data) {
   return response.data;
 }
 
+export async function getStudentData(matricula) {
+  const response = await api.get(`/aluno/${matricula}`);
+  console.log(response.data);
+  return response.data;
+}
+
 export async function editStudent(data) {
   const response = await api
     .put(

@@ -9,6 +9,8 @@ import { usePathname } from "next/navigation";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import StudentRating from "@/components/StudentRating";
 import SessionContext from "@/contexts/sessionContext";
+import { getStudentData } from "@/lib/api/services/user";
+import { useQuery } from "@tanstack/react-query";
 
 const session = {
   matricula: "200000001",
@@ -26,9 +28,15 @@ const profIcons = [];
 export default function UserProfilePage() {
   const [currentPath, setCurrentPath] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [sessionData, setSessionData] = useState(null);
 
   const pathname = usePathname();
   const session = useContext(SessionContext);
+
+  const aluno = useQuery({
+    queryKey: ["student_data"],
+    queryFn: () => getStudentData(session.data.matricula),
+  });
 
   // Function to open the modal
   const openModal = () => {
@@ -44,9 +52,14 @@ export default function UserProfilePage() {
 
   useEffect(() => {
     setCurrentPath(pathname);
-  }, [pathname, session]);
+    console.log("a" + aluno.data);
+  }, [pathname, session, aluno]);
 
   if (currentPath == "") {
+    <LoadingSpinner />;
+  }
+
+  if (!aluno.data) {
     <LoadingSpinner />;
   }
 
@@ -55,7 +68,7 @@ export default function UserProfilePage() {
       {/* DIV INFORMACOES INICIAIS */}
       <div className="flex justify-center flex-col w-full items-start mb-6">
         <div className=" flex flex-row items-center w-full">
-          <p className="mx-auto text-xl my-6">{session?.data.nome}</p>
+          <p className="mx-auto text-xl my-6">{aluno.data?.nome}</p>
           <div className="flex flex-col items-center gap-3">
             <ProfileModal
               onClick={openModal}
@@ -98,7 +111,7 @@ export default function UserProfilePage() {
               fill="#0F0F0F"
             />
           </svg>
-          <p>{session.data.linkedin}</p>
+          <p>{aluno.data?.linkedin}</p>
         </div>
 
         <div className="flex flex-row gap-2 items-center">
@@ -116,7 +129,7 @@ export default function UserProfilePage() {
               fill="#080341"
             />
           </svg>
-          <p>{session.data.email}</p>
+          <p>{aluno.data?.email}</p>
         </div>
 
         <div className="flex flex-row gap-2 items-center">
@@ -135,7 +148,7 @@ export default function UserProfilePage() {
               stroke-linejoin="round"
             />
           </svg>
-          <p>(83) 9 9623-1204</p>
+          <p>{aluno.data?.github}</p>
         </div>
 
         {session.data.isTeacher ? <StudentRating /> : null}

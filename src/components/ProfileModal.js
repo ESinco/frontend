@@ -3,11 +3,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
 export default function ProfileModal({ isOpen, onClose, session }) {
-  const [email, setEmail] = useState("");
-  const [linkedin, setLinkedin] = useState("");
-  const [github, setGithub] = useState("");
-  const [curriculo, setCurriculo] = useState("");
-
   const queryClient = useQueryClient();
 
   const [editStudentData, setEditStudentData] = useState({
@@ -28,20 +23,12 @@ export default function ProfileModal({ isOpen, onClose, session }) {
         ...data,
         token: session.data.token,
       }),
-    onSuccess: () => {
-      queryClient.invalidateQueries();
-      console.log(session);
+    onSuccess: (data) => {
+      queryClient.invalidateQueries("student_data");
+      onClose();
     },
   });
 
-  useEffect(() => {
-    if (isOpen) {
-      setEmail(session.data.email || "");
-      setLinkedin(session.data.linkedin || "");
-      setGithub(session.data.github || "");
-      console.log(session);
-    }
-  }, [isOpen, session]);
   return (
     <>
       <button

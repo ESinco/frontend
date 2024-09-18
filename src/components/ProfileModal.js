@@ -1,5 +1,5 @@
 import { editStudent } from "@/lib/api/services/user";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
 export default function ProfileModal({ isOpen, onClose, session }) {
@@ -7,6 +7,8 @@ export default function ProfileModal({ isOpen, onClose, session }) {
   const [linkedin, setLinkedin] = useState("");
   const [github, setGithub] = useState("");
   const [curriculo, setCurriculo] = useState("");
+
+  const queryClient = useQueryClient();
 
   const [editStudentData, setEditStudentData] = useState({
     nome: session.data.nome, // Nome permanece o mesmo
@@ -27,6 +29,7 @@ export default function ProfileModal({ isOpen, onClose, session }) {
         token: session.data.token,
       }),
     onSuccess: () => {
+      queryClient.invalidateQueries();
       console.log(session);
     },
   });
@@ -185,7 +188,7 @@ export default function ProfileModal({ isOpen, onClose, session }) {
                   Cancelar
                 </button>
                 <button
-                  onClick={console.log(editStudentData)}
+                  onClick={onClose}
                   type="submit"
                   className="btn btn-success "
                 >

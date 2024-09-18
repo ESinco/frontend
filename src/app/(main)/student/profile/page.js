@@ -98,7 +98,7 @@ export default function UserProfilePage() {
               fill="#0F0F0F"
             />
           </svg>
-          <p>{session.data.linkedin ? session.data.linkedin : "linkedin"}</p>
+          <p>{session.data.linkedin}</p>
         </div>
 
         <div className="flex flex-row gap-2 items-center">

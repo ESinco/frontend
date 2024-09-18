@@ -18,11 +18,11 @@ function Modal({ editData }) {
     const session = useContext(SessionContext);
     const queryClient = useQueryClient();
     const [ data, setData ] = useState({
-        id: editData.id ?? "",
-        name: editData.name ?? "",
-        lab: editData.lab ?? "",
-        slots: editData.slots ?? "", //quantidade de vagas abertas
-        description: editData.description ?? "",
+        id: editData.id,
+        name: editData.name,
+        lab: editData.lab,
+        slots: editData.slots, //quantidade de vagas abertas
+        description: editData.description,
     })
     const mutation = useMutation({
         mutationFn: (data) => updateProject({
@@ -39,6 +39,8 @@ function Modal({ editData }) {
     useEffect(() => {
         setData({ ...editData })
     }, [editData.id])
+
+    useEffect(() => {console.log("DATA: ", data)}, [data])
 
     function updateData(key, value) {
         setData(prev => ({
@@ -74,7 +76,7 @@ function Modal({ editData }) {
                             type="text"
                             className="input input-bordered w-full"
                             required
-                            value={data.name}
+                            value={data.name ?? ""}
                             onChange={e => updateData("name", e.target.value)}/>
                     </label>
 
@@ -88,7 +90,7 @@ function Modal({ editData }) {
                                 type="text"
                                 className="input input-bordered w-full"
                                 required
-                                value={data.lab}
+                                value={data.lab ?? ""}
                                 onChange={e => updateData("lab", e.target.value)}/>
                         </label>
                         <label className="form-control">
@@ -99,7 +101,7 @@ function Modal({ editData }) {
                                 type="number"
                                 className="input input-bordered w-full"
                                 required
-                                value={data.slots}
+                                value={data.slots ?? ""}
                                 onChange={e => updateData("slots", e.target.value)}/>
                         </label>
                     </div>

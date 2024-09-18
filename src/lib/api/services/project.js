@@ -54,6 +54,7 @@ export async function getProfessorProjects(professorId) {
         slots: project.vagas,
         professor: project.responsavel,
         date: project.data_de_criacao,
+        candidatesAmount: project.quantidade_de_inscritos,
     }))
 }
 

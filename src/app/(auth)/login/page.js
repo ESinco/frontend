@@ -26,7 +26,7 @@ export default function Login() {
         onSuccess: (data) => {
             // Invalida todas as sessões, (já que um novo login foi feito)
             queryClient.invalidateQueries("sessions");
-            if(data.isTeacher) router.push("/professor/projects");
+            if(data.isTeacher) router.push("/professor");
             else router.push("/student/profile");
         }
     })

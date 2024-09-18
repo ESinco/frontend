@@ -40,8 +40,6 @@ function Modal({ editData }) {
         setData({ ...editData })
     }, [editData.id])
 
-    useEffect(() => {console.log("DATA: ", data)}, [data])
-
     function updateData(key, value) {
         setData(prev => ({
             ...prev,

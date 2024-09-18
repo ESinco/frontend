@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { editProject } from "@/lib/api/services/project";
+import { updateProject } from "@/lib/api/services/project";
 import LoadingSpinner from "../LoadingSpinner";
 import SessionContext from "@/contexts/sessionContext";
 
@@ -25,7 +25,7 @@ function Modal({ editData }) {
         description: editData.description ?? "",
     })
     const mutation = useMutation({
-        mutationFn: (data) => editProject({
+        mutationFn: (data) => updateProject({
             ...data,
             responsavel: session.data.id,
             token: session.data.token
@@ -116,10 +116,10 @@ function Modal({ editData }) {
                             onChange={e => updateData("description", e.target.value)}/>
                     </label>
 
-                    <input
+                    <button
                         className="btn btn-primary"
                         type="submit"
-                        value={mutation.isLoading ? <LoadingSpinner /> : "Salvar"} />
+                    >{mutation.isLoading ? <LoadingSpinner /> : "Salvar"}</button>
                 </form>
             </div>
         </dialog>

@@ -22,11 +22,12 @@ export async function createProject(projectData) {
     return response.data;
 }
 
-export async function editProject(projectData) {
+export async function updateProject(projectData) {
     const response = await api.post(
-        "/projeto/editar/", 
+        "/projeto/cadastrar/", 
         {
             ...projectData,
+            id_projeto: projectData.id,
             nome: projectData.name,
             descricao: projectData.description,
             laboratorio: projectData.lab,
@@ -45,7 +46,6 @@ export async function editProject(projectData) {
 
 export async function getProfessorProjects(professorId) {
     const response = await api.get(`/projeto/?responsavel=${professorId}`);
-    console.log(response.data)
     return response.data.map(project => ({
         id: project.id_projeto,
         name: project.nome,
@@ -55,4 +55,19 @@ export async function getProfessorProjects(professorId) {
         professor: project.responsavel,
         date: project.data_de_criacao,
     }))
+}
+
+export async function getProjectById(projectId) {
+    const response = await api.get(`/projeto/${projectId}`);
+    console.log("Get project by id returned: ", response.data)
+    return {
+        id: response.data.id_projeto,
+        name: response.data.nome,
+        description: response.data.descricao,
+        lab: response.data.laboratorio,
+        date: response.data.data_de_criacao,
+        slots: response.data.vagas,
+        professor: response.data.responsavel,
+        candidatesAmount: response.data.quantidade_de_inscritos
+    }
 }

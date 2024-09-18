@@ -40,7 +40,7 @@ export default function ProfessorProjectCard({
                         }}
                     >Editar</button>
                     <Link 
-                        className="btn btn-primary"
+                        className="btn btn-info"
                         href={`/professor/details/project/${id}`}
                     >Abrir</Link>
                 </div>

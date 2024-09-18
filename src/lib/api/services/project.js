@@ -24,7 +24,7 @@ export async function createProject(projectData) {
 
 export async function updateProject(projectData) {
     const response = await api.post(
-        "/projeto/cadastrar/", 
+        `/projeto/${projectData.id}/editar/`, 
         {
             ...projectData,
             id_projeto: projectData.id,
@@ -59,7 +59,6 @@ export async function getProfessorProjects(professorId) {
 
 export async function getProjectById(projectId) {
     const response = await api.get(`/projeto/${projectId}`);
-    console.log("Get project by id returned: ", response.data)
     return {
         id: response.data.id_projeto,
         name: response.data.nome,

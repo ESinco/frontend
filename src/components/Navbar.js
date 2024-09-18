@@ -37,7 +37,7 @@ export default function Navbar() {
                         </Link>
                     </li>
                     <li><a>Alterar Senha</a></li>
-                    <li><button onClick={() => {}}>Sair</button></li>
+                    <li><button onClick={session.logOut}>Sair</button></li>
                 </ul>
             </div>
   </div>

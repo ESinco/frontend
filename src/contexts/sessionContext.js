@@ -1,7 +1,7 @@
 "use client"
 import { createContext } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { getStorageData } from '@/lib/adapters/localStorage';
+import { getStorageData, clearStorageData } from '@/lib/adapters/localStorage';
 
 const SessionContext = createContext({})
 
@@ -10,9 +10,16 @@ export function SessionContextProvider({ children }) {
         queryKey: [ "sessions" ],
         queryFn: () => getStorageData()
     })
+
+    function logOut() {
+        clearStorageData();
+        
+    }
+
     return (
         <SessionContext.Provider value={{
-            ...session
+            ...session,
+            logOut
         }}>
             { children }
         </SessionContext.Provider>

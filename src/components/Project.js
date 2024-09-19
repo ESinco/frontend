@@ -2,7 +2,7 @@ import SkillsCard from "@/components/WantedSkillsCard";
 import { useRouter } from 'next/navigation';
 
 
-export default function Project({ titulo, nomeProfessor, responsavel, date, descricao }) {
+export default function Project({ titulo, nomeProfessor, responsavel, date, descricao, vagas, quantIncritos }) {
 
     const formatDate = (dateString) => {
         const [day, month, year] = dateString.split('/');
@@ -24,10 +24,10 @@ export default function Project({ titulo, nomeProfessor, responsavel, date, desc
                 <div className="card-body">
                     <p className="nome text-[14px]">Criado Por: {nomeProfessor}</p>
                     <p className="Laboratorio text-[14px]">Responsável: {responsavel}</p>
-                    <div className="flex justify-between items-center">
+                    <div className="flex justify-between items-center gap-1">
                         <p className="Data text-[14px]">Criação: {formattedDate}</p>
-                        <div className="badge badge-secondary badge-outline">secondary</div>
-                        <div className="badge badge-accent badge-outline">accent</div>
+                        <div className="badge badge-secondary badge-outline">{quantIncritos} inscritos</div>
+                        <div className="badge badge-accent badge-outline">{vagas} vagas</div>
                     </div>
                     <p className="descricao text-[18px]"
                         Style={{ textAlign: 'justify', whiteSpace: 'normal', wordBreak: 'break-word' }}>

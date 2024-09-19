@@ -37,6 +37,8 @@ export default function ProjectVisualization() {
                 responsavel={project.laboratorio}
                 date={project.data_de_criacao}
                 descricao={project.descricao}
+                vagas ={project.vagas}
+                quantInscritos={project.quantidade_de_inscritos}
             />
         </div>
     );

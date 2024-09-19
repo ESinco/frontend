@@ -11,7 +11,7 @@ import Navbar from "@/components/NavBar";
 
 export default function ProjectList() {
 
-    const [nomeProjetoBuscado, setnomeProjetoBuscado] = useState("");
+    const [termoBuscado, setTermoBuscado] = useState("");
     const { data: projects, error, isLoading } = useQuery({
         queryKey: ['projects'],
         queryFn: getAllProjects,
@@ -43,11 +43,15 @@ export default function ProjectList() {
     if (isLoading) return <LoadingSpinner />;
     if (error) return <div>Error loading projects: {error.message}</div>;
 
-    const projetosFiltrados = projects.filter((project) =>
-        project.nome.toLowerCase().includes(nomeProjetoBuscado.toLowerCase())
-    );
 
-    const projetosExibidos = nomeProjetoBuscado ? projetosFiltrados : projects;
+    //Depois revisar essa busca.
+    const projetosFiltrados = projects.filter((project) => {
+        const nomeProjetoIncluiBusca = project.nome.toLowerCase().includes(termoBuscado.toLowerCase());
+        const nomeProfessorIncluiBusca = professores[project.responsavel]?.toLowerCase().includes(termoBuscado.toLowerCase());
+        return nomeProjetoIncluiBusca || nomeProfessorIncluiBusca;
+    });
+
+    const projetosExibidos = termoBuscado ? projetosFiltrados : projects;
 
     return (
         <div>
@@ -57,9 +61,9 @@ export default function ProjectList() {
                 <div className="relative">
                     <input
                         type="search"
-                        placeholder="Search..."
-                        value={nomeProjetoBuscado}
-                        onChange={(e) => setnomeProjetoBuscado(e.target.value)}
+                        placeholder="Pesquisar"
+                        value={termoBuscado}
+                        onChange={(e) => setTermoBuscado(e.target.value)}
                         className="pl-10 pr-20 py-2 rounded-full focus:outline-none focus:ring shadow-lg"
                     />
                     <svg className="absolute left-3 top-1/2 transform -translate-y-1/2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">

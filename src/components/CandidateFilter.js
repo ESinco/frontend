@@ -1,7 +1,8 @@
 "use client"
 import { useQuery } from "@tanstack/react-query"
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { getProjectById } from "@/lib/api/services/project";
+import SessionContext from "@/contexts/sessionContext";
 
 function filterByName(candidates, input) {
     return candidates
@@ -24,10 +25,14 @@ function filterByEveryKey(candidates, input) {
 }
 
 export default function CandidateFilter({ emitFilteredData, projectId }) {
+    const session = useContext(SessionContext)
     const [ currentFilteredData, setCurrentFilteredData ] = useState([])
     const project = useQuery({
         queryKey: [ "professor_project", projectId ],
-        queryFn: () => getProjectById(projectId)
+        queryFn: () => getProjectById({
+            projectId,
+            token: session.data.token
+        })
     })
 
     useEffect(() => { console.log(project.data) }, [project.isLoading])

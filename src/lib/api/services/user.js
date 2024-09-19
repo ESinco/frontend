@@ -27,17 +27,7 @@ export async function registerProfessor(data) {
     return response.data;
 }
 
-export async function getAllProjects() {
-    const response = await api.get("projeto/");
-    return response.data;
-}
-
-export async function getProfessorName(id) {
-    const response = await api.get(`/professor/${id}/`);
-    return response.data.nome;
-}
-
-export async function getProject(id_projeto) {
-    const response = await api.get(`projeto/${id_projeto}`);
+export async function logUser(data) {
+    const response = await api.post("/api/login/", data);
     return response.data;
 }

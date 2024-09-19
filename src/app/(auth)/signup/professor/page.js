@@ -32,6 +32,13 @@ export default function Signup() {
                         mutation.mutate(signupData)
                     }}
                 >
+                    <div>
+                        <Link
+                            className="btn btn btn-outline btn-default btn-xs cursor-pointer mr-3"
+                            href="/signup/aluno"    
+                        >Aluno</Link>
+                        <Link href="/signup/professor" className="btn btn btn-outline btn-primary btn-xs cursor-pointer">Professor</Link>
+                    </div>
                     <div className="form-control">
                         <label className="label">
                             <span className="label-text">Nome Completo</span>

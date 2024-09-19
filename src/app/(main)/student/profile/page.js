@@ -1,3 +1,4 @@
+"use client"
 import ExperiencesCard from "@/components/ExperiencesCard";
 import SkillsCard from "@/components/SkillsCard";
 

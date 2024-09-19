@@ -2,15 +2,12 @@
 
 import ProjectCard from "@/components/ProjectCard";
 import { useState } from 'react';
-import { useEffect } from "react";
 import { useQuery } from '@tanstack/react-query';
-import { getAllProjects } from '@/lib/api/services/user';
-import { getProfessorName } from "@/lib/api/services/user";
+import { getAllProjects } from '@/lib/api/services/project';
 import LoadingSpinner from "@/components/LoadingSpinner";
 import Navbar from "@/components/NavBar";
 
 export default function ProjectList() {
-
     const [termoBuscado, setTermoBuscado] = useState("");
     const { data: projects, error, isLoading } = useQuery({
         queryKey: ['projects'],
@@ -24,40 +21,22 @@ export default function ProjectList() {
         return text.substring(0, maxLength) + '...';
     }
 
-    const [professores, setProfessores] = useState({});
-
-    useEffect(() => {
-        if (projects) {
-            const fetchProfessorNames = async () => {
-                const professorNames = {};
-                for (const project of projects) {
-                    const nomeProfessor = await getProfessorName(project.responsavel);
-                    professorNames[project.responsavel] = nomeProfessor;
-                }
-                setProfessores(professorNames);
-            };
-            fetchProfessorNames();
-        }
-    }, [projects]);
-
     if (isLoading) return <LoadingSpinner />;
     if (error) return <div>Error loading projects: {error.message}</div>;
 
-
-    //Depois revisar essa busca.
-    const projetosFiltrados = projects.filter((project) => {
-        const nomeProjetoIncluiBusca = project.nome.toLowerCase().includes(termoBuscado.toLowerCase());
-        const nomeProfessorIncluiBusca = professores[project.responsavel]?.toLowerCase().includes(termoBuscado.toLowerCase());
+    const projetosFiltrados = Array.isArray(projects) ? projects.filter((project) => {
+        const nomeProjetoIncluiBusca = project.name.toLowerCase().includes(termoBuscado.toLowerCase());
+        const nomeProfessorIncluiBusca = project.professor.nome.toLowerCase().includes(termoBuscado.toLowerCase());
         return nomeProjetoIncluiBusca || nomeProfessorIncluiBusca;
-    });
+    }) : [];
 
     const projetosExibidos = termoBuscado ? projetosFiltrados : projects;
 
     return (
         <div>
-            <Navbar/>
-            <h1 className="text-center justify-center">Projetos</h1>
-            <div className="flex justify-center mt-5">
+            <Navbar />
+            <h1 className="text-center justify-center mt-20">Projetos</h1>
+            <div className="flex justify-center mt-10">
                 <div className="relative">
                     <input
                         type="search"
@@ -74,13 +53,13 @@ export default function ProjectList() {
             {projetosExibidos.length > 0 ? (
                 // Renderiza todos os projetos ou apenas os filtrados
                 projetosExibidos.map((project) => (
-                    <ProjectCard 
-                    key={project.id_projeto}
-                    nome={project.nome}
-                    descricao={truncateText(project.descricao, 150)}
-                    laboratorio={project.laboratorio}
-                    responsavel={professores[project.responsavel]}
-                    id={project.id_projeto}
+                    <ProjectCard
+                        key={project.id_projeto}
+                        nome={project.name}
+                        descricao={truncateText(project.description, 150)}
+                        laboratorio={project.lab}
+                        responsavel={project.professor.nome}
+                        id={project.id_projeto}
                     />
                 ))
             ) : (

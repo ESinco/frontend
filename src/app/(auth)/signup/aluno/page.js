@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 
 export default function Signup() {
     const router = useRouter();
-    const [error, setError] = useState('A senha deve ter pelo menos 4 caracteres');
+    const [ error, setError ] = useState('A senha deve ter pelo menos 4 caracteres');
     const mutation = useMutation({
         mutationFn: registerStudent,
         onSuccess: () => { router.push("/login") }
@@ -31,6 +31,16 @@ export default function Signup() {
                         e.preventDefault();
                         mutation.mutate(signupData);
                     }}>
+                        <div>
+                            <Link
+                                href="/signup/aluno"
+                                className="btn btn btn-outline btn-primary btn-xs mr-3 cursor-pointer"
+                            >Aluno</Link>
+                            <Link
+                                className="btn btn btn-outline btn-default btn-xs cursor-pointer"
+                                href="/signup/professor"    
+                            >Professor</Link>
+                        </div>
                     <div className="form-control">
                         <label className="label">
                             <span className="label-text">Nome Completo</span>

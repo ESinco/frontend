@@ -1,39 +1,50 @@
+"use client"
+import SessionContext from "@/contexts/sessionContext";
 import Link from "next/link";
+import { useContext } from "react";
+import { useRouter } from 'next/navigation';
 
 export default function Navbar() {
-    return (
-        <div className="navbar bg-base-100 flex justify-between">
-            <div className="">
-                <button className="btn btn-square btn-ghost">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        className="inline-block h-5 w-5 stroke-current"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M4 6h16M4 12h16M4 18h16"
-                        ></path>
-                    </svg>
-                </button>
+    const session = useContext(SessionContext);
+    const router = useRouter();
+  return (
+    <div className="fixed top-0 navbar flex justify-between navbar_shadow" data-theme="dark">
+    <div className="">
+      <Link href={"/"} className="btn btn-ghost text-xl">
+        ProjetIn
+      </Link>
+    </div>
+
+    <div className="dropdown dropdown-end">
+        <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                className="inline-block h-5 w-5 stroke-current"
+            >
+                <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 6h16M4 12h16M4 18h16"
+                ></path>
+                </svg>
+                </div>
+
+                <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+                    <li>
+                        <Link href={session.data?.isTeacher ? "/professor" : "/student/profile"} className="justify-between">
+                            {session.data?.isTeacher ? "Projetos" : "Perfil"}
+                        </Link>
+                    </li>
+                    <li><a>Alterar Senha</a></li>
+                    <li><button onClick={() => {
+                        session.logOut();
+                        router.push("/login");
+                    }}>Sair</button></li>
+                </ul>
             </div>
-            <div className="">
-                <Link href={"/"} className="btn btn-ghost text-xl">
-                    ProjetIn
-                </Link>
-            </div>
-            <div className="">
-                <button className="btn btn-square btn-ghost">
-                    <img
-                        alt="profile img"
-                        className="rounded-full"
-                        src="https://s3-alpha-sig.figma.com/img/3118/3b3f/aabb13f7765caefd73f1235a7924ba24?Expires=1723420800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=YKmpCqbNAMsyOfmVH785-UoK2XnnMqL2UUTYq83fmpE819jOecxSufDwVTCti6zgfABEoUS9rzZyLTvvwEE3mCbUjEQO3mFur-0Hqqwtio7Xc87CTO8R1gEbWqvDEafPctWsLnrjjxCTb5iS4F4pcydxvkcdJPUc4jDFdpl020PSa7W906ncSKWmw7Qsy4WN0MeFPbbupeBuvnBAaaqvHIo3GhwCEBo0exTlXoNwF2WFp17fouR4gjE1v1PgYAJ2wG2xQkwoblqPawXLh8a1kp8NbM5DzDh0LSKkQ5FvPojMsf8gqN~Q7VU5dK1E5vpinxDXeAy5Y14sVB8j-uxdCw__"
-                    />
-                </button>
-            </div>
-        </div>
-    );
+  </div>
+  );
 }

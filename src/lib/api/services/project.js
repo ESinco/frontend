@@ -58,8 +58,10 @@ export async function getProfessorProjects(professorId) {
     }))
 }
 
-export async function getProjectById(projectId) {
-    const response = await api.get(`/projeto/${projectId}`);
+export async function getProjectById({ projectId, token }) {
+    const response = await api.get(`/projeto/${projectId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
     return {
         id: response.data.id_projeto,
         name: response.data.nome,

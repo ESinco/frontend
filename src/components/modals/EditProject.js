@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { editProject } from "@/lib/api/services/project";
+import { updateProject } from "@/lib/api/services/project";
 import LoadingSpinner from "../LoadingSpinner";
 import SessionContext from "@/contexts/sessionContext";
 
@@ -18,14 +18,14 @@ function Modal({ editData }) {
     const session = useContext(SessionContext);
     const queryClient = useQueryClient();
     const [ data, setData ] = useState({
-        id: editData.id ?? "",
-        name: editData.name ?? "",
-        lab: editData.lab ?? "",
-        slots: editData.slots ?? "", //quantidade de vagas abertas
-        description: editData.description ?? "",
+        id: editData.id,
+        name: editData.name,
+        lab: editData.lab,
+        slots: editData.slots, //quantidade de vagas abertas
+        description: editData.description,
     })
     const mutation = useMutation({
-        mutationFn: (data) => editProject({
+        mutationFn: (data) => updateProject({
             ...data,
             responsavel: session.data.id,
             token: session.data.token
@@ -74,7 +74,7 @@ function Modal({ editData }) {
                             type="text"
                             className="input input-bordered w-full"
                             required
-                            value={data.name}
+                            value={data.name ?? ""}
                             onChange={e => updateData("name", e.target.value)}/>
                     </label>
 
@@ -88,7 +88,7 @@ function Modal({ editData }) {
                                 type="text"
                                 className="input input-bordered w-full"
                                 required
-                                value={data.lab}
+                                value={data.lab ?? ""}
                                 onChange={e => updateData("lab", e.target.value)}/>
                         </label>
                         <label className="form-control">
@@ -99,7 +99,7 @@ function Modal({ editData }) {
                                 type="number"
                                 className="input input-bordered w-full"
                                 required
-                                value={data.slots}
+                                value={data.slots ?? ""}
                                 onChange={e => updateData("slots", e.target.value)}/>
                         </label>
                     </div>
@@ -116,10 +116,10 @@ function Modal({ editData }) {
                             onChange={e => updateData("description", e.target.value)}/>
                     </label>
 
-                    <input
+                    <button
                         className="btn btn-primary"
                         type="submit"
-                        value={mutation.isLoading ? <LoadingSpinner /> : "Salvar"} />
+                    >{mutation.isLoading ? <LoadingSpinner /> : "Salvar"}</button>
                 </form>
             </div>
         </dialog>

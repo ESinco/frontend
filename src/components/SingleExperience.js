@@ -4,8 +4,8 @@ export default function SingleExperiencia({ title, descricao, badges }) {
       <h2 className="card-title">{title}</h2>
       <p className="text-xs">{descricao}</p>
       <div className="card-actions justify-end ">
-        {badges.map((badge) => (
-          <div className="badge badge-secondary">{badge}</div>
+        {badges.map((badge, index) => (
+          <div key={index} className="badge badge-secondary">{badge}</div>
         ))}
         {/* <div className="badge badge-outline"></div> */}
       </div>

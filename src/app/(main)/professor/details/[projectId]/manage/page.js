@@ -1,10 +1,23 @@
 "use client"
 import { useParams } from "next/navigation";
 import CandidateFilter from "@/components/CandidateFilter";
+import { useQuery } from "@tanstack/react-query";
+import SessionContext from "@/contexts/sessionContext";
+import { useContext } from "react";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 export default function CandidatesDetails() {
     const { projectId } = useParams();
+    const session = useContext(SessionContext)
+    const project = useQuery({
+        queryKey: [ "professor_project", projectId ],
+        queryFn: () => getProjectById({
+            projectId,
+            token: session.data.token
+        })
+    })
 
+    if(project.isLoading) return <LoadingSpinner />
     return (
         <main className="w-full">
             <div className="overflow-x-auto">
@@ -17,13 +30,17 @@ export default function CandidatesDetails() {
                                     <input type="checkbox" className="checkbox" />
                                 </label>
                             </th>
-                            <th>Name</th>
-                            <th>Job</th>
-                            <th>Favorite Color</th>
-                            <th></th>
+                            <th>Nome</th>
+                            <th>Matricula</th>
+                            <th>Email</th>
+                            <th>CRA</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
+                        {
+                            
+                        }
                     {/* row 1 */}
                         <tr>
                             <th>
@@ -66,15 +83,15 @@ export default function CandidatesDetails() {
                             <td>
                                 <div className="flex items-center gap-3">
                                     <div className="avatar">
-                                    <div className="mask mask-squircle h-12 w-12">
-                                        <img
-                                        src="https://img.daisyui.com/images/profile/demo/3@94.webp"
-                                        alt="Avatar Tailwind CSS Component" />
-                                    </div>
+                                        <div className="mask mask-squircle h-12 w-12">
+                                            <img
+                                            src="https://img.daisyui.com/images/profile/demo/3@94.webp"
+                                            alt="Avatar Tailwind CSS Component" />
+                                        </div>
                                     </div>
                                     <div>
-                                    <div className="font-bold">Brice Swyre</div>
-                                    <div className="text-sm opacity-50">China</div>
+                                        <div className="font-bold">Brice Swyre</div>
+                                        <div className="text-sm opacity-50">China</div>
                                     </div>
                                 </div>
                             </td>

@@ -35,7 +35,7 @@ export default function SkillsModal({ isOpen, onClose }) {
         token: session.data.token,
       }),
     onSuccess: (data) => {
-      queryClient.invalidateQueries("student_data");
+      queryClient.invalidateQueries("visu_perfil_data");
       session.updateSessionData(data);
       onClose();
     },
@@ -47,7 +47,7 @@ export default function SkillsModal({ isOpen, onClose }) {
 
     setEditStudentData((prev) => ({
       ...prev,
-      habilidades: [...prev.habilidades, { nome: nome, grupo: grupo }],
+      habilidades: [...prev.habilidades, nome],
     }));
 
     onClose();

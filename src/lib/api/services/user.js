@@ -21,6 +21,15 @@ export async function getStudentData(matricula) {
   return response.data;
 }
 
+export async function getVisuPerfil(token, matricula) {
+  const response = await api.get(`/aluno/visualizar_perfil/${matricula}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+}
+
 export async function editStudent(data) {
   const response = await api
     .put(

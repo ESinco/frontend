@@ -96,8 +96,29 @@ export async function interessarProject(id, token) {
         `aluno/interesse_projeto/${id}/`,
         {},
         {
-            headers: { Authorization: `Bearer ${token}` } // Headers separados
+            headers: { Authorization: `Bearer ${token}` }
         }
     );
     return response.data;
+}
+
+export async function getAllProjectsByAlunos({token}) {
+    console.log(token)
+    const response = await api.get('/projeto/aluno/',
+        {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+    return response.data.map(project => ({
+        id: project.id_projeto,
+        name: project.nome,
+        hab: project.habilidades,
+        description: project.descricao,
+        lab: project.laboratorio,
+        date: project.data_de_criacao,
+        slots: project.vagas,
+        professor: project.responsavel,
+        candidatesAmount: project.quantidade_de_inscritos
+    }));
 }

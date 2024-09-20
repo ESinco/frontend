@@ -5,10 +5,12 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getAllProjects } from '@/lib/api/services/project';
 import LoadingSpinner from "@/components/LoadingSpinner";
-import Navbar from "@/components/NavBar";
+import Navbar from "@/components/Navbar";
 
 export default function ProjectList() {
+
     const [termoBuscado, setTermoBuscado] = useState("");
+    
     const { data: projects, error, isLoading } = useQuery({
         queryKey: ['projects'],
         queryFn: getAllProjects,

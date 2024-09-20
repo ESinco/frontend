@@ -18,9 +18,6 @@ export default function Project({ titulo, nomeProfessor, lab, date, descricao, h
     const queryClient = useQueryClient();
 
     const session = useContext(SessionContext);
-    console.log(session.data);
-    console.log(session.data.token);
-    console.log(id);
 
     const mutation = useMutation({
         mutationFn: () => interessarProject(id, session.data.token),

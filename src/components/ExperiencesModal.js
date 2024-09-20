@@ -1,4 +1,4 @@
-export default function ModalSkills() {
+export default function ExperiencesModal() {
   return (
     <>
       <button

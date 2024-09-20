@@ -22,7 +22,6 @@ export async function getStudentData(matricula) {
 }
 
 export async function editStudent(data) {
-  const session = useContext(SessionContext);
   const response = await api
     .put(
       "/aluno/editar_perfil/",
@@ -45,6 +44,7 @@ export async function editStudent(data) {
     )
     .then((response) => {
       console.log(response.data);
+
       return response;
     })
     .catch((error) => {

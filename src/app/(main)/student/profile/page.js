@@ -2,6 +2,7 @@
 
 import ExperiencesCard from "@/components/ExperiencesCard";
 import SkillsCard from "@/components/SkillsCard";
+import InterestsCard from "@/components/InterestsCard";
 import ProfileModal from "@/components/ProfileModal";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
@@ -157,9 +158,9 @@ export default function UserProfilePage() {
         <ExperiencesCard></ExperiencesCard>
         {/* HABILIDADES CARD - THINK ABOUT A WAY TO MAKE BADGE 'CLASSES' EACH ONE'LL HAVE A SYMBOL AND A COLOR */}
 
-        <SkillsCard title={"Habilidades"}></SkillsCard>
+        <SkillsCard></SkillsCard>
         {/* INTERESSES CARD - THINK ABOUT A WAY TO MAKE BADGE 'CLASSES' EACH ONE'LL HAVE A SYMBOL AND A COLOR */}
-        <SkillsCard title={"Interesses"}></SkillsCard>
+        <InterestsCard></InterestsCard>
       </div>
     </div>
   );

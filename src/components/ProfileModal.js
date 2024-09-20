@@ -11,9 +11,9 @@ export default function ProfileModal({ isOpen, onClose, aluno }) {
   const [editStudentData, setEditStudentData] = useState({
     nome: session.data.nome, // Nome permanece o mesmo
     curriculo: session.data.curriculo ?? "",
-    email: session.data.email ?? "", // Email pode mudar ou não
-    github: session.data.github ?? "", // GitHub pode ser atualizado
-    linkedin: aluno.data?.linkedin, // LinkedIn pode ser atualizado
+    email: session.data.email || "", // Email pode mudar ou não
+    github: session.data.github || "", // GitHub pode ser atualizado
+    linkedin: session.data?.linkedin, // LinkedIn pode ser atualizado
     habilidades: session.data.habilidades ?? [],
     experiencias: session.data.experiencias ?? [],
     interesses: session.data.interesses ?? [],
@@ -28,7 +28,7 @@ export default function ProfileModal({ isOpen, onClose, aluno }) {
       }),
     onSuccess: (data) => {
       queryClient.invalidateQueries("student_data");
-      session.setItem("session", data);
+      session.updateSessionData(data);
       onClose();
     },
   });
@@ -89,7 +89,7 @@ export default function ProfileModal({ isOpen, onClose, aluno }) {
                 <input
                   type="text"
                   className="grow"
-                  value={session.data?.linkedin} // bug, o valor nao aparece no input quando eu vou atualizar
+                  value={editStudentData.linkedin} // bug, o valor nao aparece no input quando eu vou atualizar
                   onChange={(e) =>
                     setEditStudentData((prev) => ({
                       ...prev,
@@ -112,7 +112,7 @@ export default function ProfileModal({ isOpen, onClose, aluno }) {
                 <input
                   type="text"
                   className="grow"
-                  value={session.data.email}
+                  value={editStudentData.email}
                   onChange={(e) =>
                     setEditStudentData((prev) => ({
                       ...prev,
@@ -135,7 +135,7 @@ export default function ProfileModal({ isOpen, onClose, aluno }) {
                 <input
                   type="text"
                   className="grow"
-                  value={session.data.github}
+                  value={editStudentData.github}
                   onChange={(e) =>
                     setEditStudentData((prev) => ({
                       ...prev,
@@ -158,7 +158,7 @@ export default function ProfileModal({ isOpen, onClose, aluno }) {
                 <input
                   type="text"
                   className="grow"
-                  value={session.data.curriculo}
+                  value={editStudentData.curriculo}
                   onChange={(e) =>
                     setEditStudentData((prev) => ({
                       ...prev,

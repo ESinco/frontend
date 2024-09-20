@@ -2,7 +2,7 @@
 import { useContext, useEffect } from "react";
 import SessionContext from "@/contexts/sessionContext";
 import { redirect } from "next/navigation";
-import Navbar from "@/components/NavBar"
+import Navbar from "@/components/Navbar"
 import LoadingSpinner from "@/components/LoadingSpinner";
 
 export default function MainAppLayout({ children }) {

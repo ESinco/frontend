@@ -68,6 +68,7 @@ export async function getProjectById({ projectId, token }) {
         description: response.data.descricao,
         lab: response.data.laboratorio,
         date: response.data.data_de_criacao,
+        hab: response.data.habilidades,
         slots: response.data.vagas,
         professor: response.data.responsavel,
         candidatesAmount: response.data.quantidade_de_inscritos
@@ -80,6 +81,7 @@ export async function getAllProjects() {
     return response.data.map(project => ({
         id: project.id_projeto,
         name: project.nome,
+        hab: project.habilidades,
         description: project.descricao,
         lab: project.laboratorio,
         date: project.data_de_criacao,
@@ -89,7 +91,13 @@ export async function getAllProjects() {
     }));
 }
 
-export async function getProfessorName(id) {
-    const response = await api.get(`/professor/${id}/`);
-    return response.data.nome;
+export async function interessarProject(id, token) {
+    const response = await api.post(
+        `aluno/interesse_projeto/${id}/`,
+        {},
+        {
+            headers: { Authorization: `Bearer ${token}` } // Headers separados
+        }
+    );
+    return response.data;
 }

@@ -35,7 +35,7 @@ export default function ProjectList() {
     return (
         <div>
             <Navbar />
-            <h1 className="text-center justify-center mt-20">Projetos</h1>
+            <h1 className="text-center justify-center mt-10">Projetos</h1>
             <div className="flex justify-center mt-10">
                 <div className="relative">
                     <input
@@ -59,7 +59,8 @@ export default function ProjectList() {
                         descricao={truncateText(project.description, 150)}
                         laboratorio={project.lab}
                         responsavel={project.professor.nome}
-                        id={project.id_projeto}
+                        habilidades={project.hab}
+                        id={project.id}
                     />
                 ))
             ) : (

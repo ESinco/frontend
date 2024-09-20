@@ -14,7 +14,6 @@ export default function Project({ titulo, nomeProfessor, lab, date, descricao, h
 
     const formattedDate = new Date(formatDate(date)).toLocaleDateString('pt-BR');
 
-    const router = useRouter();
     const queryClient = useQueryClient();
 
     const session = useContext(SessionContext);

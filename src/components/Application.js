@@ -1,16 +1,32 @@
 import { useRouter } from 'next/navigation';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useContext } from 'react';
-import { interessarProject } from '@/lib/api/services/project';
 import SkillsCardNoAdd from '@/components/SkillsCardNoAdd';
 import SessionContext from "@/contexts/sessionContext";
 
-export default function Project({ titulo, nomeProfessor, lab, date, descricao, habilidades, vagas, quantIncritos, id }) {
+export default function Project({ titulo, nomeProfessor, lab, date, descricao, habilidades, vagas, quantIncritos, status }) {
 
     const formatDate = (dateString) => {
         const [day, month, year] = dateString.split('/');
         return `${year}-${month}-${day}`;
     };
+
+    const formatStatus = (status) => {
+        let statusText = "Pendente";
+        let buttonColor = "btn btn-neutral";
+
+        if (status === true) {
+            statusText = "Aprovado";
+            buttonColor = "btn btn-success";
+        } else if (status === false) {
+            statusText = "Reprovado";
+            buttonColor = "btn btn-danger";
+        }
+
+        return { statusText, buttonColor };
+    };
+
+    const { statusText, buttonColor } = formatStatus(status)
 
     const formattedDate = new Date(formatDate(date)).toLocaleDateString('pt-BR');
 
@@ -18,17 +34,6 @@ export default function Project({ titulo, nomeProfessor, lab, date, descricao, h
     const queryClient = useQueryClient();
 
     const session = useContext(SessionContext);
-
-    const mutation = useMutation({
-        mutationFn: () => interessarProject(id, session.data.token),
-        onSuccess: () => {
-            queryClient.invalidateQueries(['projectVisualization', id]);
-            notifyUser("Candidatura realizada com sucesso!"); // Exibe uma notificação
-        },
-        onError: () => {
-            notifyUser("Erro ao se candidatar.");
-        }
-    });
 
     return (
         <div className="flex w-full justify-center items-center mt-10">
@@ -50,9 +55,8 @@ export default function Project({ titulo, nomeProfessor, lab, date, descricao, h
                         <SkillsCardNoAdd habilidades={habilidades} />
                     </div>
                     <div className="card-actions justify-center items-center mt-4">
-                        <button className="btn btn-primary" style={{ width: '500px' }}
-                            onClick={() => mutation.mutate()}>
-                            Candidatar-se
+                        <button className={buttonColor} style={{ width: '500px' }}>
+                            {statusText}
                         </button>
                     </div>
                 </div>

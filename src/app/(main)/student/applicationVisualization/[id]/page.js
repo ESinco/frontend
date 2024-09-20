@@ -5,7 +5,7 @@ import { useContext } from "react";
 import SessionContext from "@/contexts/sessionContext";
 import { getProjectById } from '@/lib/api/services/project';
 import Navbar from "@/components/Navbar";
-import Project from '@/components/Project';
+import Application from '@/components/Application';
 import LoadingSpinner from "@/components/LoadingSpinner";
 
 export default function ProjectVisualization() {
@@ -28,7 +28,7 @@ export default function ProjectVisualization() {
     return (
         <div>
             <Navbar />
-            <Project
+            <Application
                 key={project.id}
                 titulo={project.name}
                 nomeProfessor={project.professor.nome}
@@ -38,6 +38,7 @@ export default function ProjectVisualization() {
                 date={project.date}
                 vagas={project.slots}
                 quantIncritos={project.candidatesAmount}
+                status={project.status}
                 id={project.id}
             />
         </div>

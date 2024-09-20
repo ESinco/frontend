@@ -22,11 +22,12 @@ export async function createProject(projectData) {
     return response.data;
 }
 
-export async function editProject(projectData) {
-    const response = await api.post(
-        "/projeto/editar/", 
+export async function updateProject(projectData) {
+    const response = await api.put(
+        `/projeto/${projectData.id}/editar/`, 
         {
             ...projectData,
+            id_projeto: projectData.id,
             nome: projectData.name,
             descricao: projectData.description,
             laboratorio: projectData.lab,
@@ -45,7 +46,6 @@ export async function editProject(projectData) {
 
 export async function getProfessorProjects(professorId) {
     const response = await api.get(`/projeto/?responsavel=${professorId}`);
-    console.log(response.data)
     return response.data.map(project => ({
         id: project.id_projeto,
         name: project.nome,
@@ -54,5 +54,22 @@ export async function getProfessorProjects(professorId) {
         slots: project.vagas,
         professor: project.responsavel,
         date: project.data_de_criacao,
+        candidatesAmount: project.quantidade_de_inscritos,
     }))
+}
+
+export async function getProjectById({ projectId, token }) {
+    const response = await api.get(`/projeto/${projectId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+    return {
+        id: response.data.id_projeto,
+        name: response.data.nome,
+        description: response.data.descricao,
+        lab: response.data.laboratorio,
+        date: response.data.data_de_criacao,
+        slots: response.data.vagas,
+        professor: response.data.responsavel,
+        candidatesAmount: response.data.quantidade_de_inscritos
+    }
 }

@@ -1,10 +1,11 @@
 "use client"
-import LoadingSpinner from "@/components/LoadingSpinner"
-import SessionContext from "@/contexts/sessionContext"
-import { getProjectById } from "@/lib/api/services/project"
-import { useQuery } from "@tanstack/react-query"
-import Link from "next/link"
-import { useContext } from "react"
+import LoadingSpinner from "@/components/LoadingSpinner";
+import SessionContext from "@/contexts/sessionContext";
+import { getProjectById } from "@/lib/api/services/project";
+import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
+import { useContext } from "react";
+import SkillsCard from "@/components/SkillsCard";
 
 export default function ProjectDetails({ params }) {
     const session = useContext(SessionContext)
@@ -32,7 +33,7 @@ export default function ProjectDetails({ params }) {
 
                 <p className="text-md">{project.data?.description}</p>
 
-                <div>HABILIDADES DESEJADAS</div>
+                <div><SkillsCard /></div>
 
                 <Link
                     className="btn btn-primary btn-wide w-full"

@@ -70,6 +70,8 @@ export async function getProjectById({ projectId, token }) {
         date: response.data.data_de_criacao,
         slots: response.data.vagas,
         professor: response.data.responsavel,
-        candidatesAmount: response.data.quantidade_de_inscritos
+        candidatesAmount: response.data.quantidade_de_inscritos,
+        skills: response.data.habilidades,
+        candidates: response.data.candidatos,
     }
 }

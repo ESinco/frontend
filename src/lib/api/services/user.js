@@ -18,11 +18,11 @@ export async function registerStudent(data) {
 
 export async function getStudentData(matricula) {
   const response = await api.get(`/aluno/${matricula}`);
-  console.log(response.data);
   return response.data;
 }
 
 export async function editStudent(data) {
+  const session = useContext(SessionContext);
   const response = await api
     .put(
       "/aluno/editar_perfil/",
@@ -45,6 +45,7 @@ export async function editStudent(data) {
     )
     .then((response) => {
       console.log(response.data);
+      return response;
     })
     .catch((error) => {
       console.error(error);

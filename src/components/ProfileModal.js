@@ -1,19 +1,22 @@
+import SessionContext from "@/contexts/sessionContext";
 import { editStudent } from "@/lib/api/services/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
-export default function ProfileModal({ isOpen, onClose, session }) {
+export default function ProfileModal({ isOpen, onClose, aluno }) {
   const queryClient = useQueryClient();
+
+  const session = useContext(SessionContext);
 
   const [editStudentData, setEditStudentData] = useState({
     nome: session.data.nome, // Nome permanece o mesmo
-    curriculo: session.data.curriculo || "",
-    email: session.data.email || "", // Email pode mudar ou não
-    github: session.data.github || "", // GitHub pode ser atualizado
-    linkedin: session.data.linkedin || "", // LinkedIn pode ser atualizado
-    habilidades: session.data.habilidades || [],
-    experiencias: session.data.experiencias || [],
-    interesses: session.data.interesses || [],
+    curriculo: session.data.curriculo ?? "",
+    email: session.data.email ?? "", // Email pode mudar ou não
+    github: session.data.github ?? "", // GitHub pode ser atualizado
+    linkedin: aluno.data?.linkedin, // LinkedIn pode ser atualizado
+    habilidades: session.data.habilidades ?? [],
+    experiencias: session.data.experiencias ?? [],
+    interesses: session.data.interesses ?? [],
   });
 
   // POST NO USER COM ESSAS INFORMACOES
@@ -25,6 +28,7 @@ export default function ProfileModal({ isOpen, onClose, session }) {
       }),
     onSuccess: (data) => {
       queryClient.invalidateQueries("student_data");
+      session.setItem("session", data);
       onClose();
     },
   });
@@ -85,7 +89,7 @@ export default function ProfileModal({ isOpen, onClose, session }) {
                 <input
                   type="text"
                   className="grow"
-                  value={session.data.linkedin}
+                  value={session.data?.linkedin} // bug, o valor nao aparece no input quando eu vou atualizar
                   onChange={(e) =>
                     setEditStudentData((prev) => ({
                       ...prev,

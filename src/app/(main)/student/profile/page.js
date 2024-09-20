@@ -52,8 +52,7 @@ export default function UserProfilePage() {
 
   useEffect(() => {
     setCurrentPath(pathname);
-    console.log("a" + aluno.data);
-  }, [pathname, session, aluno]);
+  }, [pathname]);
 
   if (currentPath == "") {
     <LoadingSpinner />;
@@ -74,7 +73,7 @@ export default function UserProfilePage() {
               onClick={openModal}
               onClose={closeModal}
               isOpen={isModalOpen}
-              session={session}
+              aluno={aluno}
             ></ProfileModal>
           </div>
         </div>

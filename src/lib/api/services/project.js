@@ -71,7 +71,9 @@ export async function getProjectById({ projectId, token }) {
         hab: response.data.habilidades,
         slots: response.data.vagas,
         professor: response.data.responsavel,
-        candidatesAmount: response.data.quantidade_de_inscritos
+        candidatesAmount: response.data.quantidade_de_inscritos,
+        skills: response.data.habilidades,
+        candidates: response.data.candidatos,
     }
 }
 

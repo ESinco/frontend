@@ -4,9 +4,11 @@ import { editStudent } from "@/lib/api/services/user";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useContext, useEffect, useState } from "react";
 
-export default function SkillsModal({ isOpen, onClose }) {
+export default function SkillsModal({ isOpen, onClose, userData }) {
+  const [idValue, setIdValue] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [groupValue, setGroupValue] = useState("");
+  const [habilidadesValue, setHabilidadesValue] = useState([]);
 
   const session = useContext(SessionContext);
   const queryClient = useQueryClient();
@@ -37,21 +39,38 @@ export default function SkillsModal({ isOpen, onClose }) {
     onSuccess: (data) => {
       queryClient.invalidateQueries("visu_perfil_data");
       session.updateSessionData(data);
+      setEditStudentData((prev) => ({
+        ...prev,
+        habilidades: session.data.habilidades,
+        interesses: session.data.interesses,
+      }));
       onClose();
     },
   });
 
   const handleHabilidadesChange = (e) => {
+    const id = idValue;
     const nome = inputValue; // From the text input
     const grupo = groupValue; // From the select input
 
     setEditStudentData((prev) => ({
       ...prev,
-      habilidades: [...prev.habilidades, nome],
+      habilidades: [
+        ...prev?.habilidades?.map((habilidade) => habilidade?.id),
+        id,
+      ],
+      interesses: [...prev?.interesses?.map((interesse) => interesse?.id)],
     }));
-
     onClose();
   };
+
+  useEffect(() => {
+    setEditStudentData((prev) => ({
+      ...prev,
+      interesses: userData?.interesses,
+      habilidades: userData?.habilidades,
+    }));
+  }, [userData]);
 
   return (
     <>
@@ -77,12 +96,13 @@ export default function SkillsModal({ isOpen, onClose }) {
               <div className="flex flex-col h-full justify-between">
                 {/* Select Input for Hard Skills / Soft Skills */}
                 <select
-                  value={JSON.stringify({
-                    nome: inputValue,
-                    grupo: groupValue,
-                  })} // Reflect the selected skill object
+                  value={idValue} // Bind to inputValue (skill name)
                   onChange={(e) => {
-                    const selectedSkill = JSON.parse(e.target.value); // Parse the JSON string back to an object
+                    const selectedSkill = skills.data.find(
+                      (skill) => skill.id == e.target.value
+                    );
+
+                    setIdValue(selectedSkill.id); // Set id
                     setInputValue(selectedSkill.nome); // Set nome
                     setGroupValue(selectedSkill.grupo); // Set grupo
                   }}
@@ -91,7 +111,7 @@ export default function SkillsModal({ isOpen, onClose }) {
                   {skills?.data?.length > 0 ? (
                     skills.data.map((skill) => (
                       <>
-                        <option key={skill.nome} value={JSON.stringify(skill)}>
+                        <option key={skill.id} value={skill.id}>
                           {skill.nome} ({skill.grupo})
                         </option>
                       </>

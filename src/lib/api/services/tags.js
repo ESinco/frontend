@@ -5,6 +5,7 @@ import SessionContext from "@/contexts/sessionContext";
 
 export async function getHabilidadesData() {
   const response = await api.get("/api/habilidades/");
+  console.log(response.data);
   return response.data;
 }
 

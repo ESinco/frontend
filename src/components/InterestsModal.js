@@ -4,7 +4,8 @@ import { editStudent } from "@/lib/api/services/user";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useContext, useEffect, useState } from "react";
 
-export default function InterestsModal({ isOpen, onClose }) {
+export default function InterestsModal({ isOpen, onClose, userData }) {
+  const [idValue, setIdValue] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [groupValue, setGroupValue] = useState("");
 
@@ -35,22 +36,37 @@ export default function InterestsModal({ isOpen, onClose }) {
         token: session.data.token,
       }),
     onSuccess: (data) => {
-      queryClient.invalidateQueries("student_data");
+      queryClient.invalidateQueries("visu_perfil_data");
       session.updateSessionData(data);
+      setEditStudentData((prev) => ({
+        ...prev,
+        interesses: session.data.interesses,
+        habilidades: session.data.habilidades,
+      }));
       onClose();
     },
   });
 
   const handleInteressesChange = (e) => {
+    const id = idValue;
     const nome = inputValue; // From the text input
     const grupo = groupValue; // Fixed value for interesses
 
     setEditStudentData((prev) => ({
       ...prev,
-      interesses: [...prev.interesses, { nome: nome, grupo: grupo }],
+      interesses: [...prev?.interesses?.map((interesse) => interesse?.id), id],
+      habilidades: [...prev?.habilidades?.map((habilidade) => habilidade?.id)],
     }));
     onClose();
   };
+
+  useEffect(() => {
+    setEditStudentData((prev) => ({
+      ...prev,
+      interesses: userData?.interesses,
+      habilidades: userData?.habilidades,
+    }));
+  }, [userData]);
 
   return (
     <>
@@ -76,24 +92,22 @@ export default function InterestsModal({ isOpen, onClose }) {
               <div className="flex flex-col h-full justify-between">
                 <>
                   <select
-                    value={JSON.stringify({
-                      nome: inputValue,
-                      grupo: groupValue,
-                    })} // Reflect the selected skill object
+                    value={idValue} // Bind to inputValue (skill name)
                     onChange={(e) => {
-                      const selectedSkill = JSON.parse(e.target.value); // Parse the JSON string back to an object
-                      setInputValue(selectedSkill.nome); // Set nome
-                      setGroupValue(selectedSkill.gropo);
+                      const selectedInterest = interesses.data.find(
+                        (interesse) => interesse.id == e.target.value
+                      );
+
+                      setIdValue(selectedInterest.id); // Set id
+                      setInputValue(selectedInterest.nome); // Set nome
+                      setGroupValue(selectedInterest.grupo); // Set grupo
                     }}
                     className="select select-bordered w-full max-w-xs mb-5"
                   >
                     {interesses?.data?.length > 0 ? (
                       interesses.data.map((interesse) => (
                         <>
-                          <option
-                            key={interesse.nome}
-                            value={JSON.stringify(interesse)}
-                          >
+                          <option key={interesse.nome} value={interesse.id}>
                             {interesse.nome} - ({interesse.grupo})
                           </option>
                         </>

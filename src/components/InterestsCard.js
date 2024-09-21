@@ -22,18 +22,28 @@ export default function SkillsCard() {
   };
 
   const userData = useQuery({
-    queryKey: ["student_data"],
-    queryFn: () => getStudentData(session.data.matricula),
+    queryKey: ["visu_perfil_data"],
+    queryFn: () => getVisuPerfil(session.data.token, session.data.matricula),
   });
+
+  console.log("userData" + JSON.stringify(userData?.data?.interesses));
 
   return (
     <div className="bg-base-100 flex flex-col items-start justify-between px-6 w-full rounded-3xl custom_shadow">
       <div className="flex flex-row justify-between w-full py-3">
         <h1 className="text-2xl py-3">Interesses</h1>
         {/* Open the modal using document.getElementById('ID').showModal() method */}
-        <InterestsModal isOpen={openModal} onClose={closeModal} />
+        <InterestsModal
+          isOpen={openModal}
+          onClose={closeModal}
+          userData={userData.data}
+        />
       </div>
-      <div className="w-full card-actions justify-end pb-4"></div>
+      <div className="w-full card-actions justify-end pb-4">
+        {session?.data?.interesses?.map((interesse, index) => (
+          <p key={interesse.id}>{interesse.nome}</p>
+        ))}
+      </div>
     </div>
   );
 }

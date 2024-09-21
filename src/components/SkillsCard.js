@@ -24,17 +24,21 @@ export default function SkillsCard() {
     queryKey: ["visu_perfil_data"],
     queryFn: () => getVisuPerfil(session.data.token, session.data.matricula),
   });
-  console.log("a" + JSON.stringify(userData));
+
   return (
     <div className="bg-base-100 flex flex-col items-start justify-between px-6 w-full rounded-3xl custom_shadow">
       <div className="flex flex-row justify-between w-full py-3">
         <h1 className="text-2xl py-3">Habilidades</h1>
         {/* Open the modal using document.getElementById('ID').showModal() method */}
-        <SkillsModal isOpen={openModal} onClose={closeModal} />
+        <SkillsModal
+          isOpen={openModal}
+          onClose={closeModal}
+          userData={userData.data}
+        />
       </div>
       <div className="w-full card-actions justify-end pb-4">
-        {userData?.data?.habilidades?.map((habilidade, index) => (
-          <p key={index}>{habilidade}</p>
+        {session?.data?.habilidades?.map((habilidade, index) => (
+          <p key={habilidade.id}>{habilidade.nome}</p>
         ))}
       </div>
     </div>

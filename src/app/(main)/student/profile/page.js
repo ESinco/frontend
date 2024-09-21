@@ -64,7 +64,7 @@ export default function UserProfilePage() {
   }
 
   return (
-    <div className="bg-base-200 flex justify-center flex-col items-center p-3 max-w-[1000px]">
+    <div className="flex justify-center flex-col items-center p-3 max-w-[1000px]">
       {/* DIV INFORMACOES INICIAIS */}
       <div className="flex justify-center flex-col w-full items-start mb-6">
         <div className=" flex flex-row items-center w-full">

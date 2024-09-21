@@ -39,30 +39,27 @@ export default function CandidateFilter({ emitFilteredData, projectId }) {
     useEffect(() => { console.log(project.data) }, [project.isLoading])
 
     return (
+        <div className="collapse w-full p-2 search_shadow bg-neutral">
+            <input type="checkbox" className="peer" onClick={() => setIsOpen(prev => !prev)} />
+            <div className="collapse-title p-0 m-0 h-fit w-full text-center">
+                { isOpen ? "Esconder busca avançada" : "Exibir busca avançada"}
+            </div>
 
+            <div className="collapse-content m-0 p-0 h-fit">
+                <p>hello</p>
+            </div>
 
-
-    <div className="collapse w-full p-2 search_shadow">
-        <input type="checkbox" className="peer" onClick={() => setIsOpen(prev => !prev)} />
-        <div className="collapse-title p-0 m-0 h-fit w-full text-center">
-            { isOpen ? "Esconder busca avançada" : "Exibir busca avançada"}
-        </div>
-
-        <div className="collapse-content m-0 p-0 h-fit">
-            <p>hello</p>
-        </div>
-
-        <search className="flex items-center justify-center">
-            <search className="input input-bordered flex items-center gap-2 w-full">
-                <input
-                    type="text"
-                    className="grow"
-                    placeholder=""
-                    disabled={isOpen}
-                />
-                <button className="btn btn-sm">Aplicar filtro</button>
+            <search className="flex items-center justify-center">
+                <search className="input input-bordered flex items-center gap-2 w-full">
+                    <input
+                        type="text"
+                        className="grow"
+                        placeholder=""
+                        disabled={isOpen}
+                    />
+                    <button className="btn btn-sm">Aplicar filtro</button>
+                </search>
             </search>
-        </search>
-    </div>
+        </div>
     )
 }

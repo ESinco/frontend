@@ -5,6 +5,7 @@ import { getAllProjects } from "@/lib/api/services/project"
 import { useQuery } from "@tanstack/react-query"
 import { useContext, useEffect, useState } from "react"
 import StudentProjectCard from "@/components/StudentProjectCard"
+import LoadingSpinner from "@/components/LoadingSpinner"
 
 export default function AvailableProjects() {
     const [ searchString, setSearchString ] = useState("");
@@ -18,8 +19,9 @@ export default function AvailableProjects() {
         console.log(projects.data)
     }, [projects.isLoading])
 
+    if(projects.isLoading) return <LoadingSpinner />
     return (
-        <main>
+        <main className="w-full max_width">
             <h1 className="text-lg w-full text-center mt-10 mb-10">Projetos</h1>
             <div className="max_width flex flex-col items-center justify-center gap-5">
                 <search className="input input-bordered flex items-center gap-2 w-full rounded-full search_shadow">
@@ -43,9 +45,16 @@ export default function AvailableProjects() {
 
                 </search>
                 {
-                    projects.data?.map(project => <StudentProjectCard key={project.id} {...project} />)
+                    projects.data
+                        .filter(project => 
+                            project.name.toLowerCase().includes(searchString.toLowerCase()) ||
+                            project.description.toLowerCase().includes(searchString.toLowerCase()) ||
+                            project.professor.nome.toLowerCase().includes(searchString.toLowerCase())
+                        )
+                        .map(project => <StudentProjectCard key={project.id} {...project} />)
                 }
             </div>
         </main>
     )
 }
+

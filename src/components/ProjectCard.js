@@ -24,14 +24,10 @@ export default function ProjectCard({
                     <div className="absolute bottom-8 left-5">
                         <div className="badge badge-primary badge-lg">{`${candidatesAmount} Candidato(s)`}</div>
                     </div>
-                    <button 
-                        className="btn btn-primary"
-                        onClick={e => {}}
-                    >Detalhes</button>
                     <Link 
-                        className="btn btn-info"
-                        href={`/professor/details/${id}`}
-                    >Abrir</Link>
+                        className="btn btn-primary"
+                        href={`/student/projectVisualization/${id}`}
+                    >Detalhes</Link>
                 </div>
             </div>
         </div>

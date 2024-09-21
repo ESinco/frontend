@@ -8,7 +8,8 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 
 export default function ProjectList() {
     const [termoBuscado, setTermoBuscado] = useState("");
-    
+    const [ filteredData, setFilteredData ] = useState([]);
+
     const projects = useQuery({
         queryKey: ['projects'],
         queryFn: getAllProjects,

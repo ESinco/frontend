@@ -76,8 +76,39 @@ export async function getProjectById({ projectId, token }) {
     }
 }
 
-export async function subscribeInProjects({ token, projectId }) {
-    const response = await api.get(`/aluno/interesse_projeto/${projectId}`, {
+export async function getApplications(token) {
+    const response = await api.get(`/projeto/aluno`, {
         headers: { Authorization: `Bearer ${token}` }
     })
+    console.log("RAW RESPONSE: ")
+    console.log(response.data)
+    return response.data.map(project => ({
+        id: project.id_projeto,
+        name: project.nome,
+        description: project.descricao,
+        lab: project.laboratorio,
+        date: project.data_de_criacao,
+        slots: project.vagas,
+        professor: project.responsavel,
+        skills: project.habilidades,
+    }));
+}
+
+export async function getApplicationById(token, projectId) {
+    const response = await api.get(`/projeto/${projectId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    })
+    console.log("GET PROJ STUDENT BY ID RAW DATA:")
+    console.log(response.data)
+    return {
+        id: response.data.id_projeto,
+        name: response.data.nome,
+        description: response.data.descricao,
+        lab: response.data.laboratorio,
+        date: response.data.data_de_criacao,
+        slots: response.data.vagas,
+        professor: response.data.responsavel,
+        candidatesAmount: response.data.quantidade_de_inscritos,
+        skills: response.data.habilidades,
+    }
 }

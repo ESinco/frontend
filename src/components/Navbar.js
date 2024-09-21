@@ -38,6 +38,16 @@ export default function Navbar() {
                             {session.data?.isTeacher ? "Projetos" : "Perfil"}
                         </Link>
                     </li>
+                    {!session.data.isTeacher && (
+                        <>
+                            <li>
+                                <Link href="/student/applications">Candidaturas</Link>
+                            </li>
+                            <li>
+                                <Link href="/student/projects">Projetos</Link>
+                            </li>
+                        </>
+                    )}
                     <li><a>Alterar Senha</a></li>
                     <li><button onClick={() => {
                         session.logOut();

@@ -20,7 +20,7 @@ export default function ApplicationsPage() {
         <main className="flex flex-col items-center justify-center gap-5">
             <h1 className="text-center py-5 text-lg">Minhas Candidaturas</h1>
             {
-                applications.data.map(project => <StudentProjectCard {...project} />)
+                applications.data.map(project => <StudentProjectCard key={project.id} {...project} />)
             }
         </main>
     )

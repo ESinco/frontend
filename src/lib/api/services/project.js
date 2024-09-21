@@ -75,3 +75,9 @@ export async function getProjectById({ projectId, token }) {
         candidates: response.data.candidatos,
     }
 }
+
+export async function subscribeInProjects({ token, projectId }) {
+    const response = await api.get(`/aluno/interesse_projeto/${projectId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    })
+}

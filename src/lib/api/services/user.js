@@ -30,6 +30,18 @@ export async function getVisuPerfil(token, matricula) {
   return response.data;
 }
 
+export async function getUserHistory(token, matricula) {
+  const response = await api.get(`/aluno/historico/${matricula}`, {
+    responseType: "blob",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/pdf",
+    },
+  });
+
+  return response;
+}
+
 export async function editStudent(data) {
   const response = await api
     .put(

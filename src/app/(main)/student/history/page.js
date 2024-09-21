@@ -1,36 +1,24 @@
 "use client";
-import HistoryTable from "@/components/HistoryTable";
 import "./styles.css";
 import { useContext, useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import SessionContext from "@/contexts/sessionContext";
+import PdfRenderer from "@/components/PdfRenderer";
+import { getHistory, getUserHistory } from "@/lib/api/services/user";
 
 export default function HistoryPage() {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [formDataFile, setFormDataFile] = useState(null);
+  const [pdfUrl, setPdfUrl] = useState(null);
   const queryClient = useQueryClient();
 
   const session = useContext(SessionContext);
 
-  const fetchFileData = async () => {
-    const response = await axios.get(
-      `http://localhost:8000/aluno/historico/${session.data.matricula}`,
-      {
-        headers: {
-          Authorization: `Bearer ${session.data.token}`,
-        },
-      }
-    );
-
-    // Axios already parses the response as JSON, so no need to use `response.json()`
-    const parsedData = response.data;
-    return parsedData;
-  };
-
   const { isPending, isError, data, error } = useQuery({
-    queryKey: ["data"],
-    queryFn: fetchFileData,
+    queryKey: ["history_data"],
+    queryFn: () => getUserHistory(session.data.token, session.data.matricula),
   });
 
   // const query = useQuery({
@@ -62,7 +50,7 @@ export default function HistoryPage() {
       return response.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["data"] });
+      queryClient.invalidateQueries({ queryKey: ["history_data"] });
     },
   });
 
@@ -75,13 +63,13 @@ export default function HistoryPage() {
   };
 
   useEffect(() => {
-    console.log("hist" + data);
+    console.log(data);
   }, [data]);
 
   return (
     <div className="flex justify-center items-center gap-3 flex-col mt-10 w-full p-3 pb-6">
       <h1 className="mb-10 text-2xl">Histórico</h1>
-      {!isPending && !isError ? <HistoryTable historyData={data} /> : null}
+      {!isPending && !isError ? <PdfRenderer pdfData={data} /> : null}
 
       {/* <div className="pdf-download">
       <a href={} download={pdfName} target="_blank" rel="noopener noreferrer">

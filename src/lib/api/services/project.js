@@ -78,6 +78,7 @@ export async function getProjectById({ projectId, token }) {
 
 export async function getAllProjects() {
     const response = await api.get("projeto/");
+    console.log(response.data)
     return response.data.map(project => ({
         id: project.id_projeto,
         name: project.nome,
@@ -103,13 +104,11 @@ export async function interessarProject(id, token) {
 }
 
 export async function getAllProjectsByAlunos({token}) {
-    console.log(token)
-    const response = await api.get('/projeto/aluno/',
-        {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
+    const response = await api.get('/projeto/aluno/', {
+        headers: { Authorization: `Bearer ${token}` }
     });
+
+    console.log(response.data)
     return response.data.map(project => ({
         id: project.id_projeto,
         name: project.nome,

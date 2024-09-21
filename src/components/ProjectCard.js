@@ -1,35 +1,39 @@
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
-export default function ProjectCard({ nome, descricao, laboratorio, responsavel, habilidades, id }) {
-
-    const badgeColors = ["badge-primary", "badge-secondary", "badge-accent", "badge-ghost"];
-
+export default function ProjectCard({
+    id,
+    name,
+    description,
+    lab, // Lab em que será desenvolvido
+    date,
+    slots,
+    professor, // Professor responsavel
+    candidatesAmount
+}) {
     return (
-        <div className="flex w-full justify-center items-center mt-10">
-            <div className="card shadow-xl" style={{ maxWidth: '400px', maxHeight: '600px', overflow: 'hidden' }}>
-                <h2 className="card-title justify-center">{nome}</h2>
-                <div className="card-body">
-                    <p className="descricao text-[12px]">{laboratorio}</p>
-                    <p className="Laboratorio text-[12px]">{responsavel}</p>
-                    <p className="descricao"
-                        style={{ textAlign: 'justify', whiteSpace: 'normal', wordBreak: 'break-word' }}
-                    >{descricao}</p>
-                    <div className="card-actions flex justify-between items-center">
-                        <div className="flex flex-wrap space-x-2">
-                            {habilidades.slice(0, 3).map((habilidade, index) => (
-                                <div key={index} className={`badge ${badgeColors[index % badgeColors.length]}`}>{habilidade}</div>
-                            ))}
-                            {habilidades.length > 3 && (
-                                <div className="badge badge-neutral">+{habilidades.length - 3}</div>
-                            )}
-                        </div>
-                        <Link className="btn btn-primary ml-auto" 
-                            href = {`/student/projectVisualization/${id}`}>Detalhes
-                        </Link>
+        <div className="relative card bg-base-100 w-full shadow-xl transform hover:scale-105 transition duration-300 ease-in-out">
+            <div className="badge badge-accent badge-outline badge-lg absolute top-5 right-5">Status</div>
+            <div className="relative card-body p-5 lg:p-7">
+                <section className="flex justify-left items center">
+                    <h2 className="w-[75%] whitespace-nowrap overflow-hidden text-ellipsis card-title text-white">{name}</h2>
+                </section>
+
+                <p className="text-ellipsis overflow-hidden max-h-[150px]">{description}</p>
+
+                <div className="card-actions justify-end items-center">
+                    <div className="absolute bottom-8 left-5">
+                        <div className="badge badge-primary badge-lg">{`${candidatesAmount} Candidato(s)`}</div>
                     </div>
+                    <button 
+                        className="btn btn-primary"
+                        onClick={e => {}}
+                    >Detalhes</button>
+                    <Link 
+                        className="btn btn-info"
+                        href={`/professor/details/${id}`}
+                    >Abrir</Link>
                 </div>
             </div>
         </div>
-    );
+    )
 }

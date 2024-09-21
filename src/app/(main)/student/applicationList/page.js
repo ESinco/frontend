@@ -2,7 +2,6 @@
 
 import ApplicationCard from "@/components/ApplicationCard"
 import LoadingSpinner from "@/components/LoadingSpinner";
-import Navbar from "@/components/Navbar";
 import { useContext } from "react";
 import SessionContext from "@/contexts/sessionContext";
 import { useQuery } from '@tanstack/react-query';
@@ -31,7 +30,6 @@ export default function applicationList() {
 
     return (
         <div>
-            <Navbar/>
             <h1 className="text-center justify-center mt-10">Minhas candidaturas</h1>
             <div className="flex justify-center mt-5">
             </div>

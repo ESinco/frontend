@@ -4,7 +4,6 @@ import { useQuery } from '@tanstack/react-query';
 import { useContext } from "react";
 import SessionContext from "@/contexts/sessionContext";
 import { getProjectById } from '@/lib/api/services/project';
-import Navbar from "@/components/Navbar";
 import Application from '@/components/Application';
 import LoadingSpinner from "@/components/LoadingSpinner";
 
@@ -27,7 +26,6 @@ export default function ProjectVisualization() {
 
     return (
         <div>
-            <Navbar />
             <Application
                 key={project.id}
                 titulo={project.name}

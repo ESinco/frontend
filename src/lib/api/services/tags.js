@@ -18,3 +18,8 @@ export async function getExperienciasData() {
   const response = await api.get("api/experiencias/");
   return response.data;
 }
+
+export async function getFeedbacksData() {
+  const response = await api.get("api/feedbacks");
+  return response.data;
+}

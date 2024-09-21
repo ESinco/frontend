@@ -5,7 +5,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getStudentData, getVisuPerfil } from "@/lib/api/services/user";
 import SessionContext from "@/contexts/sessionContext";
 
-export default function SkillsCard() {
+export default function SkillsCard({ userData }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const session = useContext(SessionContext);
@@ -20,11 +20,15 @@ export default function SkillsCard() {
     document.getElementById("Skills").showModal();
   };
 
-  const userData = useQuery({
-    queryKey: ["visu_perfil_data"],
-    queryFn: () => getVisuPerfil(session.data.token, session.data.matricula),
-  });
-
+  {
+    !session.isTeacher
+      ? (userData = useQuery({
+          queryKey: ["visu_perfil_data"],
+          queryFn: () =>
+            getVisuPerfil(session.data.token, session.data.matricula),
+        }))
+      : null;
+  }
   return (
     <div className="bg-base-100 flex flex-col items-start justify-between px-6 w-full rounded-3xl custom_shadow">
       <div className="flex flex-row justify-between w-full py-3">

@@ -1,12 +1,45 @@
-import { useState } from "react";
+import SessionContext from "@/contexts/sessionContext";
+import { addFeedbackStudent } from "@/lib/api/services/professor";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useContext, useState } from "react";
 
-export default function ModalSkills() {
-  const [rating, setRating] = useState(0);
-  const [hover, setHover] = useState(0);
+export default function StudentRatingModal({ feedbacks, matAluno }) {
+  const [comentario, setComentario] = useState("");
+  const [tags, setTags] = useState([]);
+  const [selectedFeedbackId, setSelectedFeedbackId] = useState("");
 
-  const handleClick = (value) => {
-    setRating(value);
+  const session = useContext(SessionContext);
+  const queryClient = useQueryClient();
+
+  const handleComentarioChange = (event) => {
+    setComentario(event.target.value);
   };
+
+  const handleSelectChange = (event) => {
+    const selectedId = event.target.value;
+
+    if (selectedId && !tags.includes(selectedId)) {
+      setTags([...tags, selectedId]); // Adiciona a tag ao array de tags
+    }
+
+    setSelectedFeedbackId(""); // Reseta o select após adicionar a tag
+  };
+
+  const mutation = useMutation({
+    mutationFn: (data) =>
+      addFeedbackStudent({
+        ...data,
+        token: session.data.token,
+        matriculaAluno: matAluno,
+      }),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries("visu_perfil_data");
+      setComentario("");
+      setTags([]);
+      onClose();
+    },
+  });
+
   return (
     <>
       <button
@@ -17,43 +50,76 @@ export default function ModalSkills() {
       </button>
       <dialog id="rating_modal" className="modal mt-20 items-start">
         <div className="modal-box p-5 flex flex-col items-center justify-between">
-          <h3 className=" text-lg text-center">Avalie Venancio Augusto</h3>
-
+          <h3 className=" text-lg text-center">Adicione seu Feedback!</h3>
           <div className="modal-action w-full justify-normal flex flex-col items-center">
-            <div className="flex items-center">
-              {[...Array(5)].map((_, index) => {
-                const ratingValue = index + 1;
-                const isFilled = ratingValue <= rating;
-                const isHovered = ratingValue <= hover;
-                return (
-                  <svg
-                    key={index}
-                    className={`w-8 h-8 cursor-pointer transition-colors duration-200
-                      ${
-                        isFilled
-                          ? "text-yellow-500 opacity-100"
-                          : isHovered
-                          ? "text-yellow-500 opacity-50"
-                          : "text-gray-400 opacity-100"
-                      }`}
-                    onClick={() => handleClick(ratingValue)}
-                    onMouseEnter={() => setHover(ratingValue)}
-                    onMouseLeave={() => setHover(0)}
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M9.049 2.927C9.325 2.003 10.675 2.003 10.951 2.927L12.16 7.248a1 1 0 00.95.69h4.1c1.016 0 1.436 1.302.621 1.854l-3.319 2.347a1 1 0 00-.364 1.118l1.27 3.907c.329 1.012-.814 1.854-1.656 1.236l-3.34-2.396a1 1 0 00-1.175 0l-3.34 2.396c-.842.618-1.985-.224-1.656-1.236l1.27-3.907a1 1 0 00-.364-1.118L2.168 9.792c-.815-.552-.395-1.854.621-1.854h4.1a1 1 0 00.95-.69l1.209-4.321z" />
-                  </svg>
-                );
-              })}
-            </div>
+            <form
+              className="flex flex-col gap-1"
+              onSubmit={(e) => {
+                e.preventDefault();
+                mutation.mutate({
+                  comentario: comentario,
+                  tags: tags,
+                });
+              }}
+            >
+              {/* Input de texto para o comentário */}
+              <div className="flex flex-col gap-2">
+                <label className="label-text" htmlFor="comentario">
+                  Comentário:
+                </label>
+                <textarea
+                  type="text"
+                  id="comentario"
+                  value={comentario}
+                  onChange={handleComentarioChange}
+                  placeholder="Escreva seu comentário..."
+                  className="textarea textarea-bordered"
+                />
+              </div>
+              {/* Select dropdown */}
+              {/* Select dropdown para selecionar tags */}
+              <div className="flex flex-col gap-1">
+                <label htmlFor="feedback-select">Selecione as Tags:</label>
+                <select
+                  id="feedback-select"
+                  value={selectedFeedbackId}
+                  onChange={handleSelectChange}
+                  className="select select-bordered w-full max-w-xs mb-5"
+                >
+                  <option value="" disabled>
+                    Selecione uma tag
+                  </option>
+                  {feedbacks.data?.map((feedback) => (
+                    <option key={feedback.id} value={feedback.id}>
+                      {feedback.nome}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-            {/* if there is a button in form, it will close the modal */}
-            <div className="gap-4 flex pt-10 ml-auto">
-              <button className="btn btn-error ">Cancelar</button>
-              <button className="btn btn-success ">Confirmar</button>
-            </div>
+              {/* Exibe as tags adicionadas */}
+              <div className="flex flex-col gap-1">
+                <h4>Tags Selecionadas:</h4>
+                <ul className="flex gap-1">
+                  {tags.map((tag, index) => (
+                    <li className="badge badge-primary text-xs" key={index}>
+                      {feedbacks.data?.find((fb) => fb.id == tag)?.nome}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="gap-4 flex pt-10 ml-auto">
+                <button type="submit" className="btn btn-success ">
+                  Confirmar
+                </button>
+              </div>
+            </form>
+            <form method="dialog">
+              <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 border-white">
+                x
+              </button>
+            </form>
           </div>
         </div>
       </dialog>

@@ -13,19 +13,6 @@ import SessionContext from "@/contexts/sessionContext";
 import { getStudentData } from "@/lib/api/services/user";
 import { useQuery } from "@tanstack/react-query";
 
-const session = {
-  matricula: "200000001",
-  nome: "Marcos da Silva",
-  email: "marcos.silva1@example.com",
-  curriculo: null,
-  github: null,
-  linkedin: null,
-  cra: null,
-  senha: "senha123",
-};
-
-const profIcons = [];
-
 export default function UserProfilePage() {
   const [currentPath, setCurrentPath] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);

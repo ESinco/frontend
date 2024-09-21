@@ -6,7 +6,7 @@ import { getStudentData } from "@/lib/api/services/user";
 import SessionContext from "@/contexts/sessionContext";
 import InterestsModal from "./InterestsModal";
 
-export default function SkillsCard() {
+export default function InterestsCard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const session = useContext(SessionContext);

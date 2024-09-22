@@ -9,6 +9,7 @@ import PdfRenderer from "@/components/PdfRenderer";
 import { getHistory, getUserHistory } from "@/lib/api/services/user";
 import { notifyUser } from "@/lib/adapters/notifier";
 import { useRouter } from "next/navigation";
+import api from "@/lib/api";
 
 export default function HistoryPage() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -37,8 +38,8 @@ export default function HistoryPage() {
 
   const mutation = useMutation({
     mutationFn: async () => {
-      const response = await axios.post(
-        "http://localhost:8000/aluno/historico/importar/",
+      const response = await api.post(
+        "/aluno/historico/importar/",
         {
           aluno: session.data.matricula,
           historico_pdf: selectedFile,

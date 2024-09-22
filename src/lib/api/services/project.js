@@ -45,7 +45,7 @@ export async function updateProject(projectData) {
 }
 
 export async function getProfessorProjects(professorId) {
-    const response = await api.get(`/projeto/?responsavel=${professorId}`);
+    const response = await api.get(`/projeto/professor?responsavel=${professorId}`);
     return response.data.map(project => ({
         id: project.id_projeto,
         name: project.nome,

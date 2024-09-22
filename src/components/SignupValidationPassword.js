@@ -50,7 +50,7 @@ export default function SignupValidationPassword({
                     <span className="label-text">Confirme sua senha</span>
                 </label>
                 <input
-                    type="password"
+                    type="password-confirm"
                     className="input input-bordered"
                     value={confirmPassword} onChange={handleConfirmPasswordChange}
                     required />

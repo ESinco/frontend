@@ -10,7 +10,7 @@ export default function AuthLayout({ children }) {
   // If session data is loaded without errors, redirect to tha main app
   useEffect(() => {
     if (session.isLoading) return;
-    // if (!session.isError && session.data) redirect("/student/profile");
+    if (!session.isError && session.data) redirect("/student/profile");
   }, [session.isLoading]);
 
   if (session.isLoading) return <LoadingSpinner />;

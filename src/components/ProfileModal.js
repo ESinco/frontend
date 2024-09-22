@@ -1,4 +1,38 @@
-export default function ModalSkills({ placeholder }) {
+import SessionContext from "@/contexts/sessionContext";
+import { editStudent } from "@/lib/api/services/user";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useContext, useEffect, useState } from "react";
+
+export default function ProfileModal({ isOpen, onClose, aluno }) {
+  const queryClient = useQueryClient();
+
+  const session = useContext(SessionContext);
+
+  const [editStudentData, setEditStudentData] = useState({
+    nome: session.data.nome, // Nome permanece o mesmo
+    curriculo: session.data.curriculo ?? "",
+    email: session.data.email || "", // Email pode mudar ou não
+    github: session.data.github || "", // GitHub pode ser atualizado
+    linkedin: session.data?.linkedin, // LinkedIn pode ser atualizado
+    habilidades: session.data.habilidades ?? [],
+    experiencias: session.data.experiencias ?? [],
+    interesses: session.data.interesses ?? [],
+  });
+
+  // POST NO USER COM ESSAS INFORMACOES
+  const mutation = useMutation({
+    mutationFn: (data) =>
+      editStudent({
+        ...data,
+        token: session.data.token,
+      }),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries("student_data");
+      session.updateSessionData(data);
+      onClose();
+    },
+  });
+
   return (
     <>
       <button
@@ -31,10 +65,17 @@ export default function ModalSkills({ placeholder }) {
       </button>
       <dialog id="pfp_modal" className="modal mt-20 items-start">
         <div className="modal-box p-5 flex flex-col items-center justify-between">
-          <h3 className=" text-lg text-center">Adicionar Links Úteis</h3>
+          <h3 className=" text-lg text-center">Editar Perfil</h3>
 
           <div className="modal-action w-full justify-normal">
-            <form method="dialog" className="flex flex-col gap-3  pt-4 w-full ">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                mutation.mutate(editStudentData);
+              }}
+              method="dialog"
+              className="flex flex-col gap-3  pt-4 w-full"
+            >
               <label className="input input-bordered flex items-center gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -45,7 +86,18 @@ export default function ModalSkills({ placeholder }) {
                   <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
                   <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
                 </svg>
-                <input type="text" className="grow" placeholder="Linkedin" />
+                <input
+                  type="text"
+                  className="grow"
+                  value={editStudentData.linkedin} // bug, o valor nao aparece no input quando eu vou atualizar
+                  onChange={(e) =>
+                    setEditStudentData((prev) => ({
+                      ...prev,
+                      linkedin: e.target.value,
+                    }))
+                  }
+                  placeholder="Adicione seu Linkedin..."
+                />
               </label>
               <label className="input input-bordered flex items-center gap-2">
                 <svg
@@ -57,7 +109,18 @@ export default function ModalSkills({ placeholder }) {
                   <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
                   <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
                 </svg>
-                <input type="text" className="grow" placeholder="Linkedin" />
+                <input
+                  type="text"
+                  className="grow"
+                  value={editStudentData.email}
+                  onChange={(e) =>
+                    setEditStudentData((prev) => ({
+                      ...prev,
+                      email: e.target.value,
+                    }))
+                  }
+                  placeholder="Adicione seu Email..."
+                />
               </label>
               <label className="input input-bordered flex items-center gap-2">
                 <svg
@@ -69,13 +132,59 @@ export default function ModalSkills({ placeholder }) {
                   <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
                   <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
                 </svg>
-                <input type="text" className="grow" placeholder="Linkedin" />
+                <input
+                  type="text"
+                  className="grow"
+                  value={editStudentData.github}
+                  onChange={(e) =>
+                    setEditStudentData((prev) => ({
+                      ...prev,
+                      github: e.target.value,
+                    }))
+                  }
+                  placeholder="Adicione seu Github..."
+                />
+              </label>
+              <label className="input input-bordered flex items-center gap-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  className="h-4 w-4 opacity-70"
+                >
+                  <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
+                  <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
+                </svg>
+                <input
+                  type="text"
+                  className="grow"
+                  value={editStudentData.curriculo}
+                  onChange={(e) =>
+                    setEditStudentData((prev) => ({
+                      ...prev,
+                      curriculo: e.target.value,
+                    }))
+                  }
+                  placeholder="Adicione o link para seu curriculo..."
+                />
               </label>
 
               {/* if there is a button in form, it will close the modal */}
               <div className="gap-4 flex pt-10 ml-auto">
-                <button className="btn btn-error ">Cancelar</button>
-                <button className="btn btn-success ">Confirmar</button>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="btn btn-error "
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={onClose}
+                  type="submit"
+                  className="btn btn-success "
+                >
+                  Confirmar
+                </button>
               </div>
             </form>
           </div>

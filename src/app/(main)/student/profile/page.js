@@ -2,6 +2,7 @@
 
 import ExperiencesCard from "@/components/ExperiencesCard";
 import SkillsCard from "@/components/SkillsCard";
+import InterestsCard from "@/components/InterestsCard";
 import ProfileModal from "@/components/ProfileModal";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
@@ -9,6 +10,8 @@ import { usePathname } from "next/navigation";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import StudentRating from "@/components/StudentRating";
 import SessionContext from "@/contexts/sessionContext";
+import { getStudentData } from "@/lib/api/services/user";
+import { useQuery } from "@tanstack/react-query";
 
 const session = {
   matricula: "200000001",
@@ -24,28 +27,55 @@ const session = {
 const profIcons = [];
 
 export default function UserProfilePage() {
+  const [currentPath, setCurrentPath] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [sessionData, setSessionData] = useState(null);
+
   const pathname = usePathname();
   const session = useContext(SessionContext);
 
-  const [currentPath, setCurrentPath] = useState("");
+  const aluno = useQuery({
+    queryKey: ["student_data"],
+    queryFn: () => getStudentData(session.data.matricula),
+  });
+
+  // Function to open the modal
+  const openModal = () => {
+    setIsModalOpen(true);
+    document.getElementById("pfp_modal").showModal();
+  };
+
+  // Function to close the modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+    document.getElementById("pfp_modal").close();
+  };
 
   useEffect(() => {
     setCurrentPath(pathname);
-    console.log(session.data);
-  }, [pathname, session]);
+  }, [pathname]);
 
   if (currentPath == "") {
     <LoadingSpinner />;
   }
 
+  if (!aluno.data) {
+    <LoadingSpinner />;
+  }
+
   return (
-    <div className="bg-base-200 flex justify-center flex-col items-center p-3 max-w-[1000px]">
+    <div className="flex justify-center flex-col items-center p-3 max-w-[1000px]">
       {/* DIV INFORMACOES INICIAIS */}
       <div className="flex justify-center flex-col w-full items-start mb-6">
         <div className=" flex flex-row items-center w-full">
-          <p className="mx-auto text-xl my-6">{session.data.nome}</p>
+          <p className="mx-auto text-xl my-6">{aluno.data?.nome}</p>
           <div className="flex flex-col items-center gap-3">
-            <ProfileModal></ProfileModal>
+            <ProfileModal
+              onClick={openModal}
+              onClose={closeModal}
+              isOpen={isModalOpen}
+              aluno={aluno}
+            ></ProfileModal>
           </div>
         </div>
         <Link
@@ -81,7 +111,7 @@ export default function UserProfilePage() {
               fill="#0F0F0F"
             />
           </svg>
-          <p>{session.data.linkedin ? session.data.linkedin : "linkedin"}</p>
+          <p>{aluno.data?.linkedin}</p>
         </div>
 
         <div className="flex flex-row gap-2 items-center">
@@ -99,7 +129,7 @@ export default function UserProfilePage() {
               fill="#080341"
             />
           </svg>
-          <p>{session.data.email}</p>
+          <p>{aluno.data?.email}</p>
         </div>
 
         <div className="flex flex-row gap-2 items-center">
@@ -118,19 +148,19 @@ export default function UserProfilePage() {
               stroke-linejoin="round"
             />
           </svg>
-          <p>(83) 9 9623-1204</p>
+          <p>{aluno.data?.github}</p>
         </div>
 
-        <StudentRating />
+        {session.data.isTeacher ? <StudentRating /> : null}
       </div>
       <div className="gap-5 flex flex-col w-full">
         {/* EXPERIENCIAS COMPONENT */}
         <ExperiencesCard></ExperiencesCard>
         {/* HABILIDADES CARD - THINK ABOUT A WAY TO MAKE BADGE 'CLASSES' EACH ONE'LL HAVE A SYMBOL AND A COLOR */}
 
-        <SkillsCard title={"Habilidades"}></SkillsCard>
+        <SkillsCard></SkillsCard>
         {/* INTERESSES CARD - THINK ABOUT A WAY TO MAKE BADGE 'CLASSES' EACH ONE'LL HAVE A SYMBOL AND A COLOR */}
-        <SkillsCard title={"Interesses"}></SkillsCard>
+        <InterestsCard></InterestsCard>
       </div>
     </div>
   );

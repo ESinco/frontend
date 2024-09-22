@@ -66,6 +66,11 @@ export default function SkillsModal({ userData }) {
   useEffect(() => {
     setEditStudentData((prev) => ({
       ...prev,
+      nome: userData?.nome, // Nome permanece o mesmo
+      curriculo: userData?.curriculo || "",
+      email: userData?.email || "", // Email pode mudar ou não
+      github: userData?.github || "", // GitHub pode ser atualizado
+      linkedin: userData?.linkedin || "", // LinkedIn pode ser atualizado
       interesses: userData?.interesses,
       habilidades: userData?.habilidades,
       experiencias: userData?.experiencias,

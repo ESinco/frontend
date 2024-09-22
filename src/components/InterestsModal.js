@@ -63,6 +63,11 @@ export default function InterestsModal({ userData }) {
   useEffect(() => {
     setEditStudentData((prev) => ({
       ...prev,
+      nome: userData?.nome, // Nome permanece o mesmo
+      curriculo: userData?.curriculo || "",
+      email: userData?.email || "", // Email pode mudar ou não
+      github: userData?.github || "", // GitHub pode ser atualizado
+      linkedin: userData?.linkedin || "", // LinkedIn pode ser atualizado
       interesses: userData?.interesses,
       habilidades: userData?.habilidades,
       experiencias: userData?.experiencias,
@@ -103,7 +108,9 @@ export default function InterestsModal({ userData }) {
                     }}
                     className="select select-bordered w-full max-w-xs mb-5"
                   >
-                    Selecione um Interesse
+                    <option value="" disabled>
+                      Selecione uma habilidade
+                    </option>
                     {interesses?.data?.length > 0 ? (
                       interesses.data.map((interesse) => (
                         <>

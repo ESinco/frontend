@@ -31,17 +31,13 @@ export async function getVisuPerfil(token, matricula) {
 }
 
 export async function getUserHistory(token, matricula) {
-  try {
-    const response = await api.get(`/aluno/historico/${matricula}`, {
-      responseType: "blob",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/pdf",
-      },
-    });
-  } catch (error) {
-    console.log(error);
-  }
+  const response = await api.get(`/aluno/historico/${matricula}`, {
+    responseType: "blob",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/pdf",
+    },
+  });
 
   return response;
 }

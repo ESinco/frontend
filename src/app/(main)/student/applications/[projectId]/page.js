@@ -2,7 +2,7 @@
 import SessionContext from "@/contexts/sessionContext"
 import { useQuery } from "@tanstack/react-query"
 import { useContext } from "react"
-import SkillsCard from "@/components/SkillsCard"
+import SkillsCardStudent from "@/components/SkillsCardStudent"
 import { getApplicationById } from "@/lib/api/services/project"
 import { useEffect } from "react"
 
@@ -30,7 +30,7 @@ export default function ApplicationDetail({ params }) {
 
                 <p className="text-md mb-5">{project.data?.description}</p>
 
-                <div><SkillsCard /></div>
+                <div><SkillsCardStudent habilidades={project.data?.skills} /></div>
                 
                 <button
                     className="btn btn-neutral btn-wide w-full"

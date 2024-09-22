@@ -79,8 +79,9 @@ export default function CandidateFilter({ emitFilteredData, project }) {
         filteredData = filterByEmail(filteredData, filters.email)
         filteredData = filterByMatricula(filteredData, filters.matricula)
         filteredData = filterByStatus(filteredData, filters.status)
+
         emitFilteredData(filteredData)
-    }, [project.isLoading, filters])
+    }, [project.data, filters])
 
     useEffect(() => {
         if(!project.data || project.isLoading) return;

@@ -48,7 +48,6 @@ export default function Navbar() {
                             </li>
                         </>
                     )}
-                    <li><a>Alterar Senha</a></li>
                     <li><button onClick={() => {
                         session.logOut();
                         router.push("/login");

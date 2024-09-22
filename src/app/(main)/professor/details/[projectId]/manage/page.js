@@ -86,7 +86,9 @@ export default function CandidatesDetails() {
                                                 } else {
                                                     setSelectedStudents(
                                                         new Set(
-                                                            filteredStudents.map(candidate => candidate.aluno.matricula)
+                                                            filteredStudents
+                                                                .filter(candidate => candidate.status === null)
+                                                                .map(candidate => candidate.aluno.matricula)
                                                         )
                                                     )
                                                 }

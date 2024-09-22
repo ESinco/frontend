@@ -135,7 +135,7 @@ export async function approveStudents({ token, matriculas, projectId }) {
     console.log({ token, matriculas, projectId })
     const response = await Promise.all(matriculas.map(matricula => 
         api.post(
-            `/projeto/${projectId}/aluno/${matricula}`,
+            `/projeto/${projectId}/aluno/${matricula}/`,
             {
                 status: true,
                 enviar_email: false,
@@ -152,7 +152,7 @@ export async function approveStudents({ token, matriculas, projectId }) {
 export async function rejectStudents({ token, matriculas, projectId }) {
     const response = await Promise.all(matriculas.map(matricula => 
         api.post(
-            `/projeto/${projectId}/aluno/${matricula}`,
+            `/projeto/${projectId}/aluno/${matricula}/`,
             {
                 status: false,
                 enviar_email: false,

@@ -7,11 +7,11 @@ export default function ExperiencesCard({ userData }) {
         <h1 className="text-2xl">Experiências</h1>
         <ExperienciesModal userData={userData} />
       </div>
-      <div className="gap-3 p-3 pt-0 flex flex-col">
+      <div className="w-full card-actions justify-start p-4">
         {userData?.experiencias?.map((interesse, index) => (
-          <p className="badge badge-primary" key={interesse.id}>
+          <span className="badge badge-primary text-xs" key={interesse.id}>
             {interesse.nome}
-          </p>
+          </span>
         ))}
       </div>
     </div>

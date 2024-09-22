@@ -57,6 +57,7 @@ export default function ExperiencesModal({ userData }) {
         id,
       ],
     }));
+    document.getElementById("exp_modal").close();
   };
 
   useEffect(() => {
@@ -103,6 +104,7 @@ export default function ExperiencesModal({ userData }) {
                     }}
                     className="select select-bordered w-full max-w-xs mb-5"
                   >
+                    Selecione uma experiencia
                     {experiencies?.data?.length > 0 ? (
                       experiencies.data.map((experience) => (
                         <>
@@ -126,6 +128,11 @@ export default function ExperiencesModal({ userData }) {
                   </div>
                 </>
               </div>
+            </form>
+            <form method="dialog">
+              <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 border-white">
+                x
+              </button>
             </form>
           </div>
         </div>

@@ -13,9 +13,17 @@ function PdfRenderer({ pdfData }) {
     }
   };
 
+  useEffect(() => {
+    if (pdfData) {
+      fetchPdf();
+    }
+  }, [pdfData]);
+
   return (
-    <div>
-      <button onClick={fetchPdf}>Fetch and Render PDF</button>
+    <div className="flex flex-col gap-4 items-center">
+      <button className="btn btn-outline btn-primary" onClick={fetchPdf}>
+        Mostrar Historico
+      </button>
 
       {/* Conditionally render the iframe when the PDF URL is available */}
       {pdfUrl && (
@@ -30,8 +38,8 @@ function PdfRenderer({ pdfData }) {
 
       {/* Alternatively, provide a download link */}
       {pdfUrl && (
-        <a href={pdfUrl} download="file.pdf">
-          Download PDF
+        <a href={pdfUrl} className="btn btn-accent" download="file.pdf">
+          Download Historico
         </a>
       )}
     </div>

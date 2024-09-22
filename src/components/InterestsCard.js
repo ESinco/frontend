@@ -14,9 +14,11 @@ export default function InterestsCard({ userData }) {
         {/* Open the modal using document.getElementById('ID').showModal() method */}
         <InterestsModal userData={userData} />
       </div>
-      <div className="w-full card-actions justify-end pb-4">
+      <div className="w-full card-actions justify-start pb-4">
         {userData?.interesses?.map((interesse, index) => (
-          <p key={interesse.id}>{interesse.nome}</p>
+          <p className="badge badge-primary text-xs" key={interesse.id}>
+            {interesse.nome}
+          </p>
         ))}
       </div>
     </div>

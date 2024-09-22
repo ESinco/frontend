@@ -56,6 +56,8 @@ export default function InterestsModal({ userData }) {
         ...prev?.experiencias?.map((experiencia) => experiencia?.id),
       ],
     }));
+
+    document.getElementById("Interests").close();
   };
 
   useEffect(() => {
@@ -66,8 +68,6 @@ export default function InterestsModal({ userData }) {
       experiencias: userData?.experiencias,
     }));
   }, [userData]);
-
-  console.log(userData);
 
   return (
     <>
@@ -103,6 +103,7 @@ export default function InterestsModal({ userData }) {
                     }}
                     className="select select-bordered w-full max-w-xs mb-5"
                   >
+                    Selecione um Interesse
                     {interesses?.data?.length > 0 ? (
                       interesses.data.map((interesse) => (
                         <>
@@ -112,12 +113,13 @@ export default function InterestsModal({ userData }) {
                         </>
                       ))
                     ) : (
-                      <option disabled>Loading skills...</option>
+                      <option disabled>Loading Interesses...</option>
                     )}
                   </select>
                   {/* Button to trigger the interesses onChange */}
                   <div className="flex flex-row justify-end gap-5">
                     <button
+                      type="submit"
                       onClick={handleInteressesChange}
                       className="btn btn-success w-1/3"
                     >
@@ -126,6 +128,11 @@ export default function InterestsModal({ userData }) {
                   </div>
                 </>
               </div>
+            </form>
+            <form method="dialog">
+              <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 border-white">
+                x
+              </button>
             </form>
           </div>
         </div>

@@ -62,10 +62,6 @@ export default function HistoryPage() {
     setFormDataFile(formData);
   };
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   return (
     <div className="flex justify-center items-center gap-3 flex-col mt-10 w-full p-3 pb-6">
       <h1 className="mb-10 text-2xl">Histórico</h1>

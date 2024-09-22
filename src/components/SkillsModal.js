@@ -59,6 +59,8 @@ export default function SkillsModal({ userData }) {
         ...prev?.experiencias?.map((experiencia) => experiencia?.id),
       ],
     }));
+
+    document.getElementById("Skills").close();
   };
 
   useEffect(() => {
@@ -104,6 +106,9 @@ export default function SkillsModal({ userData }) {
                   }}
                   className="select select-bordered w-full max-w-xs mb-5"
                 >
+                  <option value="" disabled>
+                    Selecione uma habilidade
+                  </option>
                   {skills?.data?.length > 0 ? (
                     skills.data.map((skill) => (
                       <>
@@ -126,6 +131,11 @@ export default function SkillsModal({ userData }) {
                   </button>
                 </div>
               </div>
+            </form>
+            <form method="dialog">
+              <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 border-white">
+                x
+              </button>
             </form>
           </div>
         </div>

@@ -13,9 +13,11 @@ export default function SkillsCard({ userData }) {
         {/* Open the modal using document.getElementById('ID').showModal() method */}
         <SkillsModal userData={userData} />
       </div>
-      <div className="w-full card-actions justify-end pb-4">
+      <div className="w-full card-actions justify-start pb-4">
         {userData?.habilidades?.map((habilidade, index) => (
-          <p key={habilidade.id}>{habilidade.nome}</p>
+          <p className="badge badge-primary text-xs" key={habilidade.id}>
+            {habilidade.nome}
+          </p>
         ))}
       </div>
     </div>

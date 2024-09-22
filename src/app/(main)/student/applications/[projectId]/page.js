@@ -1,19 +1,42 @@
 "use client"
 import SessionContext from "@/contexts/sessionContext"
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useContext } from "react"
-import SkillsCard from "@/components/SkillsCard"
-import { getApplicationById } from "@/lib/api/services/project"
-import { useEffect } from "react"
+import SkillsCardStudent from "@/components/SkillsCardStudent"
+import { getApplicationById, getApplications, applyInProject } from "@/lib/api/services/project"
+import { useEffect, useState } from "react"
+import LoadingSpinner from "@/components/LoadingSpinner"
 
 export default function ApplicationDetail({ params }) {
+    const queryClient = useQueryClient();
     const session = useContext(SessionContext)
     const project = useQuery({
         queryKey: [ "application_detail", params.projectId ],
         queryFn: () => getApplicationById(session.data.token, params.projectId)
     })
+    const currentStatus = useQuery({
+        queryKey: [ "applications_status" ],
+        queryFn: async () => {
+            const data = await getApplications(session.data.token);
+            for(const application of data) {
+                if(application.id == params.projectId) {
+                    return String(application.status)
+                }
+                return "";
+            }
+        },
+    })
+    const applicationMutation = useMutation({
+        mutationFn: () => applyInProject({
+            token: session.data.token,
+            projectId: params.projectId
+        }),
+        onSuccess: () => {
+            queryClient.invalidateQueries([ "applications" ])
+        }
+    })
 
-    useEffect(() => {console.log(project.data)}, [project.isLoading])
+    useEffect(() => {console.log(`currentStatus: >${currentStatus.data}<`)}, [currentStatus.data])
     return (
         <main className="w-full max_width p-5">
             <h1 className="w-full text-center text-xl mb-5">{project.data?.name}</h1>
@@ -30,11 +53,22 @@ export default function ApplicationDetail({ params }) {
 
                 <p className="text-md mb-5">{project.data?.description}</p>
 
-                <div><SkillsCard /></div>
+                <div><SkillsCardStudent habilidades={project.data?.skills} /></div>
                 
                 <button
-                    className="btn btn-neutral btn-wide w-full"
-                >Pendente</button>
+                    className={
+                        `btn-wide w-full btn btn-${currentStatus === "true" ? "accent" : currentStatus.data === "" ? "primary" : "error"}`
+                    }
+                    disabled={currentStatus.data === "null" || currentStatus.data === undefined}
+                    onClick={applicationMutation.mutate}
+                >                    
+                    {currentStatus.data === undefined && <LoadingSpinner />}
+                    {currentStatus.data === "" && "Candidatar-se"}
+                    {currentStatus.data === "true" && "APROVADO"}
+                    {currentStatus.data === "false" && "REJEITADO"}
+                    {currentStatus.data === "null" && "PENDENTE"}
+                    
+                </button>
             </section>
         </main>
     )

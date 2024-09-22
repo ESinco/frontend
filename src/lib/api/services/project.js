@@ -44,8 +44,10 @@ export async function updateProject(projectData) {
     return response.data;
 }
 
-export async function getProfessorProjects(professorId) {
-    const response = await api.get(`/projeto/?responsavel=${professorId}`);
+export async function getProfessorProjects(professorId, token) {
+    const response = await api.get(`/projeto/professor?responsavel=${professorId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
     return response.data.map(project => ({
         id: project.id_projeto,
         name: project.nome,
@@ -91,6 +93,7 @@ export async function getApplications(token) {
         slots: project.vagas,
         professor: project.responsavel,
         skills: project.habilidades,
+        status: project.status,
     }));
 }
 
@@ -125,4 +128,48 @@ export async function getAllProjects(token) {
         professor: project.responsavel,
         skills: project.habilidades,
     }))
+}
+
+export async function approveStudents({ token, matriculas, projectId }) {
+    console.log("APPROVING")
+    console.log({ token, matriculas, projectId })
+    const response = await Promise.all(matriculas.map(matricula => 
+        api.post(
+            `/projeto/${projectId}/aluno/${matricula}`,
+            {
+                status: true,
+                enviar_email: false,
+            },
+            {
+                headers: { Authorization: `Bearer ${token}` }
+            }
+        )
+    ))
+    console.log("Aprove student response data: ", response.data)
+    return response.data;
+}
+
+export async function rejectStudents({ token, matriculas, projectId }) {
+    const response = await Promise.all(matriculas.map(matricula => 
+        api.post(
+            `/projeto/${projectId}/aluno/${matricula}`,
+            {
+                status: false,
+                enviar_email: false,
+            },
+            {
+                headers: { Authorization: `Bearer ${token}` }
+            }
+        )
+    ))
+    console.log("Aprove student response data: ", response.data)
+    return response.data;
+}
+
+export async function applyInProject({ projectId, token }) {
+    const response = await api.post(`/aluno/interesse_projeto/${projectId}/`, {}, {
+        headers: { Authorization: `Bearer ${token}` }
+    })
+    console.log(response.data);
+    return response.data;
 }

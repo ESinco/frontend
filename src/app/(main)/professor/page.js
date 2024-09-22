@@ -13,7 +13,7 @@ export default function Projects() {
 
     const projects = useQuery({
         queryKey: ["professor_projects"],
-        queryFn: () => getProfessorProjects(session.data.id),
+        queryFn: () => getProfessorProjects(session.data.id, session.data.token),
     })
 
     function requestEdit(currentProjectData) {

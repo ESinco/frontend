@@ -46,7 +46,7 @@ export default function Signup() {
                             <span className="label-text">Nome Completo</span>
                         </label>
                         <input
-                            type="nome"
+                            type="text"
                             className="input input-bordered"
                             value={signupData.name}
                             onChange={e => setSignupData(prev => ({...prev, name: e.target.value}))}
@@ -68,7 +68,8 @@ export default function Signup() {
                             <span className="label-text">Matricula</span>
                         </label>
                         <input
-                            type="matricula"
+                            type="text"
+                            maxLength="9"
                             className="input input-bordered"
                             value={signupData.matricula}
                             onChange={e => setSignupData(prev => ({...prev, matricula: e.target.value}))}

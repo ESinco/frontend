@@ -8,13 +8,15 @@ import SessionContext from "@/contexts/sessionContext";
 import PdfRenderer from "@/components/PdfRenderer";
 import { getHistory, getUserHistory } from "@/lib/api/services/user";
 import { notifyUser } from "@/lib/adapters/notifier";
+import { useRouter } from "next/navigation";
 
 export default function HistoryPage() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [formDataFile, setFormDataFile] = useState(null);
   const [pdfUrl, setPdfUrl] = useState(null);
-  const queryClient = useQueryClient();
 
+  const queryClient = useQueryClient();
+  const router = useRouter();
   const session = useContext(SessionContext);
 
   const { isPending, isError, data, error } = useQuery({
@@ -71,7 +73,9 @@ export default function HistoryPage() {
     <div className="flex justify-center items-center gap-3 flex-col mt-4 w-full p-3 pb-6 ">
       <btn
         className="btn btn-primary btn-xs ml-auto"
-        onClick={() => router.push(`/professor/details/student/${studentId}`)}
+        onClick={() =>
+          router.push(`/professor/details/student/${session.data.matricula}`)
+        }
       >
         Perfil Aluno
       </btn>

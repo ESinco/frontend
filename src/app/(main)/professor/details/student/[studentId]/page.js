@@ -41,7 +41,7 @@ export default function StudentDetails() {
   }
 
   return (
-    <div className="bg-base-200 flex justify-start flex-col items-center p-3 w-full h-screen">
+    <div className="bg-base-200 flex justify-start flex-col items-center p-3 w-full h-screen md:max-w-[1000px] md:w-[1000px]">
       {/* DIV INFORMACOES INICIAIS */}
       <div className="flex justify-center flex-col w-full items-start mb-6">
         <div className=" flex flex-row items-center w-full">

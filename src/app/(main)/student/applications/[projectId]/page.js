@@ -8,6 +8,7 @@ import { useEffect, useState } from "react"
 import LoadingSpinner from "@/components/LoadingSpinner"
 
 export default function ApplicationDetail({ params }) {
+    console.log("TO NA APPLICATION DETAILS")
     const queryClient = useQueryClient();
     const session = useContext(SessionContext)
     const project = useQuery({
@@ -15,15 +16,15 @@ export default function ApplicationDetail({ params }) {
         queryFn: () => getApplicationById(session.data.token, params.projectId)
     })
     const currentStatus = useQuery({
-        queryKey: [ "applications_status" ],
+        queryKey: [ "applications_status", params.projectId],
         queryFn: async () => {
             const data = await getApplications(session.data.token);
             for(const application of data) {
                 if(application.id == params.projectId) {
                     return String(application.status)
                 }
-                return "";
             }
+            return "";
         },
     })
     const applicationMutation = useMutation({
@@ -33,6 +34,7 @@ export default function ApplicationDetail({ params }) {
         }),
         onSuccess: () => {
             queryClient.invalidateQueries([ "applications" ])
+            queryClient.invalidateQueries([ "applications_status", params.projectId ])
         }
     })
 

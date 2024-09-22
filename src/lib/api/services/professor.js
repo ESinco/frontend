@@ -16,23 +16,30 @@ export async function addFeedbackStudent(data) {
   );
   notifyUser({
     type: "success",
-    message: "Usuário cadastrado com sucesso!",
+    message: "Feedback adicionado com sucesso!",
   });
   return response;
 }
 
 export async function deleteFeedbackStudent(data) {
   console.log(data);
-  const response = await api.delete(`/professor/retirar_avaliacao/${data}`, {
-    headers: {
-      Authorization: `Bearer ${data.token}`,
-    },
-  });
-  notifyUser({
-    type: "success",
-    message: "Avaliação deletada com sucesso!",
-  });
-  return response.data;
+  try {
+    const response = await api.delete(
+      `/professor/retirar_avaliacao/${data.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${data.token}`,
+        },
+      }
+    );
+    notifyUser({
+      type: "success",
+      message: "Avaliação deletada com sucesso!",
+    });
+    return response.data;
+  } catch (error) {
+    console.error;
+  }
 }
 
 export async function getAllProfessors() {

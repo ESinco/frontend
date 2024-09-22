@@ -7,6 +7,7 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import SessionContext from "@/contexts/sessionContext";
 import PdfRenderer from "@/components/PdfRenderer";
 import { getHistory, getUserHistory } from "@/lib/api/services/user";
+import { notifyUser } from "@/lib/adapters/notifier";
 
 export default function HistoryPage() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -47,6 +48,10 @@ export default function HistoryPage() {
           },
         }
       );
+      notifyUser({
+        type: "success",
+        message: "Histórico adicionado com sucesso!",
+      });
       return response.data;
     },
     onSuccess: () => {
@@ -63,7 +68,13 @@ export default function HistoryPage() {
   };
 
   return (
-    <div className="flex justify-center items-center gap-3 flex-col mt-10 w-full p-3 pb-6">
+    <div className="flex justify-center items-center gap-3 flex-col mt-4 w-full p-3 pb-6">
+      <btn
+        className="btn btn-primary btn-xs ml-auto"
+        onClick={() => router.push(`/professor/details/student/${studentId}`)}
+      >
+        Perfil Aluno
+      </btn>
       <h1 className="mb-10 text-2xl">Histórico</h1>
       {!isPending && !isError ? <PdfRenderer pdfData={data} /> : null}
 

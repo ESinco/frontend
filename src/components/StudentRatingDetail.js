@@ -1,5 +1,8 @@
 import SessionContext from "@/contexts/sessionContext";
-import { getAllProfessors } from "@/lib/api/services/professor";
+import {
+  deleteFeedbackStudent,
+  getAllProfessors,
+} from "@/lib/api/services/professor";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useContext } from "react";
 import LoadingSpinner from "./LoadingSpinner";
@@ -29,7 +32,6 @@ const StudentRatingDetail = ({ data }) => {
       session.updateSessionData(data);
     },
   });
-
   if (allProfs.data == null) {
     return <LoadingSpinner />;
   }
@@ -60,13 +62,13 @@ const StudentRatingDetail = ({ data }) => {
               ))}
             </ul>
           </div>
-          {console.log(item)}
+          {console.log(item.id_avaliacao)}
           {/* Conditionally render the trash icon button */}
           {item.id_professor == session.data.id && (
             <button
               onClick={() => {
                 mutation.mutate({
-                  item: item,
+                  id: item.id_avaliacao,
                 });
               }}
               className="text-red-500 hover:text-red-700"

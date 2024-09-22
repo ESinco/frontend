@@ -62,6 +62,10 @@ export async function editStudent(data) {
       }
     )
     .then((response) => {
+      notifyUser({
+        type: "success",
+        message: "Informações atualizadas com sucesso!",
+      });
       return response;
     })
     .catch((error) => {

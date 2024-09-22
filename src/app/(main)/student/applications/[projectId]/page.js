@@ -15,15 +15,11 @@ export default function ApplicationDetail({ params }) {
         queryFn: () => getApplicationById(session.data.token, params.projectId)
     })
     const currentStatus = useQuery({
-        queryKey: [ "applications" ],
+        queryKey: [ "applications_status" ],
         queryFn: async () => {
             const data = await getApplications(session.data.token);
             for(const application of data) {
-                console.log(application)
-                console.log("projectid: ", params.projectId)
-                console.log("appl.id: ", application.id)
                 if(application.id == params.projectId) {
-                    console.log("ACHEI")
                     return String(application.status)
                 }
                 return "";

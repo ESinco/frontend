@@ -68,7 +68,7 @@ export default function HistoryPage() {
   };
 
   return (
-    <div className="flex justify-center items-center gap-3 flex-col mt-4 w-full p-3 pb-6">
+    <div className="flex justify-center items-center gap-3 flex-col mt-4 w-full p-3 pb-6 ">
       <btn
         className="btn btn-primary btn-xs ml-auto"
         onClick={() => router.push(`/professor/details/student/${studentId}`)}

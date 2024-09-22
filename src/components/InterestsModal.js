@@ -109,7 +109,7 @@ export default function InterestsModal({ userData }) {
                     className="select select-bordered w-full max-w-xs mb-5"
                   >
                     <option value="" disabled>
-                      Selecione uma habilidade
+                      Selecione um interesse
                     </option>
                     {interesses?.data?.length > 0 ? (
                       interesses.data.map((interesse) => (

@@ -110,7 +110,7 @@ export default function ExperiencesModal({ userData }) {
                     className="select select-bordered w-full max-w-xs mb-5"
                   >
                     <option value="" disabled>
-                      Selecione uma habilidade
+                      Selecione uma experiência
                     </option>
                     {experiencies?.data?.length > 0 ? (
                       experiencies.data.map((experience) => (

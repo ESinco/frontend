@@ -4,11 +4,8 @@ import { editStudent } from "@/lib/api/services/user";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useContext, useEffect, useState } from "react";
 
-export default function SkillsModal({ isOpen, onClose, userData }) {
+export default function SkillsModal({ userData }) {
   const [idValue, setIdValue] = useState("");
-  const [inputValue, setInputValue] = useState("");
-  const [groupValue, setGroupValue] = useState("");
-  const [habilidadesValue, setHabilidadesValue] = useState([]);
 
   const session = useContext(SessionContext);
   const queryClient = useQueryClient();
@@ -43,15 +40,13 @@ export default function SkillsModal({ isOpen, onClose, userData }) {
         ...prev,
         habilidades: session.data.habilidades,
         interesses: session.data.interesses,
+        experiencias: session.data.experiencias,
       }));
-      onClose();
     },
   });
 
   const handleHabilidadesChange = (e) => {
     const id = idValue;
-    const nome = inputValue; // From the text input
-    const grupo = groupValue; // From the select input
 
     setEditStudentData((prev) => ({
       ...prev,
@@ -60,8 +55,10 @@ export default function SkillsModal({ isOpen, onClose, userData }) {
         id,
       ],
       interesses: [...prev?.interesses?.map((interesse) => interesse?.id)],
+      experiencias: [
+        ...prev?.experiencias?.map((experiencia) => experiencia?.id),
+      ],
     }));
-    onClose();
   };
 
   useEffect(() => {
@@ -69,6 +66,7 @@ export default function SkillsModal({ isOpen, onClose, userData }) {
       ...prev,
       interesses: userData?.interesses,
       habilidades: userData?.habilidades,
+      experiencias: userData?.experiencias,
     }));
   }, [userData]);
 
@@ -103,8 +101,6 @@ export default function SkillsModal({ isOpen, onClose, userData }) {
                     );
 
                     setIdValue(selectedSkill.id); // Set id
-                    setInputValue(selectedSkill.nome); // Set nome
-                    setGroupValue(selectedSkill.grupo); // Set grupo
                   }}
                   className="select select-bordered w-full max-w-xs mb-5"
                 >
@@ -122,9 +118,6 @@ export default function SkillsModal({ isOpen, onClose, userData }) {
                 </select>
                 {/* Button to trigger the habilidades onChange */}
                 <div className="flex flex-row justify-end gap-5">
-                  <button onClick={onClose} className="btn-error btn">
-                    Cancelar
-                  </button>
                   <button
                     onClick={handleHabilidadesChange}
                     className="btn btn-success w-1/3"

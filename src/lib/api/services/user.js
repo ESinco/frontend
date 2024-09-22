@@ -53,9 +53,7 @@ export async function editStudent(data) {
         email: data.email, // Email pode mudar ou não
         github: data.github, // GitHub pode ser atualizado
         linkedin: data.linkedin, // LinkedIn pode ser atualizado
-        habilidades: data.habilidades,
         experiencias: data.experiencias,
-        interesses: data.interesses,
       },
       {
         headers: {
@@ -64,8 +62,6 @@ export async function editStudent(data) {
       }
     )
     .then((response) => {
-      console.log(response.data);
-
       return response;
     })
     .catch((error) => {

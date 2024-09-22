@@ -3,7 +3,7 @@ import { editStudent } from "@/lib/api/services/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useContext, useEffect, useState } from "react";
 
-export default function ProfileModal({ isOpen, onClose, aluno }) {
+export default function ProfileModal({ aluno }) {
   const queryClient = useQueryClient();
 
   const session = useContext(SessionContext);
@@ -29,9 +29,22 @@ export default function ProfileModal({ isOpen, onClose, aluno }) {
     onSuccess: (data) => {
       queryClient.invalidateQueries("student_data");
       session.updateSessionData(data);
-      onClose();
     },
   });
+
+  useEffect(() => {
+    setEditStudentData((prev) => ({
+      nome: aluno?.nome, // Nome permanece o mesmo
+      curriculo: aluno?.curriculo ?? "",
+      email: aluno?.email || "", // Email pode mudar ou não
+      github: aluno?.github || "", // GitHub podse ser atualizado
+      linkedin: aluno?.linkedin, // LinkedIn pode ser atualizado
+      habilidades: aluno?.habilidades.map((habilidade) => habilidade?.id),
+      experiencias: aluno?.experiencias.map((experiencia) => experiencia?.id),
+      interesses: aluno?.interesses.map((interesse) => interesse?.id),
+    }));
+    console.log(editStudentData.habilidades);
+  }, [aluno]);
 
   return (
     <>
@@ -171,18 +184,7 @@ export default function ProfileModal({ isOpen, onClose, aluno }) {
 
               {/* if there is a button in form, it will close the modal */}
               <div className="gap-4 flex pt-10 ml-auto">
-                <button
-                  type="button"
-                  onClick={onClose}
-                  className="btn btn-error "
-                >
-                  Cancelar
-                </button>
-                <button
-                  onClick={onClose}
-                  type="submit"
-                  className="btn btn-success "
-                >
+                <button type="submit" className="btn btn-success ">
                   Confirmar
                 </button>
               </div>

@@ -10,33 +10,19 @@ import { usePathname } from "next/navigation";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import StudentRating from "@/components/StudentRating";
 import SessionContext from "@/contexts/sessionContext";
-import { getStudentData } from "@/lib/api/services/user";
+import { getStudentData, getVisuPerfil } from "@/lib/api/services/user";
 import { useQuery } from "@tanstack/react-query";
 
 export default function UserProfilePage() {
   const [currentPath, setCurrentPath] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [sessionData, setSessionData] = useState(null);
 
   const pathname = usePathname();
   const session = useContext(SessionContext);
 
   const aluno = useQuery({
-    queryKey: ["student_data"],
-    queryFn: () => getStudentData(session.data.matricula),
+    queryKey: ["visu_perfil_data"],
+    queryFn: () => getVisuPerfil(session.data.token, session.data.matricula),
   });
-
-  // Function to open the modal
-  const openModal = () => {
-    setIsModalOpen(true);
-    document.getElementById("pfp_modal").showModal();
-  };
-
-  // Function to close the modal
-  const closeModal = () => {
-    setIsModalOpen(false);
-    document.getElementById("pfp_modal").close();
-  };
 
   useEffect(() => {
     setCurrentPath(pathname);
@@ -50,6 +36,10 @@ export default function UserProfilePage() {
     <LoadingSpinner />;
   }
 
+  if (session.data == null) {
+    return <LoadingSpinner />;
+  }
+  console.log(aluno.data);
   return (
     <div className="bg-base-200 flex justify-center flex-col items-center p-3 max-w-[1000px]">
       {/* DIV INFORMACOES INICIAIS */}
@@ -57,12 +47,7 @@ export default function UserProfilePage() {
         <div className=" flex flex-row items-center w-full">
           <p className="mx-auto text-xl my-6">{aluno.data?.nome}</p>
           <div className="flex flex-col items-center gap-3">
-            <ProfileModal
-              onClick={openModal}
-              onClose={closeModal}
-              isOpen={isModalOpen}
-              aluno={aluno}
-            ></ProfileModal>
+            <ProfileModal aluno={aluno.data}></ProfileModal>
           </div>
         </div>
         <Link
@@ -137,17 +122,15 @@ export default function UserProfilePage() {
           </svg>
           <p>{aluno.data?.github}</p>
         </div>
-
-        {session.data.isTeacher ? <StudentRating /> : null}
       </div>
       <div className="gap-5 flex flex-col w-full">
         {/* EXPERIENCIAS COMPONENT */}
-        <ExperiencesCard></ExperiencesCard>
+        <ExperiencesCard userData={aluno.data}></ExperiencesCard>
         {/* HABILIDADES CARD - THINK ABOUT A WAY TO MAKE BADGE 'CLASSES' EACH ONE'LL HAVE A SYMBOL AND A COLOR */}
 
-        <SkillsCard></SkillsCard>
+        <SkillsCard userData={aluno.data}></SkillsCard>
         {/* INTERESSES CARD - THINK ABOUT A WAY TO MAKE BADGE 'CLASSES' EACH ONE'LL HAVE A SYMBOL AND A COLOR */}
-        <InterestsCard></InterestsCard>
+        <InterestsCard userData={aluno.data}></InterestsCard>
       </div>
     </div>
   );

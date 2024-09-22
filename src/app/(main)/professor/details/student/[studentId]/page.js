@@ -10,13 +10,14 @@ import { getFeedbacksData } from "@/lib/api/services/tags";
 import { getVisuPerfil } from "@/lib/api/services/user";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useContext } from "react";
 
 export default function StudentDetails() {
   const { studentId } = useParams();
 
   const session = useContext(SessionContext);
+  const router = useRouter();
 
   const aluno = useQuery({
     queryKey: ["visu_perfil_data"],
@@ -29,6 +30,9 @@ export default function StudentDetails() {
   });
 
   if (aluno == null) {
+    return <LoadingSpinner />;
+  }
+  if (session.data == null) {
     return <LoadingSpinner />;
   }
 

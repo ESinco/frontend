@@ -4,10 +4,8 @@ import { editStudent } from "@/lib/api/services/user";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useContext, useEffect, useState } from "react";
 
-export default function InterestsModal({ isOpen, onClose, userData }) {
+export default function InterestsModal({ userData }) {
   const [idValue, setIdValue] = useState("");
-  const [inputValue, setInputValue] = useState("");
-  const [groupValue, setGroupValue] = useState("");
 
   const session = useContext(SessionContext);
   const queryClient = useQueryClient();
@@ -42,22 +40,22 @@ export default function InterestsModal({ isOpen, onClose, userData }) {
         ...prev,
         interesses: session.data.interesses,
         habilidades: session.data.habilidades,
+        experiencias: session.data.experiencias,
       }));
-      onClose();
     },
   });
 
   const handleInteressesChange = (e) => {
     const id = idValue;
-    const nome = inputValue; // From the text input
-    const grupo = groupValue; // Fixed value for interesses
 
     setEditStudentData((prev) => ({
       ...prev,
       interesses: [...prev?.interesses?.map((interesse) => interesse?.id), id],
       habilidades: [...prev?.habilidades?.map((habilidade) => habilidade?.id)],
+      experiencias: [
+        ...prev?.experiencias?.map((experiencia) => experiencia?.id),
+      ],
     }));
-    onClose();
   };
 
   useEffect(() => {
@@ -65,8 +63,11 @@ export default function InterestsModal({ isOpen, onClose, userData }) {
       ...prev,
       interesses: userData?.interesses,
       habilidades: userData?.habilidades,
+      experiencias: userData?.experiencias,
     }));
   }, [userData]);
+
+  console.log(userData);
 
   return (
     <>
@@ -99,8 +100,6 @@ export default function InterestsModal({ isOpen, onClose, userData }) {
                       );
 
                       setIdValue(selectedInterest.id); // Set id
-                      setInputValue(selectedInterest.nome); // Set nome
-                      setGroupValue(selectedInterest.grupo); // Set grupo
                     }}
                     className="select select-bordered w-full max-w-xs mb-5"
                   >
@@ -118,9 +117,6 @@ export default function InterestsModal({ isOpen, onClose, userData }) {
                   </select>
                   {/* Button to trigger the interesses onChange */}
                   <div className="flex flex-row justify-end gap-5">
-                    <button onClick={onClose} className="btn-error btn">
-                      Cancelar
-                    </button>
                     <button
                       onClick={handleInteressesChange}
                       className="btn btn-success w-1/3"

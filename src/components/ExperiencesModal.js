@@ -1,4 +1,75 @@
-export default function ExperiencesModal() {
+import SessionContext from "@/contexts/sessionContext";
+import { getExperienciasData } from "@/lib/api/services/tags";
+import { editStudent } from "@/lib/api/services/user";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useContext, useEffect, useState } from "react";
+
+export default function ExperiencesModal({ userData }) {
+  const [idValue, setIdValue] = useState("");
+
+  const session = useContext(SessionContext);
+  const queryClient = useQueryClient();
+
+  const [editStudentData, setEditStudentData] = useState({
+    nome: session.data.nome, // Nome permanece o mesmo
+    curriculo: session.data.curriculo || "",
+    email: session.data.email || "", // Email pode mudar ou não
+    github: session.data.github || "", // GitHub pode ser atualizado
+    linkedin: session.data.linkedin || "", // LinkedIn pode ser atualizado
+    habilidades: session.data.habilidades || [],
+    experiencias: session.data.experiencias || [],
+    interesses: session.data.interesses || [],
+  });
+
+  const experiencies = useQuery({
+    queryKey: ["experiencies_data"],
+    queryFn: () => getExperienciasData(),
+  });
+
+  // POST NO USER COM ESSAS INFORMACOES
+  const mutation = useMutation({
+    mutationFn: (data) =>
+      editStudent({
+        ...data,
+        token: session.data.token,
+      }),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries("visu_perfil_data");
+      session.updateSessionData(data);
+      setEditStudentData((prev) => ({
+        ...prev,
+        interesses: session.data.interesses,
+        habilidades: session.data.habilidades,
+        experiencias: session.data.experiencias,
+      }));
+    },
+  });
+
+  const handleExperiencesChange = (e) => {
+    const id = idValue;
+
+    setEditStudentData((prev) => ({
+      ...prev,
+      interesses: [...prev?.interesses?.map((interesse) => interesse?.id)],
+      habilidades: [...prev?.habilidades?.map((habilidade) => habilidade?.id)],
+      experiencias: [
+        ...prev?.experiencias?.map((experiencia) => experiencia?.id),
+        id,
+      ],
+    }));
+  };
+
+  useEffect(() => {
+    setEditStudentData((prev) => ({
+      ...prev,
+      interesses: userData?.interesses,
+      habilidades: userData?.habilidades,
+      experiencias: userData?.experiencias,
+    }));
+  }, [userData]);
+
+  console.log(userData);
+
   return (
     <>
       <button
@@ -9,55 +80,51 @@ export default function ExperiencesModal() {
       </button>
       <dialog id="exp_modal" className="modal mt-20 items-start">
         <div className="modal-box p-5 flex flex-col items-center justify-between">
-          <h3 className=" text-lg text-center">Adicionar Links Úteis</h3>
+          <h3 className=" text-lg text-center">Adicionar Experiências</h3>
 
           <div className="modal-action w-full justify-normal">
-            <form method="dialog" className="flex flex-col gap-3  pt-4 w-full ">
-              <label className="input input-bordered flex items-center gap-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                  className="h-4 w-4 opacity-70"
-                >
-                  <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
-                  <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
-                </svg>
-                <input
-                  type="text"
-                  className="grow"
-                  placeholder="Experiencias"
-                />
-              </label>
-              <label className="input input-bordered flex items-center gap-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                  className="h-4 w-4 opacity-70"
-                >
-                  <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
-                  <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
-                </svg>
-                <input type="text" className="grow" placeholder="Linkedin" />
-              </label>
-              <label className="input input-bordered flex items-center gap-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                  className="h-4 w-4 opacity-70"
-                >
-                  <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
-                  <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
-                </svg>
-                <input type="text" className="grow" placeholder="Linkedin" />
-              </label>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                mutation.mutate(editStudentData);
+              }}
+              className="flex flex-col gap-3  pt-4 w-full "
+            >
+              <div className="flex flex-col h-full justify-between">
+                <>
+                  <select
+                    value={idValue} // Bind to inputValue (skill name)
+                    onChange={(e) => {
+                      const selectedExp = experiencies.data.find(
+                        (experiencie) => experiencie.id == e.target.value
+                      );
 
-              {/* if there is a button in form, it will close the modal */}
-              <div className="gap-4 flex pt-10 ml-auto">
-                <button className="btn btn-error ">Cancelar</button>
-                <button className="btn btn-success ">Confirmar</button>
+                      setIdValue(selectedExp.id); // Set id
+                    }}
+                    className="select select-bordered w-full max-w-xs mb-5"
+                  >
+                    {experiencies?.data?.length > 0 ? (
+                      experiencies.data.map((experience) => (
+                        <>
+                          <option key={experience.id} value={experience.id}>
+                            {experience.nome} - ({experience.grupo})
+                          </option>
+                        </>
+                      ))
+                    ) : (
+                      <option disabled>Loading Experiencias...</option>
+                    )}
+                  </select>
+                  {/* Button to trigger the interesses onChange */}
+                  <div className="flex flex-row justify-end gap-5">
+                    <button
+                      onClick={handleExperiencesChange}
+                      className="btn btn-success w-1/3"
+                    >
+                      Adicionar Experiencia
+                    </button>
+                  </div>
+                </>
               </div>
             </form>
           </div>

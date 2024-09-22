@@ -38,7 +38,7 @@ export default function Navbar() {
                             {session.data?.isTeacher ? "Projetos" : "Perfil"}
                         </Link>
                     </li>
-                    {!session.data.isTeacher && (
+                    {!session.data?.isTeacher && (
                         <>
                             <li>
                                 <Link href="/student/applications">Candidaturas</Link>

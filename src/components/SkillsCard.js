@@ -6,12 +6,14 @@ import { getStudentData, getVisuPerfil } from "@/lib/api/services/user";
 import SessionContext from "@/contexts/sessionContext";
 
 export default function SkillsCard({ userData }) {
+  const session = useContext(SessionContext);
+
   return (
     <div className="bg-base-100 flex flex-col items-start justify-between px-6 w-full rounded-3xl custom_shadow">
       <div className="flex flex-row justify-between w-full py-3">
         <h1 className="text-2xl py-3">Habilidades</h1>
         {/* Open the modal using document.getElementById('ID').showModal() method */}
-        <SkillsModal userData={userData} />
+        {!session.data.isTeacher ? <SkillsModal userData={userData} /> : null}
       </div>
       <div className="w-full card-actions justify-start pb-4">
         {userData?.habilidades?.map((habilidade, index) => (

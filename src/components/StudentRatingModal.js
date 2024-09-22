@@ -36,7 +36,7 @@ export default function StudentRatingModal({ feedbacks, matAluno }) {
       queryClient.invalidateQueries("visu_perfil_data");
       setComentario("");
       setTags([]);
-      onClose();
+      document.getElementById("rating_modal").close();
     },
   });
 

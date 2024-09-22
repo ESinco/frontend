@@ -11,7 +11,7 @@ export default function CandidatesDetails() {
     const { projectId } = useParams();
     const queryClient = useQueryClient();
     const session = useContext(SessionContext)
-    const [ filteredStudents, setFilteredStudents ] = useState([]); // candidates onjects
+    const [ filteredStudents, setFilteredStudents ] = useState([]); // candidates objects
     const [ selectedStudents, setSelectedStudents ] = useState(new Set());
     const [ allSelected, setAllSelected ] = useState(false)
 

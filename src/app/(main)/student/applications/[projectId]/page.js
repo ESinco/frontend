@@ -37,6 +37,11 @@ export default function ApplicationDetail({ params }) {
             queryClient.invalidateQueries([ "applications_status", params.projectId ])
         }
     })
+    function buttonStyle() {
+        if(currentStatus.data === "true") return "accent"
+        if(currentStatus.data === "") return "primary"
+        return "error"
+    }
 
     useEffect(() => {console.log(`currentStatus: >${currentStatus.data}<`)}, [currentStatus.data])
     return (
@@ -59,7 +64,7 @@ export default function ApplicationDetail({ params }) {
                 
                 <button
                     className={
-                        `btn-wide w-full btn btn-${currentStatus === "true" ? "accent" : currentStatus.data === "" ? "primary" : "error"}`
+                        `btn-wide w-full btn btn-${buttonStyle()}`
                     }
                     disabled={currentStatus.data === "null" || currentStatus.data === undefined}
                     onClick={applicationMutation.mutate}

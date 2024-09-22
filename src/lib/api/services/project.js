@@ -93,6 +93,7 @@ export async function getApplications(token) {
         slots: project.vagas,
         professor: project.responsavel,
         skills: project.habilidades,
+        status: project.status,
     }));
 }
 
@@ -162,5 +163,13 @@ export async function rejectStudents({ token, matriculas, projectId }) {
         )
     ))
     console.log("Aprove student response data: ", response.data)
+    return response.data;
+}
+
+export async function applyInProject({ projectId, token }) {
+    const response = await api.post(`/aluno/interesse_projeto/${projectId}/`, {}, {
+        headers: { Authorization: `Bearer ${token}` }
+    })
+    console.log(response.data);
     return response.data;
 }

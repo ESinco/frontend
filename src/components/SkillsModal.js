@@ -11,14 +11,14 @@ export default function SkillsModal({ userData }) {
   const queryClient = useQueryClient();
 
   const [editStudentData, setEditStudentData] = useState({
-    nome: session.data.nome, // Nome permanece o mesmo
-    curriculo: session.data.curriculo || "",
-    email: session.data.email || "", // Email pode mudar ou não
-    github: session.data.github || "", // GitHub pode ser atualizado
-    linkedin: session.data.linkedin || "", // LinkedIn pode ser atualizado
-    habilidades: session.data.habilidades || [],
-    experiencias: session.data.experiencias || [],
-    interesses: session.data.interesses || [],
+    nome: session.data?.nome, // Nome permanece o mesmo
+    curriculo: session.data?.curriculo || "",
+    email: session.data?.email || "", // Email pode mudar ou não
+    github: session.data?.github || "", // GitHub pode ser atualizado
+    linkedin: session.data?.linkedin || "", // LinkedIn pode ser atualizado
+    habilidades: session.data?.habilidades || [],
+    experiencias: session.data?.experiencias || [],
+    interesses: session.data?.interesses || [],
   });
 
   const skills = useQuery({

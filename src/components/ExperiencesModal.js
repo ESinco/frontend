@@ -121,7 +121,7 @@ export default function ExperiencesModal({ userData }) {
                         </>
                       ))
                     ) : (
-                      <option disabled>Loading Experiencias...</option>
+                      <option disabled>Carregando Experiencias...</option>
                     )}
                   </select>
                   {/* Button to trigger the interesses onChange */}

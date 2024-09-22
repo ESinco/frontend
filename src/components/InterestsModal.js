@@ -120,7 +120,7 @@ export default function InterestsModal({ userData }) {
                         </>
                       ))
                     ) : (
-                      <option disabled>Loading Interesses...</option>
+                      <option disabled>Carregando Interesses...</option>
                     )}
                   </select>
                   {/* Button to trigger the interesses onChange */}

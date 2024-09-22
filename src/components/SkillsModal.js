@@ -123,7 +123,7 @@ export default function SkillsModal({ userData }) {
                       </>
                     ))
                   ) : (
-                    <option disabled>Loading skills...</option>
+                    <option disabled>Carregando Habilidades...</option>
                   )}
                 </select>
                 {/* Button to trigger the habilidades onChange */}

@@ -33,8 +33,6 @@ export default function ProjectDetails({ params }) {
 
                 <p className="text-md">{project.data?.description}</p>
 
-                <div><SkillsCard /></div>
-
                 <Link
                     className="btn btn-primary btn-wide w-full"
                     href={`/professor/details/${project.data?.id}/manage`}

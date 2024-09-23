@@ -13,9 +13,9 @@ driver = webdriver.Chrome(service=service)
 
 wait = WebDriverWait(driver, 6000)
 
-nomeTesteSucesso = "Osvaldo Cruz"
-email = "Osvaldo@osvaldinho.com"
-matricula = "77777"
+nomeTesteSucesso = "Osvaldo Oscar"
+email = "Osvaldo3@osvaldo.com"
+matricula = "777777774"
 senha = "12345678"
 
 
@@ -51,7 +51,9 @@ def navega_profile(driver, pagina):
 
 
 def test_signup_validStudent_credentials():
+    driver.get("http://localhost:3000/signup/aluno")
     # Preenche o formulário de cadastro
+    time.sleep(2)
     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "input.input-bordered[type='nome']"))).send_keys(nomeTesteSucesso)
     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "input.input-bordered[type='email']"))).send_keys(email)
     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "input.input-bordered[type='matricula']"))).send_keys(matricula)
@@ -63,6 +65,7 @@ def test_signup_validStudent_credentials():
 
     # Verifica se o redirecionamento para a página de login ocorreu
     assert wait.until(EC.url_contains("login")), "Redirecionamento para a página de login falhou"
+    print("Teste para cadastro de Aluno bem-sucedido!")
 
 
 # Teste de login
@@ -75,6 +78,7 @@ def test_login_valid_credentials():
     # Adicione um tempo de espera para garantir que o redirecionamento ocorra
     wait.until(EC.url_contains("student/profile"))
     assert "http://localhost:3000/student/profile" in driver.current_url
+    print("Teste para login de Aluno bem-sucedido!")
 
 
 
@@ -97,14 +101,14 @@ def test_dropdown_project():
 
         # Dentro do dropdown, encontrar e clicar no link "Projetos"
     time.sleep(3)
-    projetos_button = dropdown_menu.find_element(By.LINK_TEXT, 'Projetos')
+    projetos_button = dropdown_menu.find_element(By.LINK_TEXT, 'Candidaturas')
     time.sleep(3)
     projetos_button.click()
 
-    wait.until(EC.url_contains("/student/projects"))
+    wait.until(EC.url_contains("/student/applications"))
 
-    assert "http://localhost:3000/student/projects" in driver.current_url
-
+    assert "http://localhost:3000/student/applications" in driver.current_url
+    print("Tela de clique no botao Candidaturas foi bem-sucedido!")
         # Fechar o navegador após o teste
     driver.quit()
 
@@ -128,9 +132,9 @@ def test_click_details_button():
             # Verifica se o redirecionamento ocorreu corretamente
             wait.until(EC.url_contains("/student/applications/"))
             assert "/student/applications/" in driver.current_url, "Redirecionamento para a página de detalhes falhou"
-            print("Teste de clique no botão 'Detalhes' foi bem-sucedido!")
+            print("Teste de clique no botao 'Detalhes' foi bem-sucedido!")
         else:
-            print("Botão 'Detalhes' não encontrado.")
+            print("Botao 'Detalhes' não encontrado.")
 
     except Exception as e:
         print(f"Ocorreu um erro: {e}")
@@ -158,12 +162,13 @@ def faz_loginProfessor(driver):
 def test_login_valid_professor_credentials():
     # Acessa a página de login
     driver.get("http://localhost:3000/login")
-    
+    time.sleep(2)
     # Preenche o formulário de login do professor
     driver.find_element(By.CSS_SELECTOR, "input.input-bordered[type='email']").send_keys(emailProfessor)
     driver.find_element(By.CSS_SELECTOR, "input.input-bordered[type='password']").send_keys(senha)
     driver.find_element(By.CSS_SELECTOR, "button.btn-primary").click()
     
+    time.sleep(2)
     # Espera até que a URL contenha "/professor"
     wait.until(EC.url_contains("/professor"))
     
@@ -186,14 +191,17 @@ def test_add_new_project():
     # Clica no botão "Adicionar +"
     time.sleep(3)
     wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Adicionar')]"))).click()
+    time.sleep(3)
 
     # Verifica se o modal está aberto
     wait.until(EC.visibility_of_element_located((By.ID, "create_project_modal")))
 
     # Preenche os detalhes do novo projeto
+    novo_projeto_nome = "Nome Teste"
+
     # Para o campo 'Nome'
     name_label = driver.find_element(By.XPATH, "//span[text()='Nome']/ancestor::label//input")
-    name_label.send_keys("Nome Teste")
+    name_label.send_keys(novo_projeto_nome)
 
     # Para o campo 'Laboratório'
     lab_label = driver.find_element(By.XPATH, "//span[text()='Laboratório']/ancestor::label//input")
@@ -204,20 +212,25 @@ def test_add_new_project():
     # Clica no botão para salvar o novo projeto
     wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "input[type='submit']"))).click()
 
+    # Aguarda o tempo necessário para a atualização da página
+    time.sleep(3)  # Opcional
+
     # Verifica se o novo projeto foi adicionado
     wait.until(EC.visibility_of_element_located((By.XPATH, f"//h2[contains(text(), '{novo_projeto_nome}')]")))
-    assert novo_projeto_nome in driver.page_source, "O novo projeto não foi adicionado com sucesso!"
+    assert novo_projeto_nome in driver.page_source, "O novo projeto nao foi adicionado com sucesso!"
+
+    print("O novo projeto foi adicionado com sucesso!")
     driver.quit()
 
 #baixe o selenium e o webdriver. se usar o chrome execute o installChromedriver
 #para rodar os teste é só remover as '#' e executar
 
 # Rodar o teste de Alunos
-#test_click_details_button()
-#time.sleep(2)
-#driver.quit()
-#test_dropdown_project()
+# test_click_details_button()
+# time.sleep(2)
+# driver.quit()
+# test_dropdown_project()
 
-#test_login_valid_professor_credentials()
-#test_signup_validProfessor_credentials()
-#test_add_new_project()
+# test_signup_validStudent_credentials()
+# test_login_valid_professor_credentials()
+test_add_new_project()

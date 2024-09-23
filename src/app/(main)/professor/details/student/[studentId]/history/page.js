@@ -64,6 +64,10 @@ export default function HistoryPage() {
     setFormDataFile(formData);
   };
 
+  if (!session.data) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <div className="flex justify-center items-center gap-3 flex-col mt-4 w-full p-3 pb-6">
       <btn

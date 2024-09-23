@@ -22,7 +22,7 @@ function PdfRenderer({ pdfData }) {
   }, [pdfData]);
 
   return (
-    <div className="flex flex-col gap-4 items-center">
+    <div className="flex flex-col gap-4 items-center w-full">
       {!session.data.isTeacher ? (
         <button className="btn btn-outline btn-primary" onClick={fetchPdf}>
           Mostrar Historico
@@ -34,9 +34,10 @@ function PdfRenderer({ pdfData }) {
         <iframe
           src={pdfUrl}
           width="100%"
-          height="600px"
+          height="700px"
           title="PDF Viewer"
           style={{ border: "none" }}
+          className="md:w-[1000px]"
         ></iframe>
       )}
 

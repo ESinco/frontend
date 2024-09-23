@@ -17,7 +17,7 @@ export default function SkillsCard({ userData }) {
       </div>
       <div className="w-full card-actions justify-start pb-4">
         {userData?.habilidades?.map((habilidade, index) => (
-          <p className="badge badge-primary text-xs" key={habilidade.id}>
+          <p className="badge badge-accent text-xs" key={habilidade.id}>
             {habilidade.nome}
           </p>
         ))}

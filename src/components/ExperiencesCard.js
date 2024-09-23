@@ -14,7 +14,7 @@ export default function ExperiencesCard({ userData }) {
       </div>
       <div className="w-full card-actions justify-start p-4">
         {userData?.experiencias?.map((interesse, index) => (
-          <span className="badge badge-primary text-xs" key={interesse.id}>
+          <span className="badge badge-info text-xs" key={interesse.id}>
             {interesse.nome}
           </span>
         ))}

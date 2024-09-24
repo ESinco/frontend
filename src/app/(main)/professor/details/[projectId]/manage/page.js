@@ -51,7 +51,7 @@ export default function CandidatesDetails() {
         }
     }, [filteredStudents])
 
-    useEffect(() => {console.log(selectedStudents)}, [selectedStudents])
+    useEffect(() => {console.log(filteredStudents)}, [filteredStudents])
 
     if(project.isLoading) return <LoadingSpinner />
     return (
@@ -133,7 +133,7 @@ export default function CandidatesDetails() {
                                     <td>{candidate.aluno.nome}</td>
                                     <td>{candidate.aluno.matricula}</td>
                                     <td>{candidate.aluno.email}</td>
-                                    <td>SEM CRA INTEGRADO</td>
+                                    <td>{candidate.aluno.cra ?? "N/A"}</td>
                                     <td>
                                         {candidate.status === null && <div className="badge badge-neutral">Pendente</div>}
                                         {candidate.status === true && <div className="badge badge-accent">Aprovado</div>}
@@ -143,17 +143,6 @@ export default function CandidatesDetails() {
                             )
                         }
                     </tbody>
-                    {/* foot */}
-                    <tfoot>
-                        <tr>
-                            <th></th>
-                            <th>Nome</th>
-                            <th>Matricula</th>
-                            <th>Email</th>
-                            <th>CRA</th>
-                            <th>Status</th>
-                        </tr>
-                    </tfoot>
                 </table>
             </div>
 

@@ -62,6 +62,14 @@ function filterByStatus(candidates, input) {
         )
 }
 
+function filterByCra(candidates, input) {
+    if(input.length === 0) return candidates;
+    return candidates
+        .filter(candidate => 
+            candidate.aluno.cra >= Number(input)
+        )
+}
+
 export default function CandidateFilter({ emitFilteredData, project }) {
     const [ isOpen, setIsOpen ] = useState(false);
     const [ genericFilter, setGenericFilter ] = useState("")
@@ -79,6 +87,7 @@ export default function CandidateFilter({ emitFilteredData, project }) {
         filteredData = filterByEmail(filteredData, filters.email)
         filteredData = filterByMatricula(filteredData, filters.matricula)
         filteredData = filterByStatus(filteredData, filters.status)
+        filteredData = filterByCra(filteredData, filters.cra)
 
         emitFilteredData(filteredData)
     }, [project.data, filters])
@@ -137,7 +146,7 @@ export default function CandidateFilter({ emitFilteredData, project }) {
                     />
 
                     <input
-                        type="text"
+                        type="number"
                         className="grow input input-bordered"
                         placeholder="CRA"
                         disabled={!isOpen}

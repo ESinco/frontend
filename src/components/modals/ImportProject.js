@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createProject } from "@/lib/api/services/project";
+import { importProject } from "@/lib/api/services/project";
 import LoadingSpinner from "../LoadingSpinner";
 import SessionContext from "@/contexts/sessionContext";
 import { notifyUser } from "@/lib/adapters/notifier";
@@ -20,40 +20,30 @@ function Modal() {
     const session = useContext(SessionContext);
     const queryClient = useQueryClient();
     const [selectedFile, setSelectedFile] = useState(null);
-    const [formDataFile, setFormDataFile] = useState(null);
     const mutation = useMutation({
-        mutationFn: async () => {
-          const response = await api.post(
-            "/projeto/cadastrar/csv/",
-            {
-              file: selectedFile
+        mutationFn: async () => { 
+            if (!selectedFile) {
+                notifyUser({
+                    type: "error",
+                    message: "Por favor, selecione um arquivo.",
+            })
+            return}
+
+            const formData = new FormData();
+            formData.append("file", selectedFile);
+            importProject({
+                formData : formData,
+                token : session.data.token
+            })
             },
-            {
-              headers: {
-                "Content-Type": "multipart/form-data",
-                Authorization: `Bearer ${session.data.token}`,
-              },
-            }
-          );
-          console.log(response.data)
-          notifyUser({
-            type: "success",
-            message: "Histórico adicionado com sucesso!",
-          });
-          return response.data;
-        },
-        onSuccess: () => {
-          queryClient.invalidateQueries("professor_projects");
-        },
-      });
+            onSuccess: () => {
+            queryClient.invalidateQueries("professor_projects")
+            },
+        })
 
     const handleFileChange = (event) => {
-        setSelectedFile(event.target.files[0]);
-        const formData = new FormData();
-        formData.append("professor", session.data.id_professor);
-        formData.append("file", selectedFile);
-        setFormDataFile(formData);
-      };
+        setSelectedFile(event.target.files[0])
+      }
       
     return (
         <dialog id={MODAL_ID} className="modal">

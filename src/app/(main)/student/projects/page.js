@@ -51,7 +51,7 @@ export default function AvailableProjects() {
                             project.description.toLowerCase().includes(searchString.toLowerCase()) ||
                             project.professor.nome.toLowerCase().includes(searchString.toLowerCase())
                         )
-                        .map(project => <StudentProjectCard key={project.id} {...project} />)
+                        .map(project => <StudentProjectCard key={project.id} {...project} isCandidate={false} />)
                 }
             </div>
         </main>

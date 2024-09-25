@@ -3,7 +3,7 @@ import SessionContext from "@/contexts/sessionContext"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useContext } from "react"
 import SkillsCardStudent from "@/components/SkillsCardStudent"
-import { getApplicationById, getApplications, applyInProject } from "@/lib/api/services/project"
+import { getApplicationById, getApplications, applyInProject, disApplyInProject } from "@/lib/api/services/project"
 import { useEffect, useState } from "react"
 import LoadingSpinner from "@/components/LoadingSpinner"
 
@@ -37,11 +37,25 @@ export default function ApplicationDetail({ params }) {
             queryClient.invalidateQueries([ "applications_status", params.projectId ])
         }
     })
+
+    const disApplicationMutation = useMutation({
+        mutationFn: () => disApplyInProject({
+            token: session.data.token,
+            projectId: params.projectId
+        }),
+        onSuccess: () => {
+            queryClient.invalidateQueries([ "applications" ])
+            queryClient.invalidateQueries([ "applications_status", params.projectId ])
+        }
+    })
+
+
     function buttonStyle() {
-        if(currentStatus.data === "true") return "accent"
+        if(currentStatus.data === "null") return "error"
         if(currentStatus.data === "") return "primary"
         return "error"
     }
+    const stats = currentStatus.data === "true" ? "Aprovado": currentStatus.data === "false" ? "Reprovado": currentStatus.data === "null" ? "Pendente": "";
 
     useEffect(() => {console.log(`currentStatus: >${currentStatus.data}<`)}, [currentStatus.data])
     return (
@@ -49,7 +63,10 @@ export default function ApplicationDetail({ params }) {
             <h1 className="w-full text-center text-xl mb-5">{project.data?.name}</h1>
             <section className="flex flex-col gap-5">
                 <p>{`Laboratório: ${project.data?.lab}`}</p>
+                <div className="flex justify-between mb-5">
                 <p>{`Criado por: ${project.data?.professor.nome}`}</p>
+                <div className="badge badge-accent badge-outline">{`${stats}`}</div>
+                </div >
                 <div className="flex justify-between items-center mb-5">
                     <p className="text-sm">{`Criação: ${project.data?.date}`}</p>
                     <div className="flex gap-2">
@@ -64,17 +81,19 @@ export default function ApplicationDetail({ params }) {
                 
                 <button
                     className={
-                        `btn-wide w-full btn btn-${buttonStyle()}`
+                        `btn-wide w-full btn btn-${buttonStyle()} text-white`
                     }
-                    disabled={currentStatus.data === "null" || currentStatus.data === undefined}
-                    onClick={applicationMutation.mutate}
-                >                    
-                    {currentStatus.data === undefined && <LoadingSpinner />}
-                    {currentStatus.data === "" && "Candidatar-se"}
-                    {currentStatus.data === "true" && "APROVADO"}
-                    {currentStatus.data === "false" && "REJEITADO"}
-                    {currentStatus.data === "null" && "PENDENTE"}
+                    onClick={() =>{
+                        if (currentStatus.data === "") {
+                            applicationMutation.mutate();
+                        } else if (currentStatus.data === "null") {
+                            disApplicationMutation.mutate();
+                        }
+                    }}
                     
+                >                    
+                    {currentStatus.data === "" && "Candidatar-se"}
+                    {currentStatus.data === "null" && "Cancelar Candidatura"}
                 </button>
             </section>
         </main>

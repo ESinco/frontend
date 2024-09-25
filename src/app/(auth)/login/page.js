@@ -27,7 +27,7 @@ export default function Login() {
             // Invalida todas as sessões, (já que um novo login foi feito)
             queryClient.invalidateQueries("sessions");
             if(data.isTeacher) router.push("/professor");
-            else router.push("/student/profile");
+            else router.push("/student/projects");
         }
     })
 

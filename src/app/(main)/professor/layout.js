@@ -9,7 +9,7 @@ export default function ProfessorAppLayout({ children }) {
 
     // Se usuario atualmente logado nao for professor, redirecione para perfil de aluno
     useEffect(() => {
-        if(session.data && !session.data.isTeacher) redirect("/student/profile");
+        if(session.data && !session.data.isTeacher) redirect("/student/projects");
     }, [session.isLoading])
 
     return (

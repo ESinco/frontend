@@ -36,7 +36,7 @@ export default function ProjectCard({
                 <div className="card-actions flex justify-between items-center">
                     <div className="flex flex-wrap space-x-2">
                         {skills.slice(0, 4).map((skill, index) => (
-                            <div key={index} className={`badge ${badgeColors[index % badgeColors.length]}`}>{skill}</div>
+                            <div key={index} className={`badge ${badgeColors[index % badgeColors.length]}`}>{skill.nome}</div>
                         ))}
                         {skills.length > 4 && (
                             <div className="badge badge-neutral">+{skills.length - 4}</div>

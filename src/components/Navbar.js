@@ -10,7 +10,7 @@ export default function Navbar() {
   return (
     <div className="fixed top-0 navbar flex justify-between navbar_shadow" data-theme="dark">
     <div className="">
-      <Link href={"/"} className="btn btn-ghost text-xl">
+      <Link href={"/student/projects"} className="btn btn-ghost text-xl">
         ProjetIn
       </Link>
     </div>

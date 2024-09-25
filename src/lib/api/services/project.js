@@ -101,6 +101,8 @@ export async function getApplicationById(token, projectId) {
     const response = await api.get(`/projeto/${projectId}`, {
         headers: { Authorization: `Bearer ${token}` }
     })
+    console.log("OLHE AQUI MEU AMIGO")
+    console.log(response.data)
     return {
         id: response.data.id_projeto,
         name: response.data.nome,
@@ -111,6 +113,7 @@ export async function getApplicationById(token, projectId) {
         professor: response.data.responsavel,
         candidatesAmount: response.data.quantidade_de_inscritos,
         skills: response.data.habilidades,
+        status: response.data.status
     }
 }
 
@@ -170,6 +173,11 @@ export async function applyInProject({ projectId, token }) {
     const response = await api.post(`/aluno/interesse_projeto/${projectId}/`, {}, {
         headers: { Authorization: `Bearer ${token}` }
     })
-    console.log(response.data);
     return response.data;
+}
+
+export async function disApplyInProject({ projectId, token }) {
+    const response = await api.delete(`/aluno/retirar_interesse_projeto/${projectId}/`, {
+        headers: { Authorization: `Bearer ${token}` }
+    })
 }

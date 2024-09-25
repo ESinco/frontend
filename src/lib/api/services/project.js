@@ -22,6 +22,24 @@ export async function createProject(projectData) {
     return response.data;
 }
 
+export async function importProject({formData, token}) {
+    const response = await api.post(
+        "/projeto/cadastrar/csv/",
+        formData,
+        {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+    notifyUser({
+        type: "success",
+        message: "Projeto importado com sucesso!",
+    });
+    return response.data;
+}
+
 export async function updateProject(projectData) {
     const response = await api.put(
         `/projeto/${projectData.id}/editar/`, 

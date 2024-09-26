@@ -229,6 +229,13 @@ export default function CandidateFilter({ emitFilteredData, project }) {
     useEffect(() => {
         if(!project.data || project.isLoading || listUsed == {} || selectedList == "") return;
         let filteredData = filterByCra(project.data.candidates, listUsed.filtro_cra)
+        filteredData = filterByDisciplinas(filteredData, {
+            nomeDisciplina: listUsed.filtro_disciplinas[0].codigo_da_disciplina,
+            notaMinima: listUsed.filtro_disciplinas[0].nota,
+        });
+        filteredData = filterByExperiencias(filteredData, listUsed.filtro_experiencias); // Multiple experiences filter
+        filteredData = filterByInteresses(filteredData, listUsed.filtro_interesses); // Multiple interests filter
+        filteredData = filterByHabilidades(filteredData, listUsed.filtro_habilidades);
 
         emitFilteredData(filteredData)
     }, [listUsed, filters])
@@ -252,7 +259,16 @@ export default function CandidateFilter({ emitFilteredData, project }) {
                                 projectId: project.data.id,
                                 token: session.data.token,
                                 listName: newListName,
-                                filters: {filtro_cra: filters.cra != "" ? filters.cra : 0}
+                                filters: {
+                                    filtro_cra: filters.cra != "" ? filters.cra : 0,
+                                    filtro_disciplinas: [{
+                                        codigo_da_disciplina: filters.nomeDisciplina,
+                                        nota: filters.notaMinima != "" ? parseFloat(filters.notaMinima) : 0
+                                    }],
+                                    filtro_experiencias: filters.experiencias.map(({id}) => id), 
+                                    filtro_interesses: filters.interesses.map(({id}) => id),
+                                    filtro_habilidades: filters.habilidades.map(({id}) => id)
+                                }
                             })
                         }}
                         method="dialog"

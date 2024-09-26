@@ -93,6 +93,7 @@ export async function getProjectById({ projectId, token }) {
         candidatesAmount: response.data.quantidade_de_inscritos,
         skills: response.data.habilidades,
         candidates: response.data.candidatos,
+        colaboradores: response.data.colaboradores
     }
 }
 
@@ -198,4 +199,19 @@ export async function disApplyInProject({ projectId, token }) {
     const response = await api.delete(`/aluno/retirar_interesse_projeto/${projectId}/`, {
         headers: { Authorization: `Bearer ${token}` }
     })
+}
+
+export async function adicionarColaborador({ projectId, colaborador, token }) {
+    const response = await api.post(
+        `/projeto/cadastrar_colaborador/${projectId}/${colaborador}/`,
+        {},
+        {
+            headers: { Authorization: `Bearer ${token}` }
+        }
+    );
+    notifyUser({
+        type: "success",
+        message: "Colaborador adicionado com sucesso!",
+    });
+    return response.data;
 }

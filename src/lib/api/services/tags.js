@@ -22,3 +22,8 @@ export async function getFeedbacksData() {
   const response = await api.get("api/feedbacks");
   return response.data;
 }
+
+export async function getDisciplinasData() {
+  const response = await api.get("api/disciplinas");
+  return response.data;
+}

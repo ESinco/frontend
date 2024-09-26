@@ -93,6 +93,7 @@ export async function getProjectById({ projectId, token }) {
         candidatesAmount: response.data.quantidade_de_inscritos,
         skills: response.data.habilidades,
         candidates: response.data.candidatos,
+        lists: response.data.listas_com_filtros,
         colaboradores: response.data.colaboradores
     }
 }
@@ -215,3 +216,34 @@ export async function adicionarColaborador({ projectId, colaborador, token }) {
     });
     return response.data;
 }
+
+export async function saveNewList({ projectId, token, filters, listName }) {
+    const response = await api.post(
+        `/projeto/cadastrar-lista/`, 
+        {
+            id_projeto: projectId,
+            titulo: listName,
+            ...filters
+        }, 
+        {
+            headers: { Authorization: `Bearer ${token}` }
+        }   
+    )
+
+    return response.data;
+}
+
+export async function getFilterListById({ listId, token }) {
+    const response = await api.get(`projeto/lista/${listId}/`, {
+            headers: { Authorization: `Bearer ${token}` }
+    })
+    return response.data;
+}
+
+export async function removeListById({ listId, token }) {
+    const response = await api.delete(`projeto/lista/${listId}/deletar`, {
+            headers: { Authorization: `Bearer ${token}` }
+    })
+    return response.data;
+}
+

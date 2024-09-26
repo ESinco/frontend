@@ -9,7 +9,7 @@ export default function SkillsCardStudent({ habilidades }) {
         <div className="w-full card-actions justify-end pb-4">
           {habilidades && habilidades.length > 0 ? (
             habilidades.map((habilidade, index) => (
-              <div key={index} className={`badge ${badgeColors[index % badgeColors.length]}`}>{habilidade}</div>
+              <div key={index} className={`badge ${badgeColors[index % badgeColors.length]}`}>{habilidade.nome}</div>
             ))
           ) : (
             <p>Nenhuma habilidade disponível</p>

@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useContext } from "react";
 import SkillsCard from "@/components/SkillsCard";
+import AdicionarColaborador from "@/components/modals/AdicionarColaborador";
 
 export default function ProjectDetails({ params }) {
     const session = useContext(SessionContext)
@@ -32,12 +33,40 @@ export default function ProjectDetails({ params }) {
                 </div>
 
                 <p className="text-md">{project.data?.description}</p>
+                {(project.data?.colaboradores && project.data.colaboradores.length > 0) ?
+                    <div className="pt-10">
+                        <h1 className="w-full text-center text-xl mb-5">Professores Colaboradores</h1> 
+                        <section className="pb-10 flex justify-center items-center gap-5">
+                            <button
+                                className="btn btn-primary btn-xs"
+                                onClick={e => {
+                                    e.stopPropagation()
+                                    AdicionarColaborador.open()
+                                }}
+                            >Adicionar Colaborador</button>
+                        </section>
+                        <div>
+                            <ul>
+                            {project.data.colaboradores.map(colaborador => (
+                                <div className="flex justify-between">
+                                    <li className="text-center" key={`projeto-${project.data?.id}-colaborador-${colaborador.id_professor}`}>
+                                    {colaborador.professor.email}
+                                    </li>
+                                </div>
+                            ))}
+                            </ul>
+                        </div>
+                    </div>
+                :
+                    <></>
+                }
 
                 <Link
                     className="btn btn-primary btn-wide w-full"
                     href={`/professor/details/${project.data?.id}/manage`}
                 >Gerenciar Candidaturas</Link>
             </section>
+            <AdicionarColaborador.Modal projectId={project.data?.id}/>
         </main>
     )
 }

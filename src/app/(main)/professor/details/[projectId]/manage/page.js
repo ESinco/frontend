@@ -6,17 +6,18 @@ import SessionContext from "@/contexts/sessionContext";
 import { useContext, useEffect, useState } from "react";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { getProjectById, approveStudents, rejectStudents } from "@/lib/api/services/project";
+import Link from 'next/link'; // Importa o Link do Next.js
 
 export default function CandidatesDetails() {
     const { projectId } = useParams();
     const queryClient = useQueryClient();
     const session = useContext(SessionContext)
-    const [ filteredStudents, setFilteredStudents ] = useState([]); // candidates objects
-    const [ selectedStudents, setSelectedStudents ] = useState(new Set());
-    const [ allSelected, setAllSelected ] = useState(false)
+    const [filteredStudents, setFilteredStudents] = useState([]); // candidates objects
+    const [selectedStudents, setSelectedStudents] = useState(new Set());
+    const [allSelected, setAllSelected] = useState(false)
 
     const project = useQuery({
-        queryKey: [ "professor_project", projectId ],
+        queryKey: ["professor_project", projectId],
         queryFn: () => getProjectById({
             projectId,
             token: session.data.token
@@ -29,7 +30,7 @@ export default function CandidatesDetails() {
             matriculas: [...selectedStudents],
         }),
         onSuccess: () => {
-            queryClient.invalidateQueries([ "professor_project", projectId ])
+            queryClient.invalidateQueries(["professor_project", projectId])
         }
     })
     const approveMutation = useMutation({
@@ -39,32 +40,32 @@ export default function CandidatesDetails() {
             matriculas: [...selectedStudents],
         }),
         onSuccess: () => {
-            queryClient.invalidateQueries([ "professor_project", projectId ])
+            queryClient.invalidateQueries(["professor_project", projectId])
         }
     })
 
     useEffect(() => {
-        if(selectedStudents.size === 0) return;
+        if (selectedStudents.size === 0) return;
         else {
             setSelectedStudents(new Set());
             setAllSelected(false);
         }
     }, [filteredStudents])
 
-    useEffect(() => {console.log(filteredStudents)}, [filteredStudents])
+    useEffect(() => { console.log(filteredStudents) }, [filteredStudents])
 
-    if(project.isLoading) return <LoadingSpinner />
+    if (project.isLoading) return <LoadingSpinner />
     return (
         <main className="w-full">
             <section className="w-full flex items-center justify-center gap-5 p-3 my-5">
                 <button
                     className="btn btn-error"
-                    disabled={selectedStudents.size===0}
+                    disabled={selectedStudents.size === 0}
                     onClick={rejectMutation.mutate}
                 >Rejeitar Selecionados</button>
                 <button
                     className="btn btn-success"
-                    disabled={selectedStudents.size===0}
+                    disabled={selectedStudents.size === 0}
                     onClick={approveMutation.mutate}
                 >Aceitar Selecionados</button>
             </section>
@@ -81,7 +82,7 @@ export default function CandidatesDetails() {
                                         checked={allSelected}
                                         onChange={e => {
                                             setAllSelected(prev => {
-                                                if(prev) {
+                                                if (prev) {
                                                     setSelectedStudents(new Set())
                                                 } else {
                                                     setSelectedStudents(
@@ -107,7 +108,7 @@ export default function CandidatesDetails() {
                     </thead>
                     <tbody>
                         {
-                            filteredStudents.map(candidate => 
+                            filteredStudents.map(candidate =>
                                 <tr key={candidate.aluno.matricula}>
                                     <th>
                                         <label>
@@ -119,7 +120,7 @@ export default function CandidatesDetails() {
                                                 onChange={_ => {
                                                     setSelectedStudents(prev => {
                                                         const newSet = new Set([...prev])
-                                                        if(prev.has(candidate.aluno.matricula)) {
+                                                        if (prev.has(candidate.aluno.matricula)) {
                                                             newSet.delete(candidate.aluno.matricula)
                                                         } else {
                                                             newSet.add(candidate.aluno.matricula)
@@ -130,7 +131,13 @@ export default function CandidatesDetails() {
                                             />
                                         </label>
                                     </th>
-                                    <td>{candidate.aluno.nome}</td>
+                                    <td>
+                                        <Link href={`/professor/details/student/${candidate.aluno.matricula}`}>
+                                            <button className="btn btn-link">
+                                                {candidate.aluno.nome}
+                                            </button>
+                                        </Link>
+                                    </td>
                                     <td>{candidate.aluno.matricula}</td>
                                     <td>{candidate.aluno.email}</td>
                                     <td>{candidate.aluno.cra ?? "N/A"}</td>
@@ -156,5 +163,5 @@ export default function CandidatesDetails() {
                 </div>
             </div>
         </main>
-    ) 
+    )
 }

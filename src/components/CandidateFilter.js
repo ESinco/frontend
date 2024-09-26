@@ -74,11 +74,13 @@ function filterByCra(candidates, input) {
 
 function filterByExperiencias(candidates, selectedExperiences) {
     if (selectedExperiences.length === 0) return candidates;
+
     return candidates.filter((candidate) => {
         return (
             candidate.aluno.experiencias &&
             candidate.aluno.experiencias.some((experienciaObj) => {
-                return selectedExperiences.includes(experienciaObj.nome);
+                const experienciaNome = experienciaObj.nome.toLowerCase();
+                return selectedExperiences.includes(experienciaNome);
             })
         );
     });
@@ -86,11 +88,13 @@ function filterByExperiencias(candidates, selectedExperiences) {
 
 function filterByInteresses(candidates, selectedInteresses) {
     if (selectedInteresses.length === 0) return candidates;
+
     return candidates.filter((candidate) => {
         return (
             candidate.aluno.interesses &&
             candidate.aluno.interesses.some((interesseObj) => {
-                return selectedInteresses.includes(interesseObj.nome);
+                const interesseNome = interesseObj.nome.toLowerCase();
+                return selectedInteresses.includes(interesseNome);
             })
         );
     });
@@ -102,7 +106,8 @@ function filterByHabilidades(candidates, selectedHabilidades) {
         return (
             candidate.aluno.habilidades &&
             candidate.aluno.habilidades.some((habilidadeObj) => {
-                return selectedHabilidades.includes(habilidadeObj.nome);
+                const habilidadeNome = habilidadeObj.nome.toLowerCase();
+                return selectedHabilidades.includes(habilidadeNome);
             })
         );
     });
@@ -111,28 +116,28 @@ function filterByHabilidades(candidates, selectedHabilidades) {
 function filterByDisciplinas(candidates, { nomeDisciplina, notaMinima }) {
     if (!nomeDisciplina && !notaMinima) return candidates;
 
-    return candidates.filter(candidate => {
+    const candidatos = candidates.filter(candidate => {
         if (!candidate.aluno.disciplinas_matriculadas || candidate.aluno.disciplinas_matriculadas.length === 0) {
             return false;
         }
-
         return candidate.aluno.disciplinas_matriculadas.some(disciplinaObj => {
             const disciplinaMatch = !nomeDisciplina ||
-                (disciplinaObj.disciplina && disciplinaObj.disciplina.nome.toLowerCase().includes(nomeDisciplina.toLowerCase()));
+                (disciplinaObj.disciplina && disciplinaObj.disciplina.toLowerCase().includes(nomeDisciplina.toLowerCase()));
 
             const notaMatch = !notaMinima ||
                 (disciplinaObj.media !== undefined && disciplinaObj.media >= parseFloat(notaMinima));
-
+            
             return disciplinaMatch && notaMatch;
         });
     });
+    return candidatos
 }
 
 export default function CandidateFilter({ emitFilteredData, project }) {
     const session = useContext(SessionContext)
-    const [ isOpen, setIsOpen ] = useState(false);
-    const [ genericFilter, setGenericFilter ] = useState("")
-    const [ selectedList, setSelectedList ] = useState("")
+    const [isOpen, setIsOpen] = useState(false);
+    const [genericFilter, setGenericFilter ] = useState("")
+    const [selectedList, setSelectedList ] = useState("")
     const [ listUsed, setListUsed ] = useState({})
     const [newListName, setNewListName] = useState("Lista sem nome")
     const [isExperiencesDropdownOpen, setIsExperiencesDropdownOpen] = useState(false);
@@ -148,9 +153,9 @@ export default function CandidateFilter({ emitFilteredData, project }) {
         cra: "",
         nomeDisciplina: "",
         notaMinima: "",
-        experiencias: [], // Multiple experiences selection
-        interesses: [], // Multiple interests selection
-        habilidades: [], // Multiple skills selection
+        experiencias: [],
+        interesses: [],
+        habilidades: [],
     });
 
     const { data: allExperiences, isLoading: isLoadingExperiences } = useQuery({
@@ -196,6 +201,11 @@ export default function CandidateFilter({ emitFilteredData, project }) {
     useEffect(() => {
         if (!project.data || project.isLoading) return;
 
+        const normalizedExperiences = filters.experiencias.map(e => e.nome.toLowerCase());
+        const normalizedInteresses = filters.interesses.map(i => i.nome.toLowerCase());
+        const normalizedHabilidades = filters.habilidades.map(h => h.nome.toLowerCase());
+
+
         let filteredData = filterByName(project.data.candidates, filters.nome);
         filteredData = filterByEmail(filteredData, filters.email);
         filteredData = filterByMatricula(filteredData, filters.matricula);
@@ -205,9 +215,11 @@ export default function CandidateFilter({ emitFilteredData, project }) {
             nomeDisciplina: filters.nomeDisciplina,
             notaMinima: filters.notaMinima,
         });
-        filteredData = filterByExperiencias(filteredData, filters.experiencias); // Multiple experiences filter
-        filteredData = filterByInteresses(filteredData, filters.interesses); // Multiple interests filter
-        filteredData = filterByHabilidades(filteredData, filters.habilidades);
+
+        filteredData = filterByExperiencias(filteredData, normalizedExperiences);
+        filteredData = filterByInteresses(filteredData, normalizedInteresses);
+        filteredData = filterByHabilidades(filteredData, normalizedHabilidades);
+
         emitFilteredData(filteredData);
     }, [project.data, filters]);
 
@@ -221,7 +233,13 @@ export default function CandidateFilter({ emitFilteredData, project }) {
     }, [genericFilter])
 
     useEffect(() => {
-        if(!project.data || project.isLoading || selectedList === "") return;
+        if(!project.data || project.isLoading) return;
+        if (selectedList === "") {
+            const filteredData = project.data.candidates;
+            emitFilteredData(filteredData);
+            return;
+        }
+
         mutationGetList.mutate({listId: project.data.lists[selectedList].id_lista, token: session.data.token})
 
     }, [selectedList])
@@ -232,7 +250,7 @@ export default function CandidateFilter({ emitFilteredData, project }) {
         filteredData = filterByDisciplinas(filteredData, {
             nomeDisciplina: listUsed.filtro_disciplinas[0].codigo_da_disciplina,
             notaMinima: listUsed.filtro_disciplinas[0].nota,
-        });
+        }); 
         filteredData = filterByExperiencias(filteredData, listUsed.filtro_experiencias); // Multiple experiences filter
         filteredData = filterByInteresses(filteredData, listUsed.filtro_interesses); // Multiple interests filter
         filteredData = filterByHabilidades(filteredData, listUsed.filtro_habilidades);
@@ -566,10 +584,10 @@ export default function CandidateFilter({ emitFilteredData, project }) {
                     disabled={!isOpen}
                     onChange={e => setSelectedList(e.target.value)}
                 >
-                    <option value="">Listar todos alunos</option>
-                    {project.data?.lists.map((list, index) => (
-                        <option value={index}>{list.titulo}</option>
-                    ))}
+                <option value="">Listar todos alunos</option>
+                {project.data?.lists.map((list, index) => (
+                    <option key={index} value={index}>{list.titulo}</option>
+                ))}
                 </select>
 
                 <button className="btn btn-m"

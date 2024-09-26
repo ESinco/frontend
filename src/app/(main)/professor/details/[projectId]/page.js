@@ -33,18 +33,18 @@ export default function ProjectDetails({ params }) {
                 </div>
 
                 <p className="text-md">{project.data?.description}</p>
+                <h1 className="w-full pt-10 text-center text-xl">Professores Colaboradores</h1> 
+                <section className="flex justify-center items-center gap-5">
+                    <button
+                        className="btn btn-primary btn-xs"
+                        onClick={e => {
+                            e.stopPropagation()
+                            AdicionarColaborador.open()
+                        }}
+                    >Adicionar Colaborador</button>
+                </section>
                 {(project.data?.colaboradores && project.data.colaboradores.length > 0) ?
-                    <div className="pt-10">
-                        <h1 className="w-full text-center text-xl mb-5">Professores Colaboradores</h1> 
-                        <section className="pb-10 flex justify-center items-center gap-5">
-                            <button
-                                className="btn btn-primary btn-xs"
-                                onClick={e => {
-                                    e.stopPropagation()
-                                    AdicionarColaborador.open()
-                                }}
-                            >Adicionar Colaborador</button>
-                        </section>
+                    <div className="pt-5">
                         <div>
                             <ul>
                             {project.data.colaboradores.map(colaborador => (

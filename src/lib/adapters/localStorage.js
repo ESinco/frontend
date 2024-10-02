@@ -1,4 +1,4 @@
-const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME;
+const APP_NAME = "projetin_esinco";
 
 export async function getStorageData(key = APP_NAME) {
   const storagedData = localStorage.getItem(key);

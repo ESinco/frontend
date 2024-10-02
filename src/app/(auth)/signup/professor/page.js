@@ -23,7 +23,7 @@ export default function Signup() {
 
     return (
         <div className="flex-col flex items-center justify-center p-3 pb-10 min-h-full">
-            <h1 className="text-5xl font-bold p-6">{process.env.NEXT_PUBLIC_APP_PRETTY_NAME}</h1>
+            <h1 className="text-5xl font-bold p-6">{"ProjetIn"}</h1>
             <div className="card w-full max-w-sm shrink-0 custom_shadow">
                 <form
                     className="card-body"

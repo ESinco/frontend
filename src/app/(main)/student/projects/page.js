@@ -16,6 +16,7 @@ export default function AvailableProjects() {
     })
 
     useEffect(() => {
+        console.log("PROJECT DATA")
         console.log(projects.data)
     }, [projects.isLoading])
 
@@ -46,10 +47,10 @@ export default function AvailableProjects() {
                 </search>
                 {
                     projects.data
-                        .filter(project => 
-                            project.name.toLowerCase().includes(searchString.toLowerCase()) ||
-                            project.description.toLowerCase().includes(searchString.toLowerCase()) ||
-                            project.professor.nome.toLowerCase().includes(searchString.toLowerCase())
+                        ?.filter(project => 
+                            project?.name.toLowerCase().includes(searchString.toLowerCase()) ||
+                            project.description?.toLowerCase().includes(searchString.toLowerCase()) ||
+                            project?.professor.nome.toLowerCase().includes(searchString.toLowerCase())
                         )
                         .map(project => <StudentProjectCard key={project.id} {...project} isCandidate={false} />)
                 }
